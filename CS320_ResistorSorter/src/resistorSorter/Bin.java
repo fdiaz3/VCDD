@@ -1,8 +1,7 @@
 package resistorSorter;
 
 public class Bin {
-	//cool
-	//cool
+	
 	//Parameters//
 	private int count;
 	private String resistance;
