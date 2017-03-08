@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Add Numbers</title>
+		<title>Replace Resistor</title>
 		<style type="text/css">
 		.error {
 			color: red;

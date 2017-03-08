@@ -18,7 +18,7 @@ public class TakeResistorServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/TakeResistor.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class TakeResistorServlet extends HttpServlet {
 		
 		req.setAttribute("game", model);
 		
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/TakeResistor.jsp").forward(req, resp);
 		
 		
 		
