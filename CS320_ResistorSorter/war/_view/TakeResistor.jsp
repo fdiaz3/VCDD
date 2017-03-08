@@ -24,7 +24,7 @@
 
 		
 		
-		<form action="${pageContext.servletContext.contextPath}/addNumbers" method="post">
+		<form action="${pageContext.servletContext.contextPath}/TakeResistor" method="post">
 			<table>
 				<tr>
 					<td class="label">First number:</td>
