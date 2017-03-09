@@ -34,6 +34,22 @@
 					<td class="label">userRemoveLimit:</td>
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 				</tr>
+				
+				
+				
+				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
+				
+					<td class="label">binCapacity:</td>
+					<td>${inventory.binCapacity}</td>
+					
+					<td class="label">userRemoveLimit:</td>
+					<td>${inventory.userRemoveLimit}</td>
+					
+					
+					
+				
+				</c:if>
+				
 
 				
 

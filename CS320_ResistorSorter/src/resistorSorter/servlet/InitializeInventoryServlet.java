@@ -48,7 +48,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 		
 		req.setAttribute("inventory", model);
 		
-		//req.getRequestDispatcher("/_view/Init.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 		
 		
 		
@@ -58,14 +58,10 @@ public class InitializeInventoryServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			System.out.println(req.getParameter(name));
 			return Integer.parseInt(req.getParameter(name));
 		}
 		else{
 			return 0;
 		}
-
 	}
-	
-	
 }

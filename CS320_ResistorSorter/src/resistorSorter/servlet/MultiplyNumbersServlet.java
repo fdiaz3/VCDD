@@ -32,10 +32,6 @@ public class MultiplyNumbersServlet extends HttpServlet {
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
 		
-		
-		
-		
-		
 			if (req.getParameter("submit") != null) {
 				
 				if(first == null || second == null){
@@ -57,9 +53,6 @@ public class MultiplyNumbersServlet extends HttpServlet {
 
 		
 	}
-	
-	
-	
 	
 
 	private double getDouble(HttpServletRequest req, String name) {
