@@ -28,11 +28,11 @@
 			<table>
 				<tr>
 					<td class="label">binCapacity:</td>
-					<td><input type="text" name="first" size="12" value="${inventory.first}" /></td>
+					<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
 				</tr>
 				<tr>
 					<td class="label">userRemoveLimit:</td>
-					<td><input type="text" name="second" size="12" value="${inventory.second}" /></td>
+					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 				</tr>
 
 				

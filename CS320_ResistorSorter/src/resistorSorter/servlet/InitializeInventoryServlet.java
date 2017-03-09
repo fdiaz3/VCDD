@@ -58,6 +58,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
+			System.out.println(req.getParameter(name));
 			return Integer.parseInt(req.getParameter(name));
 		}
 		else{
