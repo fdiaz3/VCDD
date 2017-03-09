@@ -45,8 +45,8 @@
 					<td class="label">userRemoveLimit:</td>
 					<td>${inventory.userRemoveLimit}</td>
 					
-					
-					
+					<input type="Submit" name="changeToTake" value="Take Resistors">
+					<input type="Submit" name="changeToReplace" value="Replace Resistors">
 				
 				</c:if>
 				

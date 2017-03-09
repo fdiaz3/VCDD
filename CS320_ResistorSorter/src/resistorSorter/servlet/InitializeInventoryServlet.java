@@ -7,15 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import resistorSorter.controllers.NumbersController;
-import resistorSorter.model.Numbers;
-
 import resistorSorter.model.Inventory;
 
 public class InitializeInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
+	private Inventory model;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -28,7 +25,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		Inventory model;
+		
 		
 		
 		
@@ -36,21 +33,38 @@ public class InitializeInventoryServlet extends HttpServlet {
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 
 		
+		//initialize model if submit is pressed
 			if (req.getParameter("submit") != null) {
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
-						
-
-			} else {
-				throw new ServletException("Unknown command");
-			}	
+				req.setAttribute("inventory", model);
+				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+			} 
 			
-		
-		req.setAttribute("inventory", model);
-		
-		req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
-		
-		
+		//go to index if changeToIndex is pressed
+			else if (req.getParameter("changeToTake") != null) {
+				
+				
+				//req.getRequestDispatcher("/_view/TakeResistor.jsp").forward(req, resp);
+				resp.sendRedirect(req.getContextPath() + "/TakeResistor");
+				
+				
+				
+			}else if (req.getParameter("changeToReplace") != null) {
+				
+				req.getRequestDispatcher("/_view/ReplaceResistor.jsp").forward(req, resp);
+				resp.sendRedirect(req.getContextPath() + "/ReplaceResistor");
+				
+				
+				
+			}else {
+				
+				throw new ServletException("Unknown command");
+				
+			}
+			
+			
+
 		
 		
 	}
