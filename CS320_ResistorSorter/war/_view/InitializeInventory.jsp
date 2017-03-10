@@ -35,6 +35,7 @@
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 				</tr>
 				
+				<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
 				
 				
 				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
@@ -45,16 +46,33 @@
 					<td class="label">userRemoveLimit:</td>
 					<td>${inventory.userRemoveLimit}</td>
 					
-					<input type="Submit" name="changeToTake" value="Take Resistors">
-					<input type="Submit" name="changeToReplace" value="Replace Resistors">
-				
+					
+					<tr>
+					<td class="label">Initialize Rack:</td>
+					<td><input type="text" name="toleranceAndPower" size="12"/></td>
+					</tr>
+					
+					
+					<tr>
+					<input type="Submit" name="initializeRack" value="Initialize Rack!">
+					</tr>
+					
+
+					
+					<td class="label">Tolerance:</td>
+					<td class="label">Power:</td>
+					
+					
 				</c:if>
 				
 
 				
+				
+				
+				
 
 			</table>
-			<input type="Submit" name="submit" value="Initialize Inventory!">
+			
 		</form>
 	</body>
 </html>

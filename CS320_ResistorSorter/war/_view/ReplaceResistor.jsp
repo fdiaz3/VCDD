@@ -26,7 +26,7 @@
 		
 		<form action="${pageContext.servletContext.contextPath}/ReplaceResistor" method="post">
 
-			<input type="Submit" name="submit" value="NOOOOOOOOOO!">
+			<input type="Submit" name="submit" value="test!">
 			
 		</form>
 	</body>

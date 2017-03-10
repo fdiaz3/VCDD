@@ -34,7 +34,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 
 		
 		//initialize model if submit is pressed
-			if (req.getParameter("submit") != null) {
+			if (req.getParameter("initializeInventory") != null) {
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
 				req.setAttribute("inventory", model);
@@ -42,20 +42,13 @@ public class InitializeInventoryServlet extends HttpServlet {
 			} 
 			
 		//go to index if changeToIndex is pressed
-			else if (req.getParameter("changeToTake") != null) {
+			else if (req.getParameter("initializeRack") != null) {
 				
+				req.setAttribute("inventory", model);
+				System.out.println(req.getAttribute("toleranceAndPower"));
 				
-				//req.getRequestDispatcher("/_view/TakeResistor.jsp").forward(req, resp);
-				resp.sendRedirect(req.getContextPath() + "/TakeResistor");
-				
-				
-				
-			}else if (req.getParameter("changeToReplace") != null) {
-				
-				req.getRequestDispatcher("/_view/ReplaceResistor.jsp").forward(req, resp);
-				resp.sendRedirect(req.getContextPath() + "/ReplaceResistor");
-				
-				
+				model.addRack( (String) req.getAttribute("toleranceAndPower"));
+				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 				
 			}else {
 				

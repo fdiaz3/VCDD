@@ -11,16 +11,13 @@ import resistorSorter.model.Inventory;
 
 public class ReplaceResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 	private Inventory model;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		model = (Inventory) req.getAttribute("Inventory");
-		
 		req.getRequestDispatcher("/_view/ReplaceResistor.jsp").forward(req, resp);
+		
 	}
 	
 	@Override
@@ -28,14 +25,23 @@ public class ReplaceResistorServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		
-			if (req.getParameter("submit") != null) {
+		
+			if (req.getAttribute("inventory") != null) {
+				model = (Inventory) req.getAttribute("inventory");
 				
-				System.out.println(model.getBinCapacity());
+				System.out.println( model.getBinCapacity() );
 				
-			} else {
+			}
+			
+			else if (req.getParameter("submit") != null){
+				System.out.println( model.getBinCapacity() );
+			}
+			else {
 				throw new ServletException("Unknown command");
 			}	
 
+			
+			
 		
 		req.getRequestDispatcher("/_view/ReplaceResistor.jsp").forward(req, resp);
 		
