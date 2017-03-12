@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import resistorSorter.controllers.NumbersController;
 import resistorSorter.model.Numbers;
 
+
 public class ReplaceResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	
 	
 	
@@ -19,6 +21,7 @@ public class ReplaceResistorServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.getRequestDispatcher("/_view/ReplaceResistor.jsp").forward(req, resp);
+		req.getAttribute("game");
 	}
 	
 	@Override
@@ -49,7 +52,6 @@ public class ReplaceResistorServlet extends HttpServlet {
 		req.setAttribute("game", model);
 		
 		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
-		
 		
 		
 		
