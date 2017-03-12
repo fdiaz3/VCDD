@@ -21,58 +21,50 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-
-		
-		
 		<form action="${pageContext.servletContext.contextPath}/InitializeInventory" method="post">
 		
-		
-
-
-
-		
-		
+	
 		<c:forEach items="${inventory.racks}" var="item">
 		
 		${item} <br />
  		 
 		</c:forEach>
 		
-		
-		
-		
-		
-		
-		
-		
+			
 			<table>
 			
 			
 			
 				<tr>
+					
 					<td class="label">Bin Capacity:</td>
 					<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
+					
+					<td class="label">Tolerance:</td>
+					<td class="label">Power:</td>
+					
+					
 				</tr>
 				<tr>
+					
+					
 					<td class="label">User Remove Limit:</td>
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 					
-					<td>
-				<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
-					</td>
-					
 				</tr>
 				
-				
+				<tr>
+					<td>
+						<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
+					</td>
+				</tr>
 				
 				
 				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
 				
-					<td class="label">binCapacity:</td>
-					<td>${inventory.binCapacity}</td>
 					
-					<td class="label">userRemoveLimit:</td>
-					<td>${inventory.userRemoveLimit}</td>
+					
+
 					
 					
 					<tr>
@@ -88,11 +80,7 @@
 					<td>
 					<input type="Submit" name="initializeRack" value="Initialize Rack!">
 					</td>
-					
 
-					
-					<td class="label">Tolerance:</td>
-					<td class="label">Power:</td>
 					
 					
 				</c:if>
