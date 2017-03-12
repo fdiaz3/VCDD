@@ -25,7 +25,28 @@
 		
 		
 		<form action="${pageContext.servletContext.contextPath}/InitializeInventory" method="post">
+		
+		
+
+
+		<c:forEach var="i" begin="0" end="inventory.RackLength">
+ 		 Item <c:out value="${i}"/><p>
+		</c:forEach>
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			<table>
+			
+			
+			
 				<tr>
 					<td class="label">binCapacity:</td>
 					<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
@@ -33,11 +54,14 @@
 				<tr>
 					<td class="label">userRemoveLimit:</td>
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
+					
+					<td>
+				<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
+					</td>
+					
 				</tr>
 				
-				<tr>
-				<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
-				</tr>
+				
 				
 				
 				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
