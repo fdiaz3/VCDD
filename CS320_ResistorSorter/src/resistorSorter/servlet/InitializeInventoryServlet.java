@@ -47,7 +47,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 				req.setAttribute("inventory", model);
 				System.out.println(req.getAttribute("toleranceAndPower"));
 				
-				model.addRack( (String) req.getAttribute("toleranceAndPower"));
+				
 				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 				
 			}else {
