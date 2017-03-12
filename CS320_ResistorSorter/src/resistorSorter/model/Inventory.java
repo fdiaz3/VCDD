@@ -1,8 +1,10 @@
 package resistorSorter.model;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
-	//poop
+	
 	//Initialize fields//
 	private int binCapacity;
 	private int userRemoveLimit;
@@ -78,5 +80,17 @@ public class Inventory {
 		else{
 			System.out.println("Rack does not exist");			//Rack object did not exist, report to user.
 		}
+	}
+	
+	//Attempt to show all Rack objects as string
+	public String getRackJSP(int i){
+		ArrayList<String> racks = new ArrayList<String>(m.keySet());
+		return racks.get(i);
+	}
+	
+	//Length of rack list
+	public int getRackLength(){
+		ArrayList<String> racks = new ArrayList<String>(m.keySet());
+		return racks.size();
 	}
 }
