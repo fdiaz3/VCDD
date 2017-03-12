@@ -29,12 +29,14 @@
 		
 
 
-		<c:forEach var="i" begin="0" end="inventory.RackLength">
- 		 Item <c:out value="${i}"/><p>
-		</c:forEach>
 
 		
 		
+		<c:forEach items="${inventory.racks}" var="item">
+		
+		${item} <br />
+ 		 
+		</c:forEach>
 		
 		
 		
@@ -75,7 +77,11 @@
 					
 					<tr>
 					<td class="label">Initialize Rack:</td>
-					<td><input type="text" name="Tolerance" size="12"/></td>
+					<td><input type="text" name="tolerance" size="12"/></td>
+					<td><input type="text" name="power" size="12"/></td>
+					
+		
+		
 					</tr>
 					
 					

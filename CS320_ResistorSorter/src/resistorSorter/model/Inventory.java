@@ -8,6 +8,8 @@ public class Inventory {
 	//Initialize fields//
 	private int binCapacity;
 	private int userRemoveLimit;
+	private int rackLength;
+	private ArrayList<String> racks;
 	private HashMap<String, Rack> m;
 	
 	//Constructor//
@@ -15,6 +17,8 @@ public class Inventory {
 		this.binCapacity = binCapacity;
 		this.userRemoveLimit = userRemoveLimit;
 		m = new HashMap<String, Rack>();
+		
+		racks = null;
 	}
 	
 	//Define Methods//
@@ -83,14 +87,15 @@ public class Inventory {
 	}
 	
 	//Attempt to show all Rack objects as string
-	public String getRackJSP(int i){
-		ArrayList<String> racks = new ArrayList<String>(m.keySet());
-		return racks.get(i);
+	public ArrayList<String> getRacks(){
+		racks = new ArrayList<String>(m.keySet());
+		return racks;
 	}
 	
 	//Length of rack list
 	public int getRackLength(){
-		ArrayList<String> racks = new ArrayList<String>(m.keySet());
-		return racks.size();
+		racks = new ArrayList<String>(m.keySet());
+		rackLength = racks.size();
+		return rackLength;
 	}
 }

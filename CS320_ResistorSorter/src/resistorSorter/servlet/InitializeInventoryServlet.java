@@ -33,27 +33,35 @@ public class InitializeInventoryServlet extends HttpServlet {
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 
 		
-		//initialize model if submit is pressed
+		//if initializeInventory is pressed
 			if (req.getParameter("initializeInventory") != null) {
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
 				req.setAttribute("inventory", model);
+				
+				
+				
 				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 			} 
 			
-		//go to index if changeToIndex is pressed
+			
+			
+		//if initializeRack is pressed
 			else if (req.getParameter("initializeRack") != null) {
 				
 				req.setAttribute("inventory", model);
-				System.out.println(req.getAttribute("toleranceAndPower"));
+				
+				double tolerance = getDouble(req, "tolerance");
+				double power = getDouble(req, "power");
+				
+				
+				model.addRack( tolerance, power);
 				
 				
 				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 				
 			}else {
-				
 				throw new ServletException("Unknown command");
-				
 			}
 			
 			
@@ -70,5 +78,16 @@ public class InitializeInventoryServlet extends HttpServlet {
 		else{
 			return 0;
 		}
+	}
+	
+	private double getDouble(HttpServletRequest req, String name) {
+
+		if(req.getParameter(name) != ""){
+			return Double.parseDouble(req.getParameter(name));
+		}
+		else{
+			return 0;
+		}
+
 	}
 }
