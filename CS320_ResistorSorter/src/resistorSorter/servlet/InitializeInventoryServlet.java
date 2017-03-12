@@ -7,15 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import resistorSorter.controllers.NumbersController;
-import resistorSorter.model.Numbers;
-
 import resistorSorter.model.Inventory;
 
 public class InitializeInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
+	private Inventory model;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -28,7 +25,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		Inventory model;
+		
 		
 		
 		
@@ -36,21 +33,31 @@ public class InitializeInventoryServlet extends HttpServlet {
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 
 		
-			if (req.getParameter("submit") != null) {
+		//initialize model if submit is pressed
+			if (req.getParameter("initializeInventory") != null) {
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
-						
-
-			} else {
-				throw new ServletException("Unknown command");
-			}	
+				req.setAttribute("inventory", model);
+				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+			} 
 			
-		
-		req.setAttribute("inventory", model);
-		
-		//req.getRequestDispatcher("/_view/Init.jsp").forward(req, resp);
-		
-		
+		//go to index if changeToIndex is pressed
+			else if (req.getParameter("initializeRack") != null) {
+				
+				req.setAttribute("inventory", model);
+				System.out.println(req.getAttribute("toleranceAndPower"));
+				
+				
+				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+				
+			}else {
+				
+				throw new ServletException("Unknown command");
+				
+			}
+			
+			
+
 		
 		
 	}
@@ -58,14 +65,10 @@ public class InitializeInventoryServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			System.out.println(req.getParameter(name));
 			return Integer.parseInt(req.getParameter(name));
 		}
 		else{
 			return 0;
 		}
-
 	}
-	
-	
 }

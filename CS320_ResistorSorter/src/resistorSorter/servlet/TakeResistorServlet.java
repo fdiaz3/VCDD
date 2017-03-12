@@ -30,6 +30,7 @@ public class TakeResistorServlet extends HttpServlet {
 		
 		controller.setModel(model);
 		
+		model = (Numbers) req.getAttribute("game");
 		
 		
 		double first = getDouble(req, "first");
