@@ -32,6 +32,7 @@ public class TakeResistorServlet extends HttpServlet {
 		
 		controller.setModel(model);
 		
+		model = (Numbers) req.getAttribute("game");
 		
 		
 		double first = getDouble(req, "first");
@@ -50,7 +51,7 @@ public class TakeResistorServlet extends HttpServlet {
 		
 		req.setAttribute("game", model);
 		
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/TakeResistor.jsp").forward(req, resp);
 		
 		
 		
