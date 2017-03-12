@@ -48,11 +48,11 @@
 			
 			
 				<tr>
-					<td class="label">binCapacity:</td>
+					<td class="label">Bin Capacity:</td>
 					<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
 				</tr>
 				<tr>
-					<td class="label">userRemoveLimit:</td>
+					<td class="label">User Remove Limit:</td>
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 					
 					<td>
@@ -75,7 +75,7 @@
 					
 					<tr>
 					<td class="label">Initialize Rack:</td>
-					<td><input type="text" name="toleranceAndPower" size="12"/></td>
+					<td><input type="text" name="Tolerance" size="12"/></td>
 					</tr>
 					
 					
