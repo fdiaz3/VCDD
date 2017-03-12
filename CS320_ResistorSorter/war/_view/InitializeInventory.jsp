@@ -35,7 +35,9 @@
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 				</tr>
 				
+				<tr>
 				<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
+				</tr>
 				
 				
 				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
@@ -53,9 +55,9 @@
 					</tr>
 					
 					
-					<tr>
+					<td>
 					<input type="Submit" name="initializeRack" value="Initialize Rack!">
-					</tr>
+					</td>
 					
 
 					
@@ -65,12 +67,6 @@
 					
 				</c:if>
 				
-
-				
-				
-				
-				
-
 			</table>
 			
 		</form>

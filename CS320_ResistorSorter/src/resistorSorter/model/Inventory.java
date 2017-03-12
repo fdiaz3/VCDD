@@ -2,7 +2,7 @@ package resistorSorter.model;
 import java.util.HashMap;
 
 public class Inventory {
-	
+	//poop
 	//Initialize fields//
 	private int binCapacity;
 	private int userRemoveLimit;
