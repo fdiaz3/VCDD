@@ -24,69 +24,70 @@
 		<form action="${pageContext.servletContext.contextPath}/InitializeInventory" method="post">
 		
 	
-		<c:forEach items="${inventory.racks}" var="item">
 		
-		${item} <br />
- 		 
-		</c:forEach>
 		
-			
 			<table>
 			
 			
 			
 				<tr>
-					
 					<td class="label">Bin Capacity:</td>
 					<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
-					
-					<td class="label">Tolerance:</td>
-					<td class="label">Power:</td>
-					
-					
 				</tr>
+				
 				<tr>
-					
 					
 					<td class="label">User Remove Limit:</td>
 					<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 					
+				<tr>
+					<c:if test="${! (inventory == null) }">
+						<td class="label">Tolerance:</td> 
+						<td><input type="text" name="tolerance" size="12"/></td>
+					</c:if>
+				</tr>
+				
+				<tr>
+					<c:if test="${! (inventory == null) }">
+						<td class="label">Power:</td>
+						<td><input type="text" name="power" size="12"/></td>
+					</c:if>
 				</tr>
 				
 				<tr>
 					<td>
 						<input type="Submit" name="initializeInventory" value="Initialize Inventory!">
 					</td>
-				</tr>
-				
-				
-				<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
-				
-					
-					
-
-					
-					
-					<tr>
-					<td class="label">Initialize Rack:</td>
-					<td><input type="text" name="tolerance" size="12"/></td>
-					<td><input type="text" name="power" size="12"/></td>
-					
-		
-		
-					</tr>
-					
 					
 					<td>
-					<input type="Submit" name="initializeRack" value="Initialize Rack!">
+						<c:if test="${! ((inventory.binCapacity == null) && (inventory.userRemoveLimit == null))}">
+							<input type="Submit" name="initializeRack" value="Add Rack!">
+						</c:if>
 					</td>
-
-					
-					
-				</c:if>
+				</tr>
+				
+				<tr>
+					<td class="label">Rack #:
+						<br/>
+						
+						<c:forEach var = "i" begin = "1" end="${inventory.rackLength}">
+							${i}<br/>
+						</c:forEach>
+						
+					</td>
+					<td class="label">Tolerance, Power
+						<br/>
+						<c:forEach items="${inventory.racks}" var="item">
+							${item} <br />
+						</c:forEach>
+						
+					</td>
+				</tr>
 				
 			</table>
 			
 		</form>
+		
 	</body>
+	
 </html>
