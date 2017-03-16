@@ -16,6 +16,7 @@ public class RackServlet extends HttpServlet {
 	
 	private Inventory model;
 	private Rack rack;
+	private String rackInfo;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -28,39 +29,49 @@ public class RackServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		//first time entering this servlet
+		if(model == null){
+			
+		//get instance of inventory from initialize inventory
 		String inventoryId = req.getParameter("inventoryId");
 		Object inventorObj = req.getSession().getAttribute(inventoryId);
 		model = (Inventory) inventorObj;
 		
-		System.out.println(req.getParameter("rackInfo"));
+		//get rackInfo 
+		rackInfo = (String) req.getParameter("rackInfo");
 		
 		//get instance of designated rack
 		rack = model.getRack((String) req.getParameter("rackInfo"));
+		}else{
+			//System.out.println("nothing");
+		}
 		
-		System.out.println(rack.getRackLength());
+
 		
+		//pass inventory reference to jsp
+		req.setAttribute("inventory", model);
+		//pass rackinfo reference to jsp
+		req.setAttribute("rackInfo", rackInfo);
+		//pass rack reference to jsp
+		req.setAttribute("rack", rack);
+		
+
+		
+		
+		//if addBin is pressed
+		if (req.getParameter("addBin") != null) {
+			
+		//add bin to rack
+		rack.addBin( (String) req.getAttribute("resistance"), getInteger(req, "count"));
 		
 		
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-		
-		
-//		//pass inventory reference to jsp
-//		req.setAttribute("inventory", model);
-//		//pass rack reference to jsp
-//		req.setAttribute("rack", rack);
-//		
-//		
-//		
-//		//if addbin is pressed
-//		if (req.getParameter("addBin") != null) {
-//			
-//		rack.addBin( (String) req.getAttribute("resistance"), getInteger(req, "count"));
-//		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-//				
-//		}else {
-//			throw new ServletException("Unknown command");
-//		}
+		}else {
 
+			throw new ServletException("Unknown command");
+		}
+		
+		
 		
 	}
 	
@@ -73,6 +84,9 @@ public class RackServlet extends HttpServlet {
 			return 0;
 		}
 	}
+	
+	
+	
 	
 	private double getDouble(HttpServletRequest req, String name) {
 

@@ -67,13 +67,13 @@ public class Rack{
 	}
 	
 	//showing all bin objects as strings in an arraylist
-		public ArrayList<String> getRacks(){
+		public ArrayList<String> getBins(){
 			bins = new ArrayList<String>(m.keySet());
 			return bins;
 		}
 		
 		//Length of bins list (number of bins in a rack)
-		public int getRackLength(){
+		public int getBinLength(){
 			bins = new ArrayList<String>(m.keySet());
 			binLength = bins.size();
 			return binLength;
