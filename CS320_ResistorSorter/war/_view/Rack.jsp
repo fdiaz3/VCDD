@@ -26,6 +26,7 @@
 		<input name="rackInfo" type="hidden" value="${rackInfo}" />
 		<input name="inventoryId" type="hidden" value="${myObjectId}" />
 		
+		
 			<table>
 			
 
@@ -50,7 +51,41 @@
 					<td><input type="Submit" name="addBin" value="add Bin!"></td>
 				</tr>
 				
-
+				
+				<tr>
+					<td class="label">Bin Resistance:
+						<br/>
+							
+						<c:forEach var = "i" begin = "1" end="${racks.binLength}">
+							${i}<br/>
+						</c:forEach>
+						
+					</td>
+					
+					<td class="label">Bin Count:
+						<br/>
+						<c:forEach items="${racks.bins}" var="item">
+							${item} <br />
+						</c:forEach>
+							
+					</td>
+				</tr>
+					
+				<tr>
+					<td class="label">Enter Bin #:</td>
+					<td><input type="text" name="binNum" size="12"/></td>
+				</tr>
+					
+				<tr>
+					<td><input type="Submit" name="editBin" value="Edit Bin!"></td>
+					<td><input type="Submit" name="deleteBin" value="Delete Bin!"></td>
+				</tr>
+				
+				<tr>
+					<td><input type="Submit" name="return" value="Return!"></td>
+				</tr>
+			
+				
 			</table>
 			
 		</form>
