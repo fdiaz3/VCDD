@@ -63,7 +63,7 @@ public class Inventory {
 		double watt = wa;								//Initialize watt to (double)wa
 		String s = null;								//Initialize string s to null
 		s = tol + p + watt + w; 						//Creating string object "5%, 0.25w"
-		System.out.println(s);
+		//System.out.println(s);
 		m.put(s, new Rack(tol, watt));					//Add rack to HashMap with our key and new Rack object
 	}
 	

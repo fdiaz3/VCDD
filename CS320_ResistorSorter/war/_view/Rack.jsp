@@ -24,6 +24,7 @@
 		<form action="${pageContext.servletContext.contextPath}/Rack" method="post">
 		
 		<input name="rackInfo" type="hidden" value="${rackInfo}" />
+		<input name="inventoryId" type="hidden" value="${myObjectId}" />
 		
 			<table>
 			

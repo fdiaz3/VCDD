@@ -2,6 +2,7 @@ package resistorSorter.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -63,10 +64,17 @@ public class InitializeInventoryServlet extends HttpServlet {
 				int rackNum = getInteger(req, "rackNum") - 1;
 				
 				
-				req.setAttribute("inventory", model);
+				
+				
+				String inventoryId = UUID.randomUUID().toString();
+				req.getSession().setAttribute(inventoryId, model);
+				req.setAttribute("myObjectId", inventoryId);
+				
+
+				
 				req.setAttribute("rackInfo", racks.get(rackNum));
 				
-				
+				//resp.sendRedirect(req.getContextPath() + "/Rack");
 				req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 				
 		// if delete rack is pressed

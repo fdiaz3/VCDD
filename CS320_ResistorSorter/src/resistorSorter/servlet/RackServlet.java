@@ -20,41 +20,30 @@ public class RackServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		
+		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		String inventoryId = req.getParameter("inventoryId");
+		Object inventorObj = req.getSession().getAttribute(inventoryId);
+		model = (Inventory) inventorObj;
+		
+		System.out.println(req.getParameter("rackInfo"));
+		
+		//get instance of designated rack
+		rack = model.getRack((String) req.getParameter("rackInfo"));
+		
+		System.out.println(rack.getRackLength());
 		
 		
-		
-		System.out.println((String) req.getParameter("rackInfo"));
-		req.setAttribute("rackInfo", req.getParameter("rackInfo"));
 		
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		
 		
-		
-		
-		
-//		//get instance of inventory
-//		model = (Inventory) req.getAttribute("Inventory");
-//		
-//		
-//		System.out.println(model);
-//
-//		
-//		
-//		System.out.println("inventory bincapacity is: "  + model.getBinCapacity());
-//		System.out.println("rackInfo is: " + (String) req.getAttribute("rackInfo"));
-//		
-//		
-//		
-//		//get instance of designated rack
-//		rack = model.getRack((String) req.getAttribute("rackInfo"));
 //		//pass inventory reference to jsp
 //		req.setAttribute("inventory", model);
 //		//pass rack reference to jsp
