@@ -63,7 +63,7 @@ public class RackServlet extends HttpServlet {
 			
 		//add bin to rack
 		rack.addBin( (String) req.getAttribute("resistance"), getInteger(req, "count"));
-		
+
 		
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		}else {

@@ -56,7 +56,7 @@
 					<td class="label">Bin Resistance:
 						<br/>
 							
-						<c:forEach var = "i" begin = "1" end="${racks.binLength}">
+						<c:forEach var = "i" begin = "1" end="${rack.binLength}">
 							${i}<br/>
 						</c:forEach>
 						
@@ -64,7 +64,7 @@
 					
 					<td class="label">Bin Count:
 						<br/>
-						<c:forEach items="${racks.bins}" var="item">
+						<c:forEach items="${rack.bins}" var="item">
 							${item} <br />
 						</c:forEach>
 							

@@ -58,6 +58,7 @@ public class Rack{
 	public void addBin(String s, int num){
 		s += "-ohm";							//Turn 100 -> 100-ohm
 		m.put(s, new Bin(num, s, false));		//Add the bin to the HashMap
+		System.out.println("bin added");
 	}
 	
 	//Remove a bin
