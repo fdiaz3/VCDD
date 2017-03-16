@@ -9,6 +9,8 @@ public class Rack{
 	private double tolerance;
 	private double wattage;
 	private HashMap<String, Bin> m;
+	private ArrayList<String> bins;
+	private int binLength;
 	
 	//Constructor//
 	public Rack(double tolerance, double wattage){
@@ -63,4 +65,19 @@ public class Rack{
 		s+="-ohm";
 		m.remove(s);
 	}
+	
+	//showing all bin objects as strings in an arraylist
+		public ArrayList<String> getRacks(){
+			bins = new ArrayList<String>(m.keySet());
+			return bins;
+		}
+		
+		//Length of bins list (number of bins in a rack)
+		public int getRackLength(){
+			bins = new ArrayList<String>(m.keySet());
+			binLength = bins.size();
+			return binLength;
+		}
+	
+	
 }

@@ -22,6 +22,14 @@
     <servlet-name>TakeResistor</servlet-name>
     <servlet-class>resistorSorter.servlet.TakeResistorServlet</servlet-class>
   </servlet>
+   <servlet>
+    <servlet-name>Rack</servlet-name>
+    <servlet-class>resistorSorter.servlet.RackServlet</servlet-class>
+  </servlet>
+   <servlet>
+    <servlet-name>Bin</servlet-name>
+    <servlet-class>resistorSorter.servlet.BinServlet</servlet-class>
+  </servlet>
   
 
 
@@ -42,6 +50,15 @@
     <servlet-name>TakeResistor</servlet-name>
     <url-pattern>/TakeResistor</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Bin</servlet-name>
+    <url-pattern>/Bin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Rack</servlet-name>
+    <url-pattern>/Rack</url-pattern>
+  </servlet-mapping>
+  
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

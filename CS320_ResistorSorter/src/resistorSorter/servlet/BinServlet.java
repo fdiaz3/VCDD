@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.model.Inventory;
 
-public class InitializeInventoryServlet extends HttpServlet {
+public class BinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private Inventory model;
@@ -50,26 +50,21 @@ public class InitializeInventoryServlet extends HttpServlet {
 			}else if (req.getParameter("initializeRack") != null) {
 				
 				req.setAttribute("inventory", model);
+				
 				double tolerance = getDouble(req, "tolerance");
 				double power = getDouble(req, "power");
+				
+				
 				model.addRack( tolerance, power);
+				
+				
 				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 				
-		//if edit rack is pressed	
 			}else if (req.getParameter("editRack") != null) {
 				
-				ArrayList<String> racks = model.getRacks();
-				//subtract one for indexing
-				int rackNum = getInteger(req, "rackNum") - 1;
 				
 				
-				req.setAttribute("inventory", model);
-				req.setAttribute("rackInfo", racks.get(rackNum));
 				
-				
-				req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-				
-		// if delete rack is pressed
 			}else if (req.getParameter("deleteRack") != null) {
 				req.setAttribute("inventory", model);
 				

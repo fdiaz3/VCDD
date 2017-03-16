@@ -86,7 +86,7 @@ public class Inventory {
 		}
 	}
 	
-	//Attempt to show all Rack objects as string
+	//showing all Rack objects as strings in an arraylist
 	public ArrayList<String> getRacks(){
 		racks = new ArrayList<String>(m.keySet());
 		return racks;
