@@ -58,14 +58,34 @@ public class RackServlet extends HttpServlet {
 
 		
 		
-		//if addBin is pressed
+		//IF ADDBIN IS PUSHED
 		if (req.getParameter("addBin") != null) {
 			
 		//add bin to rack
-		rack.addBin( (String) req.getAttribute("resistance"), getInteger(req, "count"));
+		rack.addBin( (String) req.getParameter("resistance"), getInteger(req, "count"));
 
 		
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+		//IF EDITBIN IS PUSHED
+		}else if (req.getParameter("editBin") != null) {
+
+			
+		
+		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+		//IF DELETEBIN IS PUSHED
+		}else if (req.getParameter("deleteBin") != null) {
+			
+			ArrayList<String> bins = rack.getBins();
+			rack.removeBin(bins.get(getInteger(req, "binNum") - 1));
+			req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+			
+			
+		//IF RETURN IS PUSHED
+		}else if (req.getParameter("return") != null) {
+			
+			
+			
+			req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		}else {
 
 			throw new ServletException("Unknown command");

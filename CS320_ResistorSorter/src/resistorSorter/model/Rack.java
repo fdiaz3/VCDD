@@ -63,13 +63,21 @@ public class Rack{
 	
 	//Remove a bin
 	public void removeBin(String s){
-		s+="-ohm";
+		s = s.substring(0, s.indexOf(','));
+		System.out.println(s);
+		//update bins arraylist
+		//getBins();
+		
 		m.remove(s);
 	}
 	
 	//showing all bin objects as strings in an arraylist
 		public ArrayList<String> getBins(){
 			bins = new ArrayList<String>(m.keySet());
+			
+			for(int i=0; i<m.size(); i++){
+				bins.set(i, bins.get(i) + ", " + getBin(bins.get(i)).getCount());
+			}
 			return bins;
 		}
 		
