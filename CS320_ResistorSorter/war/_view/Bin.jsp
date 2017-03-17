@@ -23,8 +23,11 @@
 		
 		<form action="${pageContext.servletContext.contextPath}/Bin" method="post">
 		
+		<input name="rackInfo" type="hidden" value="${rackInfo}" />
 		<input name="binInfo" type="hidden" value="${binInfo}" />
-		<input name="inventoryId" type="hidden" value="${myObjectId}" />
+		<input name="inventoryId" type="hidden" value="${inventoryObjectId}" />
+		<input name="rackId" type="hidden" value="${rackObjectId}" />
+		<input name="binNum" type="hidden" value="${binNum}" />
 		
 			<table>
 				<tr>

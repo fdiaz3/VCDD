@@ -44,6 +44,9 @@ public class Rack{
 	
 	//Get a bin
 	public Bin getBin(String s){
+		//to get only the key
+		//s = s.substring(0, s.indexOf(','));
+		
 		if(m.containsKey(s)){
 			return m.get(s);
 		}

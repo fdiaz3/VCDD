@@ -71,16 +71,29 @@ public class RackServlet extends HttpServlet {
 		}else if (req.getParameter("editBin") != null) {
 			
 			
-			ArrayList<String> bins = model.getRacks();
+			ArrayList<String> bins = rack.getBins();
 			//subtract one for indexing
 			int binNum = getInteger(req, "binNum") - 1;
 			
-			
+			//setting up to send inventory to binServlet
 			String inventoryId = UUID.randomUUID().toString();
 			req.getSession().setAttribute(inventoryId, model);
-			req.setAttribute("myObjectId", inventoryId);
+			req.setAttribute("inventoryObjectId", inventoryId);
+			
+			//setting up to send rack to binServlet
+			String rackId = UUID.randomUUID().toString();
+			req.getSession().setAttribute(rackId, rack);
+			req.setAttribute("rackObjectId", rackId);
+			
+			req.setAttribute("bin", rack.getBin(bins.get(getInteger(req, "binNum") - 1)));	
+					
+			
+			System.out.println(bins.get(binNum));
 			
 			req.setAttribute("binInfo", bins.get(binNum));
+			req.setAttribute("rackInfo", rackInfo);
+			req.setAttribute("binNum", binNum);
+			
 			
 			req.getRequestDispatcher("/_view/Bin.jsp").forward(req, resp);
 		
