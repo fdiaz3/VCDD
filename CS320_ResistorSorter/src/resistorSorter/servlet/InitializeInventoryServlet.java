@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import resistorSorter.controllers.InventoryController;
 import resistorSorter.model.Inventory;
 
 public class InitializeInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private Inventory model;
+	private InventoryController controller;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -37,6 +39,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 			if (req.getParameter("initializeInventory") != null) {
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
+				controller = new InventoryController(model);
 				req.setAttribute("inventory", model);
 				
 				
@@ -55,8 +58,8 @@ public class InitializeInventoryServlet extends HttpServlet {
 				double power = getDouble(req, "power");
 				
 				
-				model.addRack( tolerance, power);
-				
+				controller.addRack( tolerance, power);
+				model = controller.getModel();
 				
 				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 				

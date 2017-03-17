@@ -70,14 +70,14 @@
 					<td class="label">Rack #:
 						<br/>
 						
-						<c:forEach var = "i" begin = "1" end="${inventory.rackLength}">
+						<c:forEach var = "i" begin = "1" end="${inventory.numRacks}">
 							${i}<br/>
 						</c:forEach>
 						
 					</td>
 					<td class="label">Tolerance, Power
 						<br/>
-						<c:forEach items="${inventory.racks}" var="item">
+						<c:forEach items="${inventory.listRacks}" var="item">
 							${item} <br />
 						</c:forEach>
 						
