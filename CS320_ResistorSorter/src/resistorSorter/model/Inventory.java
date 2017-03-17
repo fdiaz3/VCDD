@@ -98,4 +98,5 @@ public class Inventory {
 		rackLength = racks.size();
 		return rackLength;
 	}
+	//Am I making changes and pushing?
 }
