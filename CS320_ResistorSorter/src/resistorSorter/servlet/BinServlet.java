@@ -15,6 +15,9 @@ public class BinServlet extends HttpServlet {
 	
 	private Inventory model;
 	
+	private String binInfo;
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -26,58 +29,38 @@ public class BinServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
+		//first time entering this servlet
+			if(model == null){
+				
+			//get instance of inventory from initialize inventory
+			String inventoryId = req.getParameter("inventoryId");
+			Object inventorObj = req.getSession().getAttribute(inventoryId);
+			model = (Inventory) inventorObj;
+			
+			//get rackInfo 
+			rackInfo = (String) req.getParameter("rackInfo");
+			
+			//get instance of designated rack
+			rack = model.getRack((String) req.getParameter("rackInfo"));
+			}else{
+				//System.out.println("nothing");
+			}
+			
+			
+			
 		
-		
-		
-		
-		int binCapacity = getInteger(req, "binCapacity");
-		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 
-		
-		//if initializeInventory is pressed
-			if (req.getParameter("initializeInventory") != null) {
-				
-				model = new Inventory(binCapacity, userRemoveLimit);
-				req.setAttribute("inventory", model);
+			if (req.getParameter("addResistors") != null) {
 				
 				
 				
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
-			
-			
-			
-		//if initializeRack is pressed
-			}else if (req.getParameter("initializeRack") != null) {
-				
-				req.setAttribute("inventory", model);
-				
-				double tolerance = getDouble(req, "tolerance");
-				double power = getDouble(req, "power");
-				
-				
-				model.addRack( tolerance, power);
-				
-				
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
-				
-			}else if (req.getParameter("editRack") != null) {
+			}else if (req.getParameter("subResistors") != null) {
 				
 				
 				
-				
-			}else if (req.getParameter("deleteRack") != null) {
-				req.setAttribute("inventory", model);
-				
-				ArrayList<String> racks = model.getRacks();
-				//subtract one for indexing
-				int rackNum = getInteger(req, "rackNum") - 1;
-				
-				double tolerance = model.getRack(racks.get(rackNum)).getTol();
-				double power = model.getRack(racks.get(rackNum)).getWatt();
-				
-				model.removeRack(tolerance, power);
+			}else if (req.getParameter("return") != null) {
 
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+				
 			}else {
 				throw new ServletException("Unknown command");
 			}

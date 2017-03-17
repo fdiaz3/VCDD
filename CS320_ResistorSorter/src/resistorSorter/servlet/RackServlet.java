@@ -2,6 +2,7 @@ package resistorSorter.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -68,10 +69,22 @@ public class RackServlet extends HttpServlet {
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		//IF EDITBIN IS PUSHED
 		}else if (req.getParameter("editBin") != null) {
-
 			
+			
+			ArrayList<String> bins = model.getRacks();
+			//subtract one for indexing
+			int binNum = getInteger(req, "binNum") - 1;
+			
+			
+			String inventoryId = UUID.randomUUID().toString();
+			req.getSession().setAttribute(inventoryId, model);
+			req.setAttribute("myObjectId", inventoryId);
+			
+			req.setAttribute("binInfo", bins.get(binNum));
+			
+			req.getRequestDispatcher("/_view/Bin.jsp").forward(req, resp);
 		
-		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+		
 		//IF DELETEBIN IS PUSHED
 		}else if (req.getParameter("deleteBin") != null) {
 			
@@ -83,9 +96,8 @@ public class RackServlet extends HttpServlet {
 		//IF RETURN IS PUSHED
 		}else if (req.getParameter("return") != null) {
 			
+			req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
 			
-			
-			req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 		}else {
 
 			throw new ServletException("Unknown command");
