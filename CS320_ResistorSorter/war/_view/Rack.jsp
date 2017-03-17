@@ -53,7 +53,7 @@
 				
 				
 				<tr>
-					<td class="label">Bin Resistance:
+					<td class="label">Bin Number:
 						<br/>
 							
 						<c:forEach var = "i" begin = "1" end="${rack.binLength}">
@@ -62,7 +62,7 @@
 						
 					</td>
 					
-					<td class="label">Bin Count:
+					<td class="label">Resistance, Count:
 						<br/>
 						<c:forEach items="${rack.bins}" var="item">
 							${item} <br />

@@ -27,10 +27,6 @@ public class InitializeInventoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		
-		
-		
-		
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 
