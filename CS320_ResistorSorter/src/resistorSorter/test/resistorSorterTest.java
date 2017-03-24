@@ -1,9 +1,11 @@
-package resistorSorter;
+package resistorSorter.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import resistorSorter.model.Inventory;
 
 
 public class resistorSorterTest {
