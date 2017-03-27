@@ -12,5 +12,4 @@ public interface IDatabase {
 	public Pair<Author, Book> insertBooks(String lastname, String firstname, String title, String isbn,
 			String published);
 	
-	
 }
