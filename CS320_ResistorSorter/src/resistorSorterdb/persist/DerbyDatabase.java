@@ -9,9 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ycp.cs320.booksdb.model.Author;
-import edu.ycp.cs320.booksdb.model.Book;
-import edu.ycp.cs320.booksdb.model.Pair;
+import resistorSorter.model.*;
 
 public class DerbyDatabase implements IDatabase {
 	static {
@@ -87,30 +85,42 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
-				
+				PreparedStatement stmt3 = null;
+
 				try {
 					stmt1 = conn.prepareStatement(
-						"create table authors (" +
-						"	author_id integer primary key " +
+						"create table inventories (" +
+						"	inventory_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
-						"	lastname varchar(40)," +
-						"	firstname varchar(40)" +
+						"	bincapacity integer," +
+						"	userremovelimit integer" +
 						")"
 					);	
 					stmt1.executeUpdate();
 					
 					stmt2 = conn.prepareStatement(
-							"create table books (" +
-							"	book_id integer primary key " +
+							"create table racks (" +
+							"	rack_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							"	author_id integer constraint author_id references authors, " +
-							"	title varchar(70)," +
-							"	isbn varchar(15)," +
-							"   published integer " +
+							"	inventory_id integer constraint inventory_id references inventories, " +
+							"	tolerance float," +
+							"   wattage float " +
 							")"
 					);
 					stmt2.executeUpdate();
 					
+					stmt3 = conn.prepareStatement(
+							"create table bins (" +
+							"	bin_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +	
+							"		rack_id integer constraint rack_id references racks, " +
+							"	count integer," +
+							"	resistance integer" +
+							")"
+						);	
+					stmt3.executeUpdate();
+						
+						
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -176,12 +186,32 @@ public class DerbyDatabase implements IDatabase {
 		DerbyDatabase db = new DerbyDatabase();
 		db.createTables();
 		
-		System.out.println("Loading initial data...");
-		db.loadInitialData();
+		//System.out.println("Loading initial data...");
+		//db.loadInitialData();
 		
 		System.out.println("Success!");
 	}
 
+	@Override
+	public void insertInventory(int binCapacity, int userRemoveLimit) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void insertRack(double tolerance, double wattage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertBin(int resistance, int count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+	
 
 }
