@@ -131,55 +131,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public void loadInitialData() {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				List<Author> authorList;
-				List<Book> bookList;
-				
-				try {
-					authorList = InitialData.getAuthors();
-					bookList = InitialData.getBooks();
-				} catch (IOException e) {
-					throw new SQLException("Couldn't read initial data", e);
-				}
-
-				PreparedStatement insertAuthor = null;
-				PreparedStatement insertBook   = null;
-
-				try {
-					// populate authors table (do authors first, since author_id is foreign key in books table)
-					insertAuthor = conn.prepareStatement("insert into authors (lastname, firstname) values (?, ?)");
-					for (Author author : authorList) {
-//						insertAuthor.setInt(1, author.getAuthorId());	// auto-generated primary key, don't insert this
-						insertAuthor.setString(1, author.getLastname());
-						insertAuthor.setString(2, author.getFirstname());
-						insertAuthor.addBatch();
-					}
-					insertAuthor.executeBatch();
-					
-					// populate books table (do this after authors table,
-					// since author_id must exist in authors table before inserting book)
-					insertBook = conn.prepareStatement("insert into books (author_id, title, isbn, published) values (?, ?, ?, ?)");
-					for (Book book : bookList) {
-//						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
-						insertBook.setInt(1, book.getAuthorId());
-						insertBook.setString(2, book.getTitle());
-						insertBook.setString(3, book.getIsbn());
-						insertBook.setInt(4,  book.getPublished());
-						insertBook.addBatch();
-					}
-					insertBook.executeBatch();
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(insertBook);
-					DBUtil.closeQuietly(insertAuthor);
-				}
-			}
-		});
-	}
 	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException {
@@ -254,6 +205,84 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 		
+	}
+
+	@Override
+	public void deleteInventory(int inventory_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("delete from inventories where inventory_id = ?");
+					stmt.setInt(1, inventory_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public void deleteRack(int inventory_id, int rack_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("delete from racks where inventory_id = ? and rack_id = ?");
+					stmt.setInt(1, inventory_id);
+					stmt.setInt(2, rack_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public void deleteBin(int inventory_id, int rack_id, int bin_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("delete from inventories where inventory_id = ? and rack_id = ? and bin_id = ?");
+					stmt.setInt(1, inventory_id);
+					stmt.setInt(2, rack_id);
+					stmt.setInt(3, bin_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public Inventory getInventory(int binCapacity, int userRemoveLimit) {
+		
+		return new Inventory(binCapacity, userRemoveLimit);
+	}
+
+	@Override
+	public Rack getRack(int inventory_id, float tolerance, float wattage) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Bin getBin(int inventory_id, int rack_id, int resistance, int count) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
