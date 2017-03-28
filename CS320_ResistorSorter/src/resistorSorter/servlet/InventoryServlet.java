@@ -14,7 +14,7 @@ import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.IDatabase;
 import resistorSorter.model.Inventory;
 
-public class InitializeInventoryServlet extends HttpServlet {
+public class InventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private Inventory model;
@@ -22,7 +22,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -38,7 +38,6 @@ public class InitializeInventoryServlet extends HttpServlet {
 			if (req.getParameter("initializeInventory") != null) {
 				
 				IDatabase db = DatabaseProvider.getInstance();
-				
 				db.insertInventory(binCapacity, userRemoveLimit);
 				
 				
@@ -47,7 +46,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 				
 				
 				
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 			
 			
 			
@@ -58,7 +57,7 @@ public class InitializeInventoryServlet extends HttpServlet {
 				double tolerance = getDouble(req, "tolerance");
 				double power = getDouble(req, "power");
 				model.addRack( tolerance, power);
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 				
 		//if edit rack is pressed	
 			}else if (req.getParameter("editRack") != null) {
@@ -94,14 +93,10 @@ public class InitializeInventoryServlet extends HttpServlet {
 				
 				model.removeRack(tolerance, power);
 
-				req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 			}else {
 				throw new ServletException("Unknown command");
 			}
-			
-			
-
-		
 		
 	}
 	
