@@ -131,7 +131,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException {
 		System.out.println("Creating tables...");
@@ -163,7 +162,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-
 	@Override
 	public void insertRack(int inventory_id, float tolerance, float wattage) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -206,6 +204,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 		
 	}
+
 
 	@Override
 	public void deleteInventory(int inventory_id) {
@@ -284,9 +283,5 @@ public class DerbyDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
-
-	
 
 }

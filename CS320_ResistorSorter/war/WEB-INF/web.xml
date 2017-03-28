@@ -7,8 +7,8 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>InitializeInventory</servlet-name>
-    <servlet-class>resistorSorter.servlet.InitializeInventoryServlet</servlet-class>
+    <servlet-name>Inventory</servlet-name>
+    <servlet-class>resistorSorter.servlet.InventoryServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>MultiplyNumbers</servlet-name>
@@ -35,8 +35,8 @@
 
   <!-- Servlet mappings -->
   <servlet-mapping>
-    <servlet-name>InitializeInventory</servlet-name>
-    <url-pattern>/InitializeInventory</url-pattern>
+    <servlet-name>Inventory</servlet-name>
+    <url-pattern>/Inventory</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>MultiplyNumbers</servlet-name>
