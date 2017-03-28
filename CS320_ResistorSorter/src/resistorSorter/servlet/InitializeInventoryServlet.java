@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import resistorSorterdb.persist.DerbyDatabase;
+import resistorSorterdb.persist.DatabaseProvider;
+import resistorSorterdb.persist.IDatabase;
 import resistorSorter.model.Inventory;
 
 public class InitializeInventoryServlet extends HttpServlet {
@@ -29,10 +32,15 @@ public class InitializeInventoryServlet extends HttpServlet {
 		
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
-
+		DatabaseProvider.setInstance(new DerbyDatabase());
 		
 		//if initializeInventory is pressed
 			if (req.getParameter("initializeInventory") != null) {
+				
+				IDatabase db = DatabaseProvider.getInstance();
+				
+				db.insertInventory(binCapacity, userRemoveLimit);
+				
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
 				req.setAttribute("inventory", model);

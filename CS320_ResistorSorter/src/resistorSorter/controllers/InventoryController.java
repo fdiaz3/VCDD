@@ -1,8 +1,11 @@
 package resistorSorter.controllers;
 import java.util.HashMap;
 
+import resistorSorterdb.persist.DatabaseProvider;
+import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
+import resistorSorterdb.persist.IDatabase;
 
 public class InventoryController {
 
@@ -56,13 +59,14 @@ public class InventoryController {
 		//Length of rack list
 		
 		public Rack getRack(String s){
-			if(model.getRacks().containsKey(s)){
-				return model.getRacks().get(s);
-			}
-			else{
-				System.out.println("Rack does not exist");
-				return null;
-			}
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			
+			//db.
+			
+			
+			
 		}
 
 		public Inventory getModel() {

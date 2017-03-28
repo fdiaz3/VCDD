@@ -125,6 +125,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
 				}
 			}
 		});
@@ -194,19 +195,64 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public void insertInventory(int binCapacity, int userRemoveLimit) {
-		// TODO Auto-generated method stub
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into inventories (binCapacity, userRemoveLimit) values (?, ?)");
+					stmt.setInt(1, binCapacity);
+					stmt.setInt(2, userRemoveLimit);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+
+	@Override
+	public void insertRack(int inventory_id, float tolerance, float wattage) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into racks (inventory_id, tolerance, wattage) values (?, ?, ?)");
+					stmt.setInt(1, inventory_id);
+					stmt.setFloat(2, tolerance);
+					stmt.setFloat(3, wattage);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 		
 	}
 
 	@Override
-	public void insertRack(double tolerance, double wattage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void insertBin(int resistance, int count) {
-		// TODO Auto-generated method stub
+	public void insertBin(int inventory_id, int rack_id, int resistance, int count) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into bins (inventory_id, rack_id, resistance, count) values (?, ?, ?, ?)");
+					stmt.setInt(1, inventory_id);
+					stmt.setInt(2, rack_id);
+					stmt.setInt(3, resistance);
+					stmt.setInt(4, count);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 		
 	}
 
