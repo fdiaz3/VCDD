@@ -30,7 +30,7 @@
 			<table>
 				<tr>
 					<td class="label">First number:</td>
-					<td><input type="text" name="darren" size="12" value="${game.first}" /></td>
+					<td><input type="text" name="darren2" size="12" value="${game.first}" /></td>
 				</tr>
 				<tr>
 					<td class="label">Second number:</td>
