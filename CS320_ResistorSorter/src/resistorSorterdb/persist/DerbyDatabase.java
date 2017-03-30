@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.booksdb.model.Author;
+import edu.ycp.cs320.booksdb.model.Book;
+import edu.ycp.cs320.booksdb.model.Pair;
+import edu.ycp.cs320.booksdb.persist.DBUtil;
+import edu.ycp.cs320.booksdb.persist.DerbyDatabase.Transaction;
 import resistorSorter.model.*;
 
 public class DerbyDatabase implements IDatabase {
@@ -203,6 +208,56 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 		
+	}
+
+	@Override
+	public List<Inventory> getAllInventories() {
+		return executeTransaction(new Transaction<List<Inventory>>() {
+			@Override
+			public List<Inventory> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					// retreive all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select * from inventories"
+					);
+					
+					List<Inventory> result = new ArrayList<Inventory>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int inventoryNum = resultSet.getInt(1);
+						int binCapacity = resultSet.getInt(2);
+						int userRemovelimit = resultSet.getInt(3);
+						
+						Inventory inventory = new Inventory(binCapacity, userRemovelimit);
+						
+						result.add(inventory);
+					}
+					
+					// check if the title was found
+					if (!found) {
+						System.out.println("no Inventories in the inventories table");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+
+		
+		return null;
 	}
 
 }

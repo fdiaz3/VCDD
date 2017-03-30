@@ -11,6 +11,6 @@ public interface IDatabase {
 	public void insertBin(int inventory_id, int rack_id, int resistance, int count);
 	
 	//All of the retrieving methods
-	
+	public List<Inventory> getAllInventories();
 	
 }
