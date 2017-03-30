@@ -18,7 +18,6 @@ import resistorSorter.model.Inventory;
 public class TestViewInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private Inventory model;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -33,15 +32,8 @@ public class TestViewInventoryServlet extends HttpServlet {
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		
-		//List<Inventory> inventories = db.getAllInventories();
-		//ArrayList<Inventory> inventories = new ArrayList<Inventory>();
-		//inventories.add(new Inventory(10, 10));
-		
-		
-		//req.setAttribute("inventories", inventories);
-
-		
-		req.setAttribute("inventory", new Inventory(10, 10));
+		List<Inventory> inventories = db.getAllInventories();
+		req.setAttribute("inventories", inventories);
 		
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}

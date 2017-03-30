@@ -26,16 +26,24 @@
 
 			<table>
 			
+			
 				<tr>
-					<td class="label">Inventory #: </td> <td class="label">BinCapacity: </td> <td class="label">RemoveLimit: </td> 
+				<td><input type="Submit" name="submitting" value="REFRESH THE DAMN PAGE!"></td>
 				</tr>
 				
 				<tr>
-					<td> ${inventory.binCapacity} </td>
+					<td class="label">inventory #: </td> <td class="label">BinCapacity: </td> <td class="label">RemoveLimit: </td> 
 				</tr>
 				
+				<tr>
 				
-				
+					<td>
+						<c:forEach items="${inventories}" var="item" >
+   							 ${item.binCapacity}<br>
+						</c:forEach>
+					</td>
+					
+				</tr>
 				
 			
 			
