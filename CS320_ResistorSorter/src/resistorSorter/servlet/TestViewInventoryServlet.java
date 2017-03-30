@@ -31,7 +31,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 		
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
-		
+
 		List<Inventory> inventories = db.getAllInventories();
 		req.setAttribute("inventories", inventories);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);

@@ -9,6 +9,7 @@ public class Inventory {
 	private int binCapacity;
 	private int userRemoveLimit;
 	private int rackLength;
+	private int id;
 	private ArrayList<String> racks;
 	private HashMap<String, Rack> m;
 	
@@ -40,6 +41,10 @@ public class Inventory {
 	public int getUserRemoveLimit(){
 		return this.userRemoveLimit;
 	}
+	
+	/*public int getID(){
+		return id;
+	}*/
 	
 	//Very important, this is how to access rack
 	//object in order to get to its methods
