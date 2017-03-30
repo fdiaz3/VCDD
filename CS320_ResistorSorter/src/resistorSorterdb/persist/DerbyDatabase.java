@@ -235,7 +235,7 @@ public class DerbyDatabase implements IDatabase {
 						int binCapacity = resultSet.getInt(2);
 						int userRemovelimit = resultSet.getInt(3);
 						
-						Inventory inventory = new Inventory(binCapacity, userRemovelimit, inventoryNum);
+						Inventory inventory = new Inventory(binCapacity, userRemovelimit);
 						
 						result.add(inventory);
 					}

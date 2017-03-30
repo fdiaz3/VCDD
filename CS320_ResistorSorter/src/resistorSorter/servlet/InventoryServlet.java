@@ -2,6 +2,7 @@ package resistorSorter.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ public class InventoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
+
 	}
 	
 	@Override
@@ -32,12 +34,19 @@ public class InventoryServlet extends HttpServlet {
 		
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
+		
+		//setup database
 		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		//display inventories
+		List<Inventory> inventories = db.getAllInventories();
+		req.setAttribute("inventories", inventories);
 		
 		//if initializeInventory is pressed
 			if (req.getParameter("initializeInventory") != null) {
 				
-				IDatabase db = DatabaseProvider.getInstance();
+				
 				db.insertInventory(binCapacity, userRemoveLimit);
 				
 				

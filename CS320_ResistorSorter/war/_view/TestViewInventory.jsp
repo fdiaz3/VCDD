@@ -29,8 +29,10 @@
 				<tr>
 					<td class="label">inventory #: 
 						<br/>
- 						<c:forEach items="${inventories}" var="item" >
-   						 	1<br>
+ 						<c:forEach items="${inventories}" var="item" varStatus="status">
+ 						
+   						 	${status.count}<br>
+   						 	
 						</c:forEach>
 						<br/>
 					</td>
@@ -56,13 +58,11 @@
 				<tr>
 				
 				</tr>
-							
-				<tr>
-					<td><input type="Submit" name="submitting" value="REFRESH THE DAMN PAGE!"></td>
-				</tr>
-			
 			
 			</table>
+			
+			<input type="Submit" name="submitting" value="REFRESH THE DAMN PAGE!">
+			
 			
 		</form>
 		
