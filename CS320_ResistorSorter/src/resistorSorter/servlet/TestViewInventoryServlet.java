@@ -42,7 +42,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 
 		
 		req.setAttribute("inventory", new Inventory(10, 10));
-		
+	
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	

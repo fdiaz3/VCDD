@@ -31,13 +31,13 @@
 				</tr>
 				
 				<tr>
-					<td> ${inventory.binCapacity} </td>
+					<c:forEach items="${inventory.BinCapacity}" var="item">
+						${item} <br />
+					</c:forEach>
+					
 				</tr>
 				
-				
-				
-				
-			
+						
 			
 			</table>
 			
