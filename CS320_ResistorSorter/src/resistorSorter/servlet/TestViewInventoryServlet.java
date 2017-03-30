@@ -34,7 +34,6 @@ public class TestViewInventoryServlet extends HttpServlet {
 		
 		List<Inventory> inventories = db.getAllInventories();
 		req.setAttribute("inventories", inventories);
-		
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
