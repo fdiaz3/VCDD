@@ -25,26 +25,41 @@
 		<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 
 			<table>
-			
-			
-				<tr>
-				<td><input type="Submit" name="submitting" value="REFRESH THE DAMN PAGE!"></td>
-				</tr>
 				
 				<tr>
-					<td class="label">inventory #: </td> <td class="label">BinCapacity: </td> <td class="label">RemoveLimit: </td> 
-				</tr>
-				
-				<tr>
-				
-					<td>
-						<c:forEach items="${inventories}" var="item" >
-   							 ${item.binCapacity}<br>
+					<td class="label">inventory #: 
+						<br/>
+ 						<c:forEach items="${inventories}" var="item" >
+   						 	1<br>
 						</c:forEach>
+						<br/>
 					</td>
+					 
+					<td class="label">BinCapacity: 
+						<br/>
+						<c:forEach items="${inventories}" var="item" >
+   						 	${item.binCapacity}<br>
+						</c:forEach>
+						<br/>
+					</td> 
+					
+					<td class="label">RemoveLimit: 
+						<br/>
+						<c:forEach items="${inventories}" var="item" >
+   						 	${item.userRemoveLimit}<br>
+						</c:forEach>
+						<br/>
+					</td> 
 					
 				</tr>
 				
+				<tr>
+				
+				</tr>
+							
+				<tr>
+					<td><input type="Submit" name="submitting" value="REFRESH THE DAMN PAGE!"></td>
+				</tr>
 			
 			
 			</table>
