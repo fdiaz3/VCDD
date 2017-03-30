@@ -9,11 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ycp.cs320.booksdb.model.Author;
-import edu.ycp.cs320.booksdb.model.Book;
-import edu.ycp.cs320.booksdb.model.Pair;
-import edu.ycp.cs320.booksdb.persist.DBUtil;
-import edu.ycp.cs320.booksdb.persist.DerbyDatabase.Transaction;
+
+import resistorSorterdb.persist.DBUtil;
 import resistorSorter.model.*;
 
 public class DerbyDatabase implements IDatabase {
@@ -256,8 +253,6 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 
-		
-		return null;
 	}
 
 }
