@@ -30,6 +30,10 @@
     <servlet-name>Bin</servlet-name>
     <servlet-class>resistorSorter.servlet.BinServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TestViewInventory</servlet-name>
+    <servlet-class>resistorSorter.servlet.TestViewInventoryServlet</servlet-class>
+  </servlet>
   
 
 
@@ -58,7 +62,10 @@
     <servlet-name>Rack</servlet-name>
     <url-pattern>/Rack</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+   <servlet-name>TestViewInventory</servlet-name>
+    <url-pattern>/TestViewInventory</url-pattern>
+  </servlet-mapping>
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
