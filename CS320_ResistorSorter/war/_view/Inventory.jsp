@@ -5,7 +5,7 @@
 
 <html>
 	<head>
-		<title>Take Resistor</title>
+		<title>Inventories</title>
 		<style type="text/css">
 		.error {
 			color: red;
@@ -95,38 +95,13 @@
 				<table>
 					
 					<tr>
-						<td class="label">Inventory #: 
-							<br/>
-	 						<c:forEach items="${inventories}" var="item" varStatus="status">
-	 						
-	   						 	${status.count}<br>
-	   						 	
-							</c:forEach>
-							<br/>
-						</td>
-						 
-						<td class="label">BinCapacity: 
-							<br/>
-							<c:forEach items="${inventories}" var="item" >
-	   						 	${item.binCapacity}<br>
-							</c:forEach>
-							<br/>
-						</td> 
-						
-						<td class="label">RemoveLimit: 
-							<br/>
-							<c:forEach items="${inventories}" var="item" >
-	   						 	${item.userRemoveLimit}<br>
-							</c:forEach>
-							<br/>
-						</td> 
-						
+						<td class="label">Inventory #: </td> <td class="label">BinCapacity: </td> 	<td class="label">RemoveLimit: </td>
 					</tr>
-					
-					<tr>
-					
-					</tr>
-				
+						
+					<c:forEach items="${inventories}" var="item" varStatus="status">
+ 						 <tr> <td>${status.count}</td> <td>${item.binCapacity}</td> <td>${item.userRemoveLimit}</td> <td><input type="Submit" name="deleteInventory${status.count}" value="Delete"></td> </tr>
+					</c:forEach>
+
 				</table>
 			</div>
 		</form>

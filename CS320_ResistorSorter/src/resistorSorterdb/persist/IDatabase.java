@@ -11,10 +11,13 @@ public interface IDatabase {
 	public void insertBin(int inventory_id, int rack_id, int resistance, int count);
 	
 	//Deleting methods
-	public void deleteInventory(int inventory_id);
-	public void deleteRack(int rack_id, int inventory_id);
-	public void deleteBin(int bin_id, int rack_id, int inventory_id);
+
+	public void removeRack(int rack_id, int inventory_id);
+	public void removeBin(int bin_id, int rack_id, int inventory_id);
 	//All of the retrieving methods
 	public List<Inventory> getAllInventories();
+	
+	//All of the removing methods
+	public void removeInventory(int inventoryID);
 	
 }

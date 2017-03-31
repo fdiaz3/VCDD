@@ -216,7 +216,6 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet = null;
 				
 				try {
-					// retreive all attributes from both Books and Authors tables
 					stmt = conn.prepareStatement(
 							"select * from inventories"
 					);
@@ -256,62 +255,46 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void deleteInventory(int inventory_id) {
+	public void removeInventory(int inventoryID) {
+		
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
+				
 				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+
+
 				try {
-					stmt = conn.prepareStatement("DELETE FROM inventories WHERE inventory_id = '?')");
-					stmt.setInt(1, inventory_id);
+					stmt = conn.prepareStatement(
+							"delete from inventories"
+							+ " where inventory_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
 					stmt.executeUpdate();
+					
+					
 					return true;
 				} finally {
+					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
 		});
 		
+		
 	}
 
+
 	@Override
-	public void deleteRack(int rack_id, int inventory_id) {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				try {
-					stmt = conn.prepareStatement("DELETE FROM racks WHERE inventory_id = '?' and rack_id = '?')");
-					stmt.setInt(1, inventory_id);
-					stmt.setInt(2, rack_id);
-					stmt.executeUpdate();
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
+	public void removeRack(int rack_id, int inventory_id) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteBin(int bin_id, int rack_id, int inventory_id) {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				try {
-					stmt = conn.prepareStatement("DELETE FROM bins WHERE inventory_id = '?' and rack_id = '?' and bin_id = '?')");
-					stmt.setInt(1, inventory_id);
-					stmt.setInt(2, rack_id);
-					stmt.setInt(3, bin_id);
-					stmt.executeUpdate();
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
+	public void removeBin(int bin_id, int rack_id, int inventory_id) {
+		// TODO Auto-generated method stub
 		
 	}
 
