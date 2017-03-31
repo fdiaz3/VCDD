@@ -6,90 +6,51 @@ import java.util.Map;
 public class Rack{
 	
 	//Parameters//
-	private double tolerance;
-	private double wattage;
-	private HashMap<String, Bin> m;
-	private ArrayList<String> bins;
+	private float tolerance;
+	private float wattage;
 	private int binLength;
+	private int inventory_id;
 	
 	//Constructor//
-	public Rack(double tolerance, double wattage){
+	public Rack(float tolerance, float wattage, int inventory_id){
 		this.tolerance = tolerance;
 		this.wattage = wattage;
-		m = new HashMap<String, Bin>();
+		this.inventory_id = inventory_id;
 	}
 	
 	//Define Methods//
 	
 	//Getters
-	public double getTol(){
+	public float getTol(){
 		return tolerance;
 	}
 	
-	public double getWatt(){
+	public float getWatt(){
 		return wattage;
 	}
 	
 	//Setters
-	public void setTol(double t){
+	public void setTol(float t){
 		this.tolerance = t;
 		
 	}
 	
-	public void setWatt(double w){
+	public void setWatt(float w){
 		this.wattage = w;
 	}
 	
-	//Bin related methods
-	
-	//Get a bin
-	public Bin getBin(String s){
-		//to get only the key
-		//s = s.substring(0, s.indexOf(','));
-		
-		if(m.containsKey(s)){
-			return m.get(s);
-		}
-		else{
-			System.out.println("Bin does not exist");
-			return null;
-		}
+	public void setInvId(int id){
+		this.inventory_id = id;
 	}
 	
-	//Add a bin
-	//Unlike adding a rack the user enters resistance (string) and amount separately(int)
-	public void addBin(String s, int num){
-		s += "-ohm";							//Turn 100 -> 100-ohm
-		m.put(s, new Bin(num, s, false));		//Add the bin to the HashMap
-		System.out.println("bin added");
+	public int getInvId(){
+		return inventory_id;
 	}
 	
-	//Remove a bin
-	public void removeBin(String s){
-		s = s.substring(0, s.indexOf(','));
-		System.out.println(s);
-		//update bins arraylist
-		//getBins();
-		
-		m.remove(s);
-	}
 	
-	//showing all bin objects as strings in an arraylist
-		public ArrayList<String> getBins(){
-			bins = new ArrayList<String>(m.keySet());
-			
-			for(int i=0; i<m.size(); i++){
-				bins.set(i, bins.get(i) + ", " + getBin(bins.get(i)).getCount());
-			}
-			return bins;
-		}
-		
-		//Length of bins list (number of bins in a rack)
-		public int getBinLength(){
-			bins = new ArrayList<String>(m.keySet());
-			binLength = bins.size();
-			return binLength;
-		}
+
+	
+
 	
 	
 }

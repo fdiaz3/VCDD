@@ -6,13 +6,17 @@ public class Bin {
 	private int count;
 	private String resistance;
 	private boolean selected;
-	
+	int inventory_id;
+	int rack_id;
 	
 	//Constructor//
-	public Bin(int count, String resistance, boolean selected){
+	public Bin(int count, String resistance, boolean selected, int inventory_id, int rack_id){
 		this.count = count;
 		this.resistance = resistance;
 		this.selected = selected;
+		
+		this.inventory_id = inventory_id;
+		this.rack_id = rack_id;
 	}
 	
 	//Methods//
@@ -41,35 +45,22 @@ public class Bin {
 	public void setSelected(boolean b){
 		this.selected = b;
 	}
-	//Resistor related methods
 	
-	//Adding resistors
-	//Must pass in instance of inventory class!
-	public boolean addResistor(int count, Inventory i){
-		if(this.count+count > i.getBinCapacity()){
-			System.out.println("Error: exceeded max bin capacity");	//Fails
-			return false;
-		}
-		else{
-			this.count+= count;										//Passes
-			return true;
-		}
+	public int getInvId(){
+		return inventory_id;
 	}
 	
-	//Removing resistors
-	//Must pass in an instance of inventory class!
-	public boolean removeResistor(int count, Inventory i){
-		if(this.count - count < 0){
-			System.out.println("Error: requested to remove more than available");
-			return false;											//Removing more than bin count
-		}
-		else if(count > i.getUserRemoveLimit()){
-			System.out.println("Error: maximum amount allowed to remove exceeded");
-			return false;
-		}
-		else{
-			this.count-=count;										//Passes
-			return true;
-		}
+	public void setInvId(int id){
+		this.inventory_id = id;
 	}
+	
+	public int getRackId(){
+		return rack_id;
+	}
+	
+	public void setRackId(int id){
+		this.rack_id = id;
+	}
+	
+
 }

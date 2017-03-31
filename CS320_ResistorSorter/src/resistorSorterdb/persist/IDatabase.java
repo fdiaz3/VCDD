@@ -16,6 +16,8 @@ public interface IDatabase {
 	public void removeBin(int binID, int rackID, int inventoryID);
 	//All of the retrieving methods
 	public List<Inventory> getAllInventories();
+	public List<Rack> getAllRacks(int inventoryID);
+	public List<Bin> getAllBins(int inventoryID, int rackID);
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);
