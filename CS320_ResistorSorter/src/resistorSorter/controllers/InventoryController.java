@@ -19,17 +19,19 @@ public class InventoryController {
 	//Rack related methods
 	
 		//Add rack is pressed
-		public void addRack(float tolerance, float wattage, int inventory_id){
-			float tol = tolerance;								//Initialize tol to (double)to
-			float watt = wattage;								//Initialize watt to (double)wa
-			int inv_id = inventory_id;
+		public void addInventory(int binCapacity, int userRemoveLimit){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.insertInventory(binCapacity, userRemoveLimit);
 		}
 		
 		//Delete rack is pressed
-		public void removeRack(float tolerance, float wattage, int inventory_id){
-			double tol = tolerance;										//Initialize tol to (double)to
-			double watt = wattage;										//Initialize watt to (double)wa
-			int inv_id = inventory_id;
+		public void removeInventory(int inventoryID){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.removeInventory(inventoryID);
 		}
 		
 		//For Edit rack pressed

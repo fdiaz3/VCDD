@@ -18,22 +18,24 @@ public class RackController {
 	
 	//Add rack is pressed
 	public void addRack(float tolerance, float wattage, int inventory_id){
-		float tol = tolerance;								//Initialize tol to (double)to
-		float watt = wattage;								//Initialize watt to (double)wa
-		int inv_id = inventory_id;
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		db.insertRack(inventory_id, tolerance, wattage);
 	}
 	
 	//Delete rack is pressed
-	public void removeRack(float tolerance, float wattage, int inventory_id){
-		double tol = tolerance;										//Initialize tol to (double)to
-		double watt = wattage;										//Initialize watt to (double)wa
-		int inv_id = inventory_id;
+	public void removeRack(int rackID, int inventoryID){
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		db.removeRack(rackID, inventoryID);
 	}
 	
 	public List<Rack> displayRacks(int inventory_id){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		
-		return db.
+		return db.getAllRacks(inventory_id);
 	}
 }

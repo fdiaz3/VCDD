@@ -234,7 +234,7 @@ public class DerbyDatabase implements IDatabase {
 						int binCapacity = resultSet.getInt(2);
 						int userRemovelimit = resultSet.getInt(3);
 						
-						Inventory inventory = new Inventory(binCapacity, userRemovelimit);
+						Inventory inventory = new Inventory(binCapacity, userRemovelimit, inventory_id);
 						
 						result.add(inventory);
 					}
@@ -343,6 +343,30 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});		
+	}
+
+	@Override
+	public void addResistors(int inventory_id, int rack_id, int resistance, int count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeResistors(int inventory_id, int rack_id, int resistance, int count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Rack> getAllRacks(int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Bin> getAllBins(int inventoryID, int rackID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

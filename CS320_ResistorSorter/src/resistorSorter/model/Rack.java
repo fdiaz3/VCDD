@@ -10,12 +10,14 @@ public class Rack{
 	private float wattage;
 	private int binLength;
 	private int inventory_id;
+	private int rack_id;
 	
 	//Constructor//
-	public Rack(float tolerance, float wattage, int inventory_id){
+	public Rack(float tolerance, float wattage, int inventory_id, int rack_id){
 		this.tolerance = tolerance;
 		this.wattage = wattage;
 		this.inventory_id = inventory_id;
+		this.rack_id = rack_id;
 	}
 	
 	//Define Methods//
@@ -47,7 +49,9 @@ public class Rack{
 		return inventory_id;
 	}
 	
-	
+	public int getRackId(){
+		return rack_id;
+	}
 
 	
 

@@ -9,7 +9,8 @@ public interface IDatabase {
 	public void insertInventory(int binCapacity, int userRemoveLimit);
 	public void insertRack(int inventory_id, float tolerance, float wattage);
 	public void insertBin(int inventory_id, int rack_id, int resistance, int count);
-	
+	public void addResistors(int inventory_id, int rack_id, int resistance, int count);
+	public void removeResistors(int inventory_id, int rack_id, int resistance, int count);
 	//Deleting methods
 
 	public void removeRack(int rackID, int inventoryID);
