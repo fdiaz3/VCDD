@@ -25,11 +25,11 @@ public class RackController {
 	}
 	
 	//Delete rack is pressed
-	public void removeRack(int rackID, int inventoryID){
+	public void removeRack(int rackID){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		
-		db.removeRack(rackID, inventoryID);
+		db.removeRack(rackID);
 	}
 	
 	public List<Rack> displayRacks(int inventory_id){

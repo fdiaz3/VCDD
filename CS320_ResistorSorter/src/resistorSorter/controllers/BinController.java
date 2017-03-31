@@ -19,40 +19,40 @@ public class BinController {
 	
 		//Adding resistors
 		//Must pass in instance of inventory class!
-		public void addBin(int inventory_id, int rack_id, int resistance, int count){
+		public void addBin(int rack_id, int resistance, int count){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			db.insertBin(inventory_id, rack_id, resistance, count);
+			db.insertBin(rack_id, resistance, count);
 		}
 		
 		//Removing resistors
 		//Must pass in an instance of inventory class!
-		public void removeBin(int binID, int rackID, int inventoryID){
+		public void removeBin(int binID){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			db.removeBin(binID, rackID, inventoryID);
+			db.removeBin(binID);
 		}
 		
-		public List<Bin> displayBins(int inventoryID, int rackID){
+		public List<Bin> displayBins(int rackID){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			return db.getAllBins(inventoryID, rackID);
+			return db.getAllBins(rackID);
 		}
 		
-		public void addResistor(int inventory_id, int rack_id, int resistance, int count){
+		public void addResistor(int bin_id, int count){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			db.addResistors(inventory_id, rack_id, resistance, count);
+			db.addResistors(bin_id, count);
 		}
 		
-		public void removeResistor(int inventory_id, int rack_id, int resistance, int count){
+		public void removeResistor(int bin_id, int count){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			db.removeResistors(inventory_id, rack_id, resistance, count);
+			db.removeResistors(bin_id, count);
 		}
 }
