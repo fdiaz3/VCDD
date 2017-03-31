@@ -79,25 +79,21 @@ public class InventoryServlet extends HttpServlet {
 				
 		//if edit rack is pressed	
 			}else if (req.getParameter("editRack") != null) {
+
 				
+				
+				
+				/**		OLD CODE
 				ArrayList<String> racks = model.getRacks();
 				//subtract one for indexing
 				int rackNum = getInteger(req, "rackNum") - 1;
-				
-				
-				
-				
 				String inventoryId = UUID.randomUUID().toString();
 				req.getSession().setAttribute(inventoryId, model);
 				req.setAttribute("myObjectId", inventoryId);
-				
-
-				
 				req.setAttribute("rackInfo", racks.get(rackNum));
-				
 				//resp.sendRedirect(req.getContextPath() + "/Rack");
 				req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-				
+				**/
 		// if delete rack is pressed
 			}else if (req.getParameter("deleteRack") != null) {
 				req.setAttribute("inventory", model);
@@ -118,19 +114,18 @@ public class InventoryServlet extends HttpServlet {
 		
 			
 			//testing to find which inventory is deleted
-			for(int i=1; i<inventories.size()+1; i++){
 				
-				if(req.getParameter("deleteInventory" + i) != null){
+				if(req.getParameter("deleteInventory") != null){
 					
-					db.removeInventory(i);
-					System.out.println(i);
+					
+					int ID = Integer.getInteger(req.getParameter("deleteInventory"));
+					System.out.println(ID);
 					
 					//REdisplay inventories
 					inventories = db.getAllInventories();
 					req.setAttribute("inventories", inventories);
 					
 					req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-				}
 				
 			}
 

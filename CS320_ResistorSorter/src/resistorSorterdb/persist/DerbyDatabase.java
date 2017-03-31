@@ -235,6 +235,7 @@ public class DerbyDatabase implements IDatabase {
 						int userRemovelimit = resultSet.getInt(3);
 						
 						Inventory inventory = new Inventory(binCapacity, userRemovelimit);
+						inventory.SetID(inventoryNum);
 						
 						result.add(inventory);
 					}
@@ -261,23 +262,25 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				
-				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
 				ResultSet resultSet = null;
 
 
 				try {
-					stmt = conn.prepareStatement(
+					stmt1 = conn.prepareStatement(
 							"delete from inventories"
 							+ " where inventory_id = ?"
 					);
-					stmt.setInt(1, inventoryID);
-					stmt.executeUpdate();
+					stmt1.setInt(1, inventoryID);
+					stmt1.executeUpdate();
 					
+					
+
 					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt1);
 				}
 			}
 		});

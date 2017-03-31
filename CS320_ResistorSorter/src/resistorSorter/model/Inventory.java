@@ -32,19 +32,21 @@ public class Inventory {
 	public void setUserRemoveLimit(int num){
 		this.userRemoveLimit = num;
 	}
-	
+	public void SetID(int id){
+		this.id = id;
+	}
 	//Getters
 	public int getBinCapacity(){
-		return this.binCapacity;
+		return binCapacity;
 	}
 	
 	public int getUserRemoveLimit(){
-		return this.userRemoveLimit;
+		return userRemoveLimit;
+	}
+	public int getID(){
+		return id;
 	}
 	
-	/*public int getID(){
-		return id;
-	}*/
 	
 	//Very important, this is how to access rack
 	//object in order to get to its methods
