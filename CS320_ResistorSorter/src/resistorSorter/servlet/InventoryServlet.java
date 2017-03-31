@@ -65,7 +65,7 @@ public class InventoryServlet extends HttpServlet {
 				req.setAttribute("inventories", inventories);
 				
 				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-			
+				
 			
 			
 		//if initializeRack is pressed

@@ -10,8 +10,14 @@ public interface IDatabase {
 	public void insertRack(int inventory_id, float tolerance, float wattage);
 	public void insertBin(int inventory_id, int rack_id, int resistance, int count);
 	
+	//Deleting methods
+
+	public void removeRack(int rackID, int inventoryID);
+	public void removeBin(int binID, int rackID, int inventoryID);
 	//All of the retrieving methods
 	public List<Inventory> getAllInventories();
+	public List<Rack> getAllRacks(int inventoryID);
+	public List<Bin> getAllBins(int inventoryID, int rackID);
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);

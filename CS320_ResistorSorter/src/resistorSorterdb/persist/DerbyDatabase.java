@@ -283,9 +283,69 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt1);
 				}
 			}
-		});
+		});	
 		
+	}
+
+
+	@Override
+	public void removeRack(int rackID, int inventoryID) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+
+
+				try {
+					stmt = conn.prepareStatement(
+							"delete from inventories"
+							+ " where inventory_id = ? and rack_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
+					stmt.setInt(2, rackID);
+					stmt.executeUpdate();
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});	
 		
+	}
+
+	@Override
+	public void removeBin(int binID, int rackID, int inventoryID) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+
+
+				try {
+					stmt = conn.prepareStatement(
+							"delete from inventories"
+							+ " where inventory_id = ? and rack_id = ? and bin_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
+					stmt.setInt(2, rackID);
+					stmt.setInt(3, binID);
+					stmt.executeUpdate();
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});		
 	}
 
 }
