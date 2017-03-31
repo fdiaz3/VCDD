@@ -13,4 +13,7 @@ public interface IDatabase {
 	//All of the retrieving methods
 	public List<Inventory> getAllInventories();
 	
+	//All of the removing methods
+	public void removeInventory(int inventoryID);
+	
 }

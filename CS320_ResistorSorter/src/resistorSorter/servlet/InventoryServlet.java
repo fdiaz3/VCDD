@@ -60,7 +60,7 @@ public class InventoryServlet extends HttpServlet {
 				model = new Inventory(binCapacity, userRemoveLimit);
 				
 				
-				//display inventories
+				//REdisplay inventories
 				inventories = db.getAllInventories();
 				req.setAttribute("inventories", inventories);
 				
@@ -112,10 +112,31 @@ public class InventoryServlet extends HttpServlet {
 				model.removeRack(tolerance, power);
 
 				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-			}else {
-				throw new ServletException("Unknown command");
 			}
+			
+			
 		
+			
+			//testing to find which inventory is deleted
+			for(int i=1; i<inventories.size()+1; i++){
+				
+				if(req.getParameter("deleteInventory" + i) != null){
+					
+					db.removeInventory(i);
+					System.out.println(i);
+					
+					//REdisplay inventories
+					inventories = db.getAllInventories();
+					req.setAttribute("inventories", inventories);
+					
+					req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
+				}
+				
+			}
+
+			
+			
+			
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {

@@ -216,7 +216,6 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet = null;
 				
 				try {
-					// retreive all attributes from both Books and Authors tables
 					stmt = conn.prepareStatement(
 							"select * from inventories"
 					);
@@ -253,6 +252,37 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 
+	}
+
+	@Override
+	public void removeInventory(int inventoryID) {
+		
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+
+
+				try {
+					stmt = conn.prepareStatement(
+							"delete from inventories"
+							+ " where inventory_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
+					stmt.executeUpdate();
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+		
 	}
 
 }
