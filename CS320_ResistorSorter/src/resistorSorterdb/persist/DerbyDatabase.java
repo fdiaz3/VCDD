@@ -254,7 +254,107 @@ public class DerbyDatabase implements IDatabase {
 		});
 
 	}
+	@Override
+	public List<Rack> getAllRacks(int inventoryID) {
+		return executeTransaction(new Transaction<List<Rack>>() {
+			@Override
+			public List<Rack> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select * from racks"
+							+ " where inventory_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
+					
+					List<Rack> result = new ArrayList<Rack>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int rackID = resultSet.getInt(1);
+						int inventoryID = resultSet.getInt(2);
+						float tolerance = resultSet.getInt(3);
+						float wattage = resultSet.getInt(4);
+						
+						Rack rack = new Rack(tolerance, wattage, inventoryID);
+						
+						result.add(rack);
+					}
+					
+					// check if the title was found
+					if (!found) {
+						System.out.println("no Racks in the Racks table");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 
+	}
+	
+	@Override
+	public List<Bin> getAllBins(int inventoryID, int rackID) {
+		return executeTransaction(new Transaction<List<Bin>>() {
+			@Override
+			public List<Bin> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select * from racks"
+							+ " where inventory_id = ?"
+							+ " where rack_id = ?"
+					);
+					stmt.setInt(1, inventoryID);
+					stmt.setInt(2, inventoryID);
+					
+					List<Bin> result = new ArrayList<Bin>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int rackID = resultSet.getInt(1);
+						int inventoryID = resultSet.getInt(2);
+						float tolerance = resultSet.getInt(3);
+						float wattage = resultSet.getInt(4);
+						
+						Rack rack = new Rack(tolerance, wattage, inventoryID);
+						
+						result.add(rack);
+					}
+					
+					// check if the title was found
+					if (!found) {
+						System.out.println("no Racks in the Racks table");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void removeInventory(int inventoryID) {
 		
@@ -286,7 +386,6 @@ public class DerbyDatabase implements IDatabase {
 		});	
 		
 	}
-
 
 	@Override
 	public void removeRack(int rackID, int inventoryID) {
@@ -347,5 +446,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});		
 	}
+
+
 
 }
