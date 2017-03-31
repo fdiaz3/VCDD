@@ -51,7 +51,6 @@ public class InventoryServlet extends HttpServlet {
 				
 				
 				model = new Inventory(binCapacity, userRemoveLimit);
-				req.setAttribute("inventory", model);
 				
 				
 				
