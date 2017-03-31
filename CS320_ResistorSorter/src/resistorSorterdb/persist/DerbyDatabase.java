@@ -255,4 +255,64 @@ public class DerbyDatabase implements IDatabase {
 
 	}
 
+	@Override
+	public void deleteInventory(int inventory_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("DELETE FROM inventories WHERE inventory_id = '?')");
+					stmt.setInt(1, inventory_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public void deleteRack(int rack_id, int inventory_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("DELETE FROM racks WHERE inventory_id = '?' and rack_id = '?')");
+					stmt.setInt(1, inventory_id);
+					stmt.setInt(2, rack_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public void deleteBin(int bin_id, int rack_id, int inventory_id) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("DELETE FROM bins WHERE inventory_id = '?' and rack_id = '?' and bin_id = '?')");
+					stmt.setInt(1, inventory_id);
+					stmt.setInt(2, rack_id);
+					stmt.setInt(3, bin_id);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
 }

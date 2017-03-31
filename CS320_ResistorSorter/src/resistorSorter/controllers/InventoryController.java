@@ -53,7 +53,6 @@ public class InventoryController {
 			}
 		}
 		
-		//Attempt to show all Rack objects as string
 		
 		
 		//Length of rack list
@@ -62,8 +61,6 @@ public class InventoryController {
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			
-			
-			//db.
 			
 			
 			
