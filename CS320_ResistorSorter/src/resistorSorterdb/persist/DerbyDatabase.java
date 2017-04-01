@@ -395,7 +395,7 @@ public class DerbyDatabase implements IDatabase {
 
 				try {
 					stmt = conn.prepareStatement(
-							"delete from inventories"
+							"delete from racks"
 							+ " where rack_id = ?"
 					);
 					stmt.setInt(1, rackID);
