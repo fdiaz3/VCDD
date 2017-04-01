@@ -6,17 +6,16 @@ public class Bin {
 	private int count;
 	private String resistance;
 	private boolean selected;
-	int inventory_id;
 	int rack_id;
+	int bin_id;
 	
 	//Constructor//
-	public Bin(int count, String resistance, boolean selected, int inventory_id, int rack_id){
+	public Bin(int bin_id, int rack_id, int count, String resistance){
 		this.count = count;
 		this.resistance = resistance;
-		this.selected = selected;
-		
-		this.inventory_id = inventory_id;
+
 		this.rack_id = rack_id;
+		this.bin_id = bin_id;
 	}
 	
 	//Methods//
@@ -46,14 +45,6 @@ public class Bin {
 		this.selected = b;
 	}
 	
-	public int getInvId(){
-		return inventory_id;
-	}
-	
-	public void setInvId(int id){
-		this.inventory_id = id;
-	}
-	
 	public int getRackId(){
 		return rack_id;
 	}
@@ -62,5 +53,8 @@ public class Bin {
 		this.rack_id = id;
 	}
 	
+	public int getBinId(){
+		return bin_id;
+	}
 
 }

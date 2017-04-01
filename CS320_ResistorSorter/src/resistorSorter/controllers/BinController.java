@@ -1,6 +1,11 @@
 package resistorSorter.controllers;
+import java.util.List;
+
 import resistorSorter.model.Bin;
 import resistorSorter.model.Inventory;
+import resistorSorterdb.persist.DatabaseProvider;
+import resistorSorterdb.persist.DerbyDatabase;
+import resistorSorterdb.persist.IDatabase;
 
 public class BinController {
 
@@ -14,31 +19,40 @@ public class BinController {
 	
 		//Adding resistors
 		//Must pass in instance of inventory class!
-		public boolean addResistor(int count, Inventory i){
-			if(model.getCount()+count > i.getBinCapacity()){
-				System.out.println("Error: exceeded max bin capacity");	//Fails
-				return false;
-			}
-			else{
-				model.setCount(model.getCount() + count);				//Passes
-				return true;
-			}
+		public void addBin(int rack_id, int resistance, int count){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.insertBin(rack_id, resistance, count);
 		}
 		
 		//Removing resistors
 		//Must pass in an instance of inventory class!
-		public boolean removeResistor(int count, Inventory i){
-			if(model.getCount() - count < 0){
-				System.out.println("Error: requested to remove more than available");
-				return false;											//Removing more than bin count
-			}
-			else if(count > i.getUserRemoveLimit()){
-				System.out.println("Error: maximum amount allowed to remove exceeded");
-				return false;
-			}
-			else{
-				model.setCount(model.getCount() - count);				//Passes
-				return true;
-			}
+		public void removeBin(int binID){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.removeBin(binID);
+		}
+		
+		public List<Bin> displayBins(int rackID){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			return db.getAllBins(rackID);
+		}
+		
+		public void addResistor(int bin_id, int count){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.addResistors(bin_id, count);
+		}
+		
+		public void removeResistor(int bin_id, int count){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			db.removeResistors(bin_id, count);
 		}
 }

@@ -8,15 +8,14 @@ public class Inventory {
 	//Initialize fields//
 	private int binCapacity;
 	private int userRemoveLimit;
-	private int rackLength;
-	private int id;
+	private int inventory_id;
 
 	
 	//Constructor//
-	public Inventory(int binCapacity, int userRemoveLimit){
+	public Inventory(int inventory_id, int binCapacity, int userRemoveLimit){
 		this.binCapacity = binCapacity;
 		this.userRemoveLimit = userRemoveLimit;
-
+		this.inventory_id = inventory_id;
 	}
 	
 	//Define Methods//
@@ -29,9 +28,6 @@ public class Inventory {
 	public void setUserRemoveLimit(int num){
 		this.userRemoveLimit = num;
 	}
-	public void SetID(int id){
-		this.id = id;
-	}
 	//Getters
 	public int getBinCapacity(){
 		return binCapacity;
@@ -41,7 +37,10 @@ public class Inventory {
 		return userRemoveLimit;
 	}
 	public int getID(){
-		return id;
+		return inventory_id;
 	}
 	
+	public int getInvId(){
+		return inventory_id;
+	}
 }

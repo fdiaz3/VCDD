@@ -186,17 +186,16 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void insertBin(int inventory_id, int rack_id, int resistance, int count) {
+	public void insertBin(int rack_id, int resistance, int count) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
-					stmt = conn.prepareStatement("insert into bins (inventory_id, rack_id, resistance, count) values (?, ?, ?, ?)");
-					stmt.setInt(1, inventory_id);
-					stmt.setInt(2, rack_id);
-					stmt.setInt(3, resistance);
-					stmt.setInt(4, count);
+					stmt = conn.prepareStatement("insert into bins (rack_id, resistance, count) values (?, ?, ?)");
+					stmt.setInt(1, rack_id);
+					stmt.setInt(2, resistance);
+					stmt.setInt(3, count);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -232,10 +231,9 @@ public class DerbyDatabase implements IDatabase {
 						
 						int inventoryNum = resultSet.getInt(1);
 						int binCapacity = resultSet.getInt(2);
-						int userRemovelimit = resultSet.getInt(3);
+						int userRemoveLimit = resultSet.getInt(3);
 						
-						Inventory inventory = new Inventory(binCapacity, userRemovelimit);
-						inventory.SetID(inventoryNum);
+						Inventory inventory = new Inventory(inventoryNum, binCapacity, userRemoveLimit);
 						
 						result.add(inventory);
 					}
@@ -284,7 +282,7 @@ public class DerbyDatabase implements IDatabase {
 						float tolerance = resultSet.getInt(3);
 						float wattage = resultSet.getInt(4);
 						
-						Rack rack = new Rack(tolerance, wattage, inventoryID);
+						Rack rack = new Rack(rackID, inventoryID, tolerance, wattage);
 						
 						result.add(rack);
 					}
@@ -305,7 +303,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public List<Bin> getAllBins(int inventoryID, int rackID) {
+	public List<Bin> getAllBins(int rackID) {
 		return executeTransaction(new Transaction<List<Bin>>() {
 			@Override
 			public List<Bin> execute(Connection conn) throws SQLException {
@@ -314,12 +312,10 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					stmt = conn.prepareStatement(
-							"select * from racks"
-							+ " where inventory_id = ?"
+							"select * from bins"
 							+ " where rack_id = ?"
 					);
-					stmt.setInt(1, inventoryID);
-					stmt.setInt(2, inventoryID);
+					stmt.setInt(1, rackID);
 					
 					List<Bin> result = new ArrayList<Bin>();
 					
@@ -331,19 +327,19 @@ public class DerbyDatabase implements IDatabase {
 					while (resultSet.next()) {
 						found = true;
 						
-						int rackID = resultSet.getInt(1);
-						int inventoryID = resultSet.getInt(2);
-						float tolerance = resultSet.getInt(3);
-						float wattage = resultSet.getInt(4);
+						int binID = resultSet.getInt(1);
+						int rackID = resultSet.getInt(2);
+						int count = resultSet.getInt(3);
+						String resistance = resultSet.getString(4);
 						
-						Rack rack = new Rack(tolerance, wattage, inventoryID);
+						Bin bin = new Bin(binID, rackID, count, resistance);
 						
-						result.add(rack);
+						result.add(bin);
 					}
 					
 					// check if the title was found
 					if (!found) {
-						System.out.println("no Racks in the Racks table");
+						System.out.println("no Bins in the Bins table");
 					}
 					
 					return result;
@@ -388,7 +384,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void removeRack(int rackID, int inventoryID) {
+	public void removeRack(int rackID) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -400,10 +396,9 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					stmt = conn.prepareStatement(
 							"delete from inventories"
-							+ " where inventory_id = ? and rack_id = ?"
+							+ " where rack_id = ?"
 					);
-					stmt.setInt(1, inventoryID);
-					stmt.setInt(2, rackID);
+					stmt.setInt(1, rackID);
 					stmt.executeUpdate();
 					
 					
@@ -418,7 +413,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void removeBin(int binID, int rackID, int inventoryID) {
+	public void removeBin(int binID) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -430,11 +425,9 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					stmt = conn.prepareStatement(
 							"delete from inventories"
-							+ " where inventory_id = ? and rack_id = ? and bin_id = ?"
+							+ " where bin_id = ?"
 					);
-					stmt.setInt(1, inventoryID);
-					stmt.setInt(2, rackID);
-					stmt.setInt(3, binID);
+					stmt.setInt(1, binID);
 					stmt.executeUpdate();
 					
 					
@@ -446,6 +439,95 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});		
 	}
+
+
+	@Override
+	public void addResistors(int bin_id, int count) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					//get count
+					stmt1 = conn.prepareStatement(
+							"select bins.count"
+							+ " where bin_id = ?"
+									
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					int newCount = resultSet.getInt(1) + count;
+				
+					
+					//update count
+					stmt2 = conn.prepareStatement(
+							"update bins"
+							+ " set count = ?"		
+					);
+					stmt2.setInt(1, newCount);
+					stmt2.executeUpdate();
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});		
+		
+	}
+
+	@Override
+	public void removeResistors(int bin_id, int count) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					//get count
+					stmt1 = conn.prepareStatement(
+							"select bins.count"
+							+ " where bin_id = ?"
+									
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					int newCount = resultSet.getInt(1) - count;
+				
+					
+					//update count
+					stmt2 = conn.prepareStatement(
+							"update bins"
+							+ " set count = ?"		
+					);
+					stmt2.setInt(1, newCount);
+					stmt2.executeUpdate();
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});		
+		
+	}
+
+
+
+
 
 
 
