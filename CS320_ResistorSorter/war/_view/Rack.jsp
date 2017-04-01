@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Take Resistor</title>
+		<title>Racks</title>
 		<style type="text/css">
 		.error {
 			color: red;
@@ -27,10 +27,9 @@
 			<div style="float:left;">
 				<table>
 			
-	
 					<tr>
 						<td class="label">Inventory ID: </td>
-						<td><input type="text" name="inventory_id" size="12" /></td>
+						<td><input type="text" name="inventory_id" size="12" value="${inventory_id}" /></td>
 					</tr>
 				
 					<tr>
@@ -64,8 +63,8 @@
  						<tr> 
  							<td>${status.index+1}</td>
  						 	<td>${item.tolerance}</td>
- 						 	<td>${item.power}</td>
- 						 	<td><input type="Submit" name="deleteRack${item.ID}" value="Delete"></td>
+ 						 	<td>${item.wattage}</td>
+ 						 	<td><input type="Submit" name="deleteRack${item.rack_id}" value="Delete"></td>
  						 	
  						</tr>
 					</c:forEach>

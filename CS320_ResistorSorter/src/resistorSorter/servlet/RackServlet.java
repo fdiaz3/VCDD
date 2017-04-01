@@ -40,7 +40,12 @@ public class RackServlet extends HttpServlet {
 		inventory_id = getInteger(req, "inventory_id");
 		tolerance = getFloat(req, "tolerance");
 		power = getFloat(req, "power");
+		System.out.println(inventory_id);
 		
+		//display racks
+		if (req.getParameter("displayRacks") != null) {
+			displayRacks(req);
+		}
 		
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
