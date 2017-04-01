@@ -16,6 +16,10 @@ public class InventoryController {
 	{
 		this.model = model;
 	}
+	public InventoryController()
+	{
+		model = null;
+	}
 	//Rack related methods
 	
 		//Add rack is pressed
