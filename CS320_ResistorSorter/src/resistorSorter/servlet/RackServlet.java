@@ -25,9 +25,7 @@ public class RackServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		controller = new RackController();
-		displayRacks(req);
+
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 	}
 	
@@ -43,20 +41,28 @@ public class RackServlet extends HttpServlet {
 		tolerance = getFloat(req, "tolerance");
 		power = getFloat(req, "power");
 		
-		//if displayRacks is pressed
-		if (req.getParameter("displayRacks") != null) {
+		
+		//add a Rack
+		if (req.getParameter("addRack") != null) {
 			
+			controller.addRack(tolerance, power, inventory_id);
 			displayRacks(req);
-			
+		
+		}
+		
+		//delete a rack
+		for(int i=1; i<1000; i++){
+			if(req.getParameter("deleteRack" + i) != null){
+				controller.removeRack(i);
+				displayRacks(req);
+				
+			}
 		}
 		
 		
-		
-		
-		
-		
-		
-		
+		//pass inventory_id back to jsp
+		req.setAttribute("inventory_id", inventory_id);
+		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {

@@ -11,7 +11,7 @@ import resistorSorterdb.persist.IDatabase;
 public class InventoryController {
 
 	Inventory model;
-	
+	//With model
 	public InventoryController(Inventory model)
 	{
 		this.model = model;
