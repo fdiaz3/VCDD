@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Fri Mar 31 19:27:43 EDT 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-015b-26b2-2d04-000006b39730 
-on database directory D:\CS320\git\VCDD\CS320_ResistorSorter\test.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
+Fri Mar 31 20:55:26 EDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-015b-2702-7b9e-0000052bfba0 
+on database directory D:\CS320\Git\VCDD\CS320_ResistorSorter\test.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/D:/CS320/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_51-b16
-user.dir=D:\CS320\git\VCDD\CS320_ResistorSorter
+user.dir=D:\CS320\Git\VCDD\CS320_ResistorSorter
 os.name=Windows 7
 os.arch=amd64
 os.version=6.1

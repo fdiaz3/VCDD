@@ -16,8 +16,8 @@ public class InventoryController {
 	{
 		this.model = model;
 	}
-	//
-	public InventoryController(){
+	public InventoryController()
+	{
 		model = null;
 	}
 	//Rack related methods

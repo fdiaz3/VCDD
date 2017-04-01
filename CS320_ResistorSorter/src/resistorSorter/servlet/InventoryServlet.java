@@ -13,23 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.IDatabase;
+import resistorSorter.controllers.InventoryController;
 import resistorSorter.model.Inventory;
 
 public class InventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private Inventory model;
+	private InventoryController controller;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//setup database
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
+		//setup controller
+		controller = new InventoryController();
 		
 		//display inventories
-		List<Inventory> inventories = db.getAllInventories();
+		List<Inventory> inventories = controller.displayInventories();
 		req.setAttribute("inventories", inventories);
 		
 		req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);	
@@ -39,99 +39,34 @@ public class InventoryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		//setup controller
+		controller = new InventoryController();
 		
+		//getting parameters from jsp
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 		
-		//setup database
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
 		
-		//display inventories
-		List<Inventory> inventories = db.getAllInventories();
-		req.setAttribute("inventories", inventories);
 		
 		//if initializeInventory is pressed
-			if (req.getParameter("initializeInventory") != null) {
-				
-				
-				db.insertInventory(binCapacity, userRemoveLimit);
-				
-				model = new Inventory(binCapacity, userRemoveLimit);
-				
-				
-				//REdisplay inventories
-				inventories = db.getAllInventories();
-				req.setAttribute("inventories", inventories);
-				
-				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-				
+		if (req.getParameter("initializeInventory") != null) {
 			
-			
-		//if initializeRack is pressed
-			}else if (req.getParameter("initializeRack") != null) {
-				
-				req.setAttribute("inventory", model);
-				double tolerance = getDouble(req, "tolerance");
-				double power = getDouble(req, "power");
-				model.addRack( tolerance, power);
-				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-				
-		//if edit rack is pressed	
-			}else if (req.getParameter("editRack") != null) {
-
-				
-				
-				
-				/**		OLD CODE
-				ArrayList<String> racks = model.getRacks();
-				//subtract one for indexing
-				int rackNum = getInteger(req, "rackNum") - 1;
-				String inventoryId = UUID.randomUUID().toString();
-				req.getSession().setAttribute(inventoryId, model);
-				req.setAttribute("myObjectId", inventoryId);
-				req.setAttribute("rackInfo", racks.get(rackNum));
-				//resp.sendRedirect(req.getContextPath() + "/Rack");
-				req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-				**/
-		// if delete rack is pressed
-			}else if (req.getParameter("deleteRack") != null) {
-				req.setAttribute("inventory", model);
-				
-				ArrayList<String> racks = model.getRacks();
-				//subtract one for indexing
-				int rackNum = getInteger(req, "rackNum") - 1;
-				
-				double tolerance = model.getRack(racks.get(rackNum)).getTol();
-				double power = model.getRack(racks.get(rackNum)).getWatt();
-				
-				model.removeRack(tolerance, power);
-
-				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-			}
-			
-			
+			controller.addInventory(binCapacity, userRemoveLimit);
+			displayInventories(req);
+			req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 		
-			
-			//testing to find which inventory is deleted
-				
-				if(req.getParameter("deleteInventory") != null){
-					
-					
-					int ID = Integer.getInteger(req.getParameter("deleteInventory"));
-					System.out.println(ID);
-					
-					//REdisplay inventories
-					inventories = db.getAllInventories();
-					req.setAttribute("inventories", inventories);
-					
-					req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
-				
+		}
+		
+		//delete an inventory
+		for(int i=1; i<1000; i++){
+			if(req.getParameter("deleteInventory" + i) != null){
+				controller.removeInventory(i);
+				displayInventories(req);
+				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
 			}
+		}
 
-			
-			
-			
+		
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {
@@ -144,14 +79,10 @@ public class InventoryServlet extends HttpServlet {
 		}
 	}
 	
-	private double getDouble(HttpServletRequest req, String name) {
-
-		if(req.getParameter(name) != ""){
-			return Double.parseDouble(req.getParameter(name));
-		}
-		else{
-			return 0;
-		}
-
+	private void displayInventories(HttpServletRequest req){
+		//display inventories
+		List<Inventory> inventories = controller.displayInventories();
+		req.setAttribute("inventories", inventories);
 	}
+	
 }
