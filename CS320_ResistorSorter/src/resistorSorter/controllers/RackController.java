@@ -15,6 +15,9 @@ public class RackController {
 	public RackController(Rack model){
 		this.model = model;
 	}
+	public RackController(){
+		model = null;
+	}
 	
 	//Add rack is pressed
 	public void addRack(float tolerance, float wattage, int inventory_id){

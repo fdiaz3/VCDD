@@ -1,18 +1,13 @@
 package resistorSorter.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.IDatabase;
 import resistorSorter.controllers.InventoryController;
 import resistorSorter.model.Inventory;
 
@@ -25,13 +20,8 @@ public class InventoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//setup controller
 		controller = new InventoryController();
-		
-		//display inventories
-		List<Inventory> inventories = controller.displayInventories();
-		req.setAttribute("inventories", inventories);
-		
+		displayInventories(req);
 		req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);	
 	}
 	
