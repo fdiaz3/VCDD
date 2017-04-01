@@ -13,15 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.IDatabase;
+import resistorSorter.controllers.InventoryController;
 import resistorSorter.model.Inventory;
 
 public class TestViewInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private InventoryController controller;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		controller = new InventoryController();
+		displayInventories(req);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
@@ -29,12 +34,15 @@ public class TestViewInventoryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
 
-		List<Inventory> inventories = db.getAllInventories();
+		
+	}
+	
+	
+	private void displayInventories(HttpServletRequest req){
+		//display inventories
+		List<Inventory> inventories = controller.displayInventories();
 		req.setAttribute("inventories", inventories);
-		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
 }

@@ -23,11 +23,11 @@ public class Rack{
 	//Define Methods//
 	
 	//Getters
-	public float getTol(){
+	public float getTolerance(){
 		return tolerance;
 	}
 	
-	public float getWatt(){
+	public float getWattage(){
 		return wattage;
 	}
 	
@@ -45,11 +45,11 @@ public class Rack{
 		this.inventory_id = id;
 	}
 	
-	public int getInvId(){
+	public int getInventory_id(){
 		return inventory_id;
 	}
 	
-	public int getRackId(){
+	public int getRack_id(){
 		return rack_id;
 	}
 

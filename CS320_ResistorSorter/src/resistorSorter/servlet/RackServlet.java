@@ -2,6 +2,7 @@ package resistorSorter.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -9,20 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import resistorSorter.controllers.RackController;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
 
 public class RackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private Inventory model;
-	private Rack rack;
-	private String rackInfo;
+	private RackController controller;
+	private int inventory_id;
+	private float tolerance;
+	private float power;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
 	}
 	
@@ -30,94 +33,41 @@ public class RackServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//first time entering this servlet
-		if(model == null){
-			
-		//get instance of inventory from initialize inventory
-		String inventoryId = req.getParameter("inventoryId");
-		Object inventorObj = req.getSession().getAttribute(inventoryId);
-		model = (Inventory) inventorObj;
+		//setup controller
+		controller = new RackController();
 		
-		//get rackInfo 
-		rackInfo = (String) req.getParameter("rackInfo");
+		//get parameters from jsp
+		inventory_id = getInteger(req, "inventory_id");
+		tolerance = getFloat(req, "tolerance");
+		power = getFloat(req, "power");
+		System.out.println(inventory_id);
 		
-		//get instance of designated rack
-		rack = model.getRack((String) req.getParameter("rackInfo"));
-		}else{
-			//System.out.println("nothing");
+		//display racks
+		if (req.getParameter("displayRacks") != null) {
+			displayRacks(req);
 		}
 		
-
-		
-		//pass inventory reference to jsp
-		req.setAttribute("inventory", model);
-		//pass rackinfo reference to jsp
-		req.setAttribute("rackInfo", rackInfo);
-		//pass rack reference to jsp
-		req.setAttribute("rack", rack);
-		
-
-		
-		
-		//IF ADDBIN IS PUSHED
-		if (req.getParameter("addBin") != null) {
+		//add a Rack
+		if (req.getParameter("addRack") != null) {
 			
-		//add bin to rack
-		rack.addBin( (String) req.getParameter("resistance"), getInteger(req, "count"));
-
+			controller.addRack(tolerance, power, inventory_id);
+			displayRacks(req);
 		
+		}
+		
+		//delete a rack
+		for(int i=1; i<1000; i++){
+			if(req.getParameter("deleteRack" + i) != null){
+				controller.removeRack(i);
+				displayRacks(req);
+				
+			}
+		}
+		
+		
+		//pass inventory_id back to jsp
+		req.setAttribute("inventory_id", inventory_id);
 		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-		//IF EDITBIN IS PUSHED
-		}else if (req.getParameter("editBin") != null) {
-			
-			
-			ArrayList<String> bins = rack.getBins();
-			//subtract one for indexing
-			int binNum = getInteger(req, "binNum") - 1;
-			
-			//setting up to send inventory to binServlet
-			String inventoryId = UUID.randomUUID().toString();
-			req.getSession().setAttribute(inventoryId, model);
-			req.setAttribute("inventoryObjectId", inventoryId);
-			
-			//setting up to send rack to binServlet
-			String rackId = UUID.randomUUID().toString();
-			req.getSession().setAttribute(rackId, rack);
-			req.setAttribute("rackObjectId", rackId);
-			
-			req.setAttribute("bin", rack.getBin(bins.get(getInteger(req, "binNum") - 1)));	
-					
-			
-			System.out.println(bins.get(binNum));
-			
-			req.setAttribute("binInfo", bins.get(binNum));
-			req.setAttribute("rackInfo", rackInfo);
-			req.setAttribute("binNum", binNum);
-			
-			
-			req.getRequestDispatcher("/_view/Bin.jsp").forward(req, resp);
-		
-		
-		//IF DELETEBIN IS PUSHED
-		}else if (req.getParameter("deleteBin") != null) {
-			
-			ArrayList<String> bins = rack.getBins();
-			rack.removeBin(bins.get(getInteger(req, "binNum") - 1));
-			req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
-			
-			
-		//IF RETURN IS PUSHED
-		}else if (req.getParameter("return") != null) {
-			
-			req.getRequestDispatcher("/_view/InitializeInventory.jsp").forward(req, resp);
-			
-		}else {
-
-			throw new ServletException("Unknown command");
-		}
-		
-		
-		
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {
@@ -130,17 +80,21 @@ public class RackServlet extends HttpServlet {
 		}
 	}
 	
-	
-	
-	
-	private double getDouble(HttpServletRequest req, String name) {
-
+	private float getFloat(HttpServletRequest req, String name) {
+		
 		if(req.getParameter(name) != ""){
-			return Double.parseDouble(req.getParameter(name));
+			return Float.parseFloat(req.getParameter(name));
 		}
 		else{
 			return 0;
 		}
-
+	}
+	
+	private void displayRacks(HttpServletRequest req){
+		//display inventories
+		inventory_id = getInteger(req, "inventory_id");
+		List<Rack> racks = controller.displayRacks(inventory_id);
+		req.setAttribute("racks", racks);
+		
 	}
 }

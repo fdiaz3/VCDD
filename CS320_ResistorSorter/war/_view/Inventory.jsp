@@ -114,7 +114,7 @@
  							<td>${status.index+1}</td>
  						 	<td>${item.binCapacity}</td>
  						 	<td>${item.userRemoveLimit}</td>
- 						 	<td><input type="Submit" name="deleteInventory${item.ID}" value="Delete"></td>
+ 						 	<td><input type="Submit" name="deleteInventory${item.inventory_id}" value="Delete"></td>
  						 	
  						</tr>
 					</c:forEach>

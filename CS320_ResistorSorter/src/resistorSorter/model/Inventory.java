@@ -36,11 +36,8 @@ public class Inventory {
 	public int getUserRemoveLimit(){
 		return userRemoveLimit;
 	}
-	public int getID(){
-		return inventory_id;
-	}
 	
-	public int getInvId(){
+	public int getInventory_id(){
 		return inventory_id;
 	}
 }
