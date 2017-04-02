@@ -16,7 +16,10 @@ public class BinController {
 		this.model = model;
 	}
 	//Resistor related methods
-	
+	public BinController()
+	{
+
+	}
 		//Adding resistors
 		//Must pass in instance of inventory class!
 		public void addBin(int rack_id, int resistance, int count){

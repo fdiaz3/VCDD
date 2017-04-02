@@ -170,6 +170,7 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				System.out.println(wattage);
 				try {
 					stmt = conn.prepareStatement("insert into racks (inventory_id, tolerance, wattage) values (?, ?, ?)");
 					stmt.setInt(1, inventory_id);
@@ -279,8 +280,8 @@ public class DerbyDatabase implements IDatabase {
 						
 						int rackID = resultSet.getInt(1);
 						int inventoryID = resultSet.getInt(2);
-						float tolerance = resultSet.getInt(3);
-						float wattage = resultSet.getInt(4);
+						float tolerance = resultSet.getFloat(3);
+						float wattage = resultSet.getFloat(4);
 						
 						Rack rack = new Rack(rackID, inventoryID, tolerance, wattage);
 						
@@ -424,7 +425,7 @@ public class DerbyDatabase implements IDatabase {
 
 				try {
 					stmt = conn.prepareStatement(
-							"delete from inventories"
+							"delete from bins"
 							+ " where bin_id = ?"
 					);
 					stmt.setInt(1, binID);
