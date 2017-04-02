@@ -83,6 +83,7 @@ public class RackServlet extends HttpServlet {
 	private float getFloat(HttpServletRequest req, String name) {
 		
 		if(req.getParameter(name) != ""){
+			
 			return Float.parseFloat(req.getParameter(name));
 		}
 		else{
