@@ -88,6 +88,5 @@ public class BinServlet extends HttpServlet {
 		rack_id = getInteger(req, "rack_id");
 		List<Bin> bins = controller.displayBins(rack_id);
 		req.setAttribute("bins", bins);
-		
 	}
 }

@@ -262,11 +262,21 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet = null;
 				
 				try {
-					stmt = conn.prepareStatement(
-							"select * from racks"
-							+ " where inventory_id = ?"
-					);
-					stmt.setInt(1, inventoryID);
+					
+					//used for testViewInventory to display allRacks
+					if(inventoryID == -1){
+						stmt = conn.prepareStatement(
+								"select * from racks"
+						);
+					}
+					//most commonly used when displaying a specific rack
+					else{
+						stmt = conn.prepareStatement(
+								"select * from racks"
+								+ " where inventory_id = ?"
+						);
+						stmt.setInt(1, inventoryID);
+					}	
 					
 					List<Rack> result = new ArrayList<Rack>();
 					
@@ -312,11 +322,20 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet = null;
 				
 				try {
-					stmt = conn.prepareStatement(
-							"select * from bins"
-							+ " where rack_id = ?"
-					);
-					stmt.setInt(1, rackID);
+					//used for testViewInventory to display allBins
+					if(rackID == -1){
+						stmt = conn.prepareStatement(
+								"select * from bins"
+						);
+					}
+					//most commonly used when displaying a specific Bin
+					else{
+						stmt = conn.prepareStatement(
+								"select * from bins"
+								+ " where rack_id = ?"
+						);
+						stmt.setInt(1, rackID);
+					}	
 					
 					List<Bin> result = new ArrayList<Bin>();
 					

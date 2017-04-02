@@ -5,7 +5,7 @@
 
 <html>
 	<head>
-		<title>Take Resistor</title>
+		<title>View Inventory</title>
 		<style type="text/css">
 		.error {
 			color: red;
@@ -26,28 +26,53 @@
 		
 		
 		
-		<div>
+		<div style="float:left; border:solid">
 				<table>
-					
 					<tr>
-						<td class="label">Inventory #: </td> <td class="label">BinCapacity: </td> 	<td class="label">RemoveLimit: </td>
+						<td class="label">Inventory ID: </td> <td class="label">BinCapacity: </td> 	<td class="label">RemoveLimit: </td>
 					</tr>
-						
 					<c:forEach items="${inventories}" var="item" varStatus="status">
  						<tr> 
- 							<td>${status.index+1}</td>
+ 							<td>${item.inventory_id}</td>
  						 	<td>${item.binCapacity}</td>
  						 	<td>${item.userRemoveLimit}</td>
- 						 	<td><input type="Submit" name="deleteInventory${item.inventory_id}" value="Delete"></td>
- 						 	
  						</tr>
 					</c:forEach>
-
 				</table>
 		</div>
 		
+		<div style="float:left; border:solid">
+				<table>
+					<tr>
+						<td class="label">Rack ID: </td> <td class="label">Inventory ID: </td> <td class="label">Tolerance: </td> 	<td class="label">Power: </td>
+					</tr>
+					<c:forEach items="${racks}" var="item" varStatus="status">
+ 						<tr> 
+ 							<td>${item.rack_id}</td>
+ 							<td>${item.inventory_id}</td>
+ 						 	<td>${item.tolerance}</td>
+ 						 	<td>${item.wattage}</td>
+ 						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		
-		
+		<div style="float:left; border:solid">
+				<table>
+					<tr>
+						<td class="label">Bin ID: </td> <td class="label">Rack ID: </td> <td class="label">Resistance: </td> 	<td class="label">Count: </td>
+					</tr>
+					<c:forEach items="${bins}" var="item" varStatus="status">
+ 						<tr> 
+ 							<td>${item.bin_id}</td>
+ 							<td>${item.rack_id}</td>
+ 						 	<td>${item.resistance}</td>
+ 						 	<td>${item.count}</td>
+ 						</tr>
+					</c:forEach>
+				</table>
+			</div>
+			
 		</form>
 		
 	</body>

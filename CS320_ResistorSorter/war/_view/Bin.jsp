@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Take Resistor</title>
+		<title>Bins</title>
 		<style type="text/css">
 		.error {
 			color: red;
@@ -60,7 +60,7 @@
 						
 					<c:forEach items="${bins}" var="item" varStatus="status">
  						<tr> 
- 							<td>${status.index+1}</td>
+ 							<td>${item.bin_id}</td>
  						 	<td>${item.resistance}</td>
  						 	<td>${item.count}</td>
  						 	<td><input type="Submit" name="deleteBin${item.bin_id}" value="Delete"></td>

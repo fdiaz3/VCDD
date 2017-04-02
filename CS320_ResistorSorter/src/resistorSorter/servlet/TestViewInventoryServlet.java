@@ -13,20 +13,36 @@ import javax.servlet.http.HttpServletResponse;
 import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.IDatabase;
+import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryController;
+import resistorSorter.controllers.RackController;
+import resistorSorter.model.Bin;
 import resistorSorter.model.Inventory;
+import resistorSorter.model.Rack;
 
 public class TestViewInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private InventoryController Inventorycontroller;
+	private InventoryController inventoryController;
+	private RackController rackController;
+	private BinController binController;
+	
+	private int inventory_id;
+	private int rack_id;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		Inventorycontroller = new InventoryController();
+		inventoryController = new InventoryController();
 		displayInventories(req);
+		
+		rackController = new RackController();
+		displayRacks(req);
+		
+		binController = new BinController();
+		displayBins(req);
+		
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
@@ -41,8 +57,24 @@ public class TestViewInventoryServlet extends HttpServlet {
 	
 	private void displayInventories(HttpServletRequest req){
 		//display inventories
-		List<Inventory> inventories = Inventorycontroller.displayInventories();
+		List<Inventory> inventories = inventoryController.displayInventories();
 		req.setAttribute("inventories", inventories);
 	}
+	
+	private void displayRacks(HttpServletRequest req){
+		//display inventories
+		//-1 used to display all racks regardless of inventory_id
+		List<Rack> racks = rackController.displayRacks(-1);
+		req.setAttribute("racks", racks);
+		
+	}
+	
+	private void displayBins(HttpServletRequest req){
+		//display bins
+		//-1 used to display all bins regardless of rackID
+		List<Bin> bins = binController.displayBins(-1);
+		req.setAttribute("bins", bins);
+	}
+
 	
 }

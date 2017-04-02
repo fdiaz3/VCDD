@@ -61,7 +61,7 @@
 						
 					<c:forEach items="${racks}" var="item" varStatus="status">
  						<tr> 
- 							<td>${status.index+1}</td>
+ 							<td>${item.rack_id}</td>
  						 	<td>${item.tolerance}</td>
  						 	<td>${item.wattage}</td>
  						 	<td><input type="Submit" name="deleteRack${item.rack_id}" value="Delete"></td>
