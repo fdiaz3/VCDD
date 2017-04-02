@@ -72,7 +72,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
+		Connection conn = DriverManager.getConnection("jdbc:derby:Inventory.db;create=true");
 		
 		// Set autocommit to false to allow execution of
 		// multiple queries/statements as part of the same transaction.
@@ -91,37 +91,37 @@ public class DerbyDatabase implements IDatabase {
 
 				try {
 					stmt1 = conn.prepareStatement(
-						"create table inventories (" +
-						"	inventory_id integer primary key " +
-						"		generated always as identity (start with 1, increment by 1), " +									
-						"	bincapacity integer," +
-						"	userremovelimit integer" +
-						")"
+
+						"CREATE TABLE inventories("
+						+ " inventory_id integer primary key"
+						+ " generated always as identity (start with 1, increment by 1),"
+						+ " bincapacity integer,"
+						+ " userremovelimit integer"
+						+ ")"
 					);	
 					stmt1.executeUpdate();
 					
 					stmt2 = conn.prepareStatement(
-							"create table racks (" +
-							"	rack_id integer primary key " +
-							"		generated always as identity (start with 1, increment by 1), " +
-							"	inventory_id integer constraint inventory_id references inventories, " +
-							"	tolerance float," +
-							"   wattage float " +
-							")"
+						"CREATE TABLE racks("
+						+ " rack_id integer primary key"
+						+ " generated always as identity (start with 1, increment by 1),"
+						+ " inventory_id integer constraint inventory_id references inventories on delete cascade,"
+						+ " tolerance float,"
+						+ " wattage float"
+						+ ")"
 					);
 					stmt2.executeUpdate();
 					
 					stmt3 = conn.prepareStatement(
-							"create table bins (" +
-							"	bin_id integer primary key " +
-							"		generated always as identity (start with 1, increment by 1), " +	
-							"		rack_id integer constraint rack_id references racks, " +
-							"	count integer," +
-							"	resistance integer" +
-							")"
-						);	
+						"CREATE TABLE bins("
+						+ " bin_id integer primary key"
+						+ " generated always as identity (start with 1, increment by 1),"
+						+ " rack_id integer constraint rack_id references racks on delete cascade,"
+						+ " count integer,"
+						+ " resistance integer"
+						+ ")"
+					);
 					stmt3.executeUpdate();
-						
 						
 					return true;
 				} finally {
@@ -371,8 +371,6 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.executeUpdate();
 					
 					
-
-					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -424,7 +422,7 @@ public class DerbyDatabase implements IDatabase {
 
 				try {
 					stmt = conn.prepareStatement(
-							"delete from inventories"
+							"delete from bins"
 							+ " where bin_id = ?"
 					);
 					stmt.setInt(1, binID);

@@ -111,7 +111,7 @@
 						
 					<c:forEach items="${inventories}" var="item" varStatus="status">
  						<tr> 
- 							<td>${status.index+1}</td>
+ 							<td>${item.inventory_id}</td>
  						 	<td>${item.binCapacity}</td>
  						 	<td>${item.userRemoveLimit}</td>
  						 	<td><input type="Submit" name="deleteInventory${item.inventory_id}" value="Delete"></td>

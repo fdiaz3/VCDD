@@ -19,13 +19,13 @@ import resistorSorter.model.Inventory;
 public class TestViewInventoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private InventoryController controller;
+	private InventoryController Inventorycontroller;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		controller = new InventoryController();
+		Inventorycontroller = new InventoryController();
 		displayInventories(req);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
@@ -41,7 +41,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 	
 	private void displayInventories(HttpServletRequest req){
 		//display inventories
-		List<Inventory> inventories = controller.displayInventories();
+		List<Inventory> inventories = Inventorycontroller.displayInventories();
 		req.setAttribute("inventories", inventories);
 	}
 	
