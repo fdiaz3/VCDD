@@ -6,30 +6,53 @@
 <html>
 	<head>
 		<title>View Inventory</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
+		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
 	<body>
+	<div class="container">
+			<div class="row">
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
+		<div class="row">
+		<nav role="navigation" class="navbar navbar-default">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">VCDD</a>
+    </div>
+    <!-- Collection of nav links and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="http://localhost:8081/resistorSorter/Inventory">Home</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Bin">Bins</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Rack">Racks</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/TestViewInventory">Full Inventory</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+</nav>
+		</div>
 		
 		<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 		
 		
 		
-		<div style="float:left; border:solid">
-				<table>
+		<div>
+				<table class="col-md-4">
 					<tr>
-						<td class="label">Inventory ID: </td> <td class="label">BinCapacity: </td> 	<td class="label">RemoveLimit: </td>
+						<th class="label">Inventory ID </th> <th class="label">BinCapacity </th> 	<th class="label">RemoveLimit </th>
 					</tr>
 					<c:forEach items="${inventories}" var="item" varStatus="status">
  						<tr> 
@@ -41,10 +64,10 @@
 				</table>
 		</div>
 		
-		<div style="float:left; border:solid">
-				<table>
+		<div>
+				<table class="col-md-4">
 					<tr>
-						<td class="label">Rack ID: </td> <td class="label">Inventory ID: </td> <td class="label">Tolerance: </td> 	<td class="label">Power: </td>
+						<th class="label">Rack ID</th> <th class="label">Inventory ID</th> <th class="label">Tolerance</th> 	<th class="label">Power</th>
 					</tr>
 					<c:forEach items="${racks}" var="item" varStatus="status">
  						<tr> 
@@ -57,10 +80,10 @@
 				</table>
 			</div>
 		
-		<div style="float:left; border:solid">
-				<table>
+		<div>
+				<table class="col-md-4">
 					<tr>
-						<td class="label">Bin ID: </td> <td class="label">Rack ID: </td> <td class="label">Resistance: </td> 	<td class="label">Count: </td>
+						<th class="label">Bin ID</th> <th class="label">Rack ID</th> <th class="label">Resistance</th> 	<th class="label">Count</th>
 					</tr>
 					<c:forEach items="${bins}" var="item" varStatus="status">
  						<tr> 
@@ -74,7 +97,8 @@
 			</div>
 			
 		</form>
-		
+		</div>
+		</div>
 	</body>
 	
 </html>
