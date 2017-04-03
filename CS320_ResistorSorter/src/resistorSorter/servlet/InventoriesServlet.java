@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import resistorSorter.controllers.InventoryController;
 import resistorSorter.model.Inventory;
 
-public class InventoryServlet extends HttpServlet {
+public class InventoriesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private InventoryController controller;
@@ -22,7 +22,7 @@ public class InventoryServlet extends HttpServlet {
 		
 		controller = new InventoryController();
 		displayInventories(req);
-		req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);	
+		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);	
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class InventoryServlet extends HttpServlet {
 			
 			controller.addInventory(binCapacity, userRemoveLimit);
 			displayInventories(req);
-			req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 		
 		}
 		
@@ -52,7 +52,7 @@ public class InventoryServlet extends HttpServlet {
 			if(req.getParameter("deleteInventory" + i) != null){
 				controller.removeInventory(i);
 				displayInventories(req);
-				req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 			}
 		}
 

@@ -7,64 +7,48 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>Inventory</servlet-name>
-    <servlet-class>resistorSorter.servlet.InventoryServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>MultiplyNumbers</servlet-name>
-    <servlet-class>resistorSorter.servlet.MultiplyNumbersServlet</servlet-class>
+    <servlet-name>Inventories</servlet-name>
+    <servlet-class>resistorSorter.servlet.InventoriesServlet</servlet-class>
   </servlet>
    <servlet>
-    <servlet-name>ReplaceResistor</servlet-name>
-    <servlet-class>resistorSorter.servlet.ReplaceResistorServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>TakeResistor</servlet-name>
-    <servlet-class>resistorSorter.servlet.TakeResistorServlet</servlet-class>
+    <servlet-name>Racks</servlet-name>
+    <servlet-class>resistorSorter.servlet.RacksServlet</servlet-class>
   </servlet>
    <servlet>
-    <servlet-name>Rack</servlet-name>
-    <servlet-class>resistorSorter.servlet.RackServlet</servlet-class>
-  </servlet>
-   <servlet>
-    <servlet-name>Bin</servlet-name>
-    <servlet-class>resistorSorter.servlet.BinServlet</servlet-class>
+    <servlet-name>Bins</servlet-name>
+    <servlet-class>resistorSorter.servlet.BinsServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>TestViewInventory</servlet-name>
     <servlet-class>resistorSorter.servlet.TestViewInventoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Resistor</servlet-name>
+    <servlet-class>resistorSorter.servlet.ResistorServlet</servlet-class>
   </servlet>
   
 
 
   <!-- Servlet mappings -->
   <servlet-mapping>
-    <servlet-name>Inventory</servlet-name>
-    <url-pattern>/Inventory</url-pattern>
+    <servlet-name>Inventories</servlet-name>
+    <url-pattern>/Inventories</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>MultiplyNumbers</servlet-name>
-    <url-pattern>/MultiplyNumbers</url-pattern>
+    <servlet-name>Bins</servlet-name>
+    <url-pattern>/Bins</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>ReplaceResistor</servlet-name>
-    <url-pattern>/ReplaceResistor</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>TakeResistor</servlet-name>
-    <url-pattern>/TakeResistor</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Bin</servlet-name>
-    <url-pattern>/Bin</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Rack</servlet-name>
-    <url-pattern>/Rack</url-pattern>
+    <servlet-name>Racks</servlet-name>
+    <url-pattern>/Racks</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
    <servlet-name>TestViewInventory</servlet-name>
     <url-pattern>/TestViewInventory</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>Resistor</servlet-name>
+    <url-pattern>/Resistor</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

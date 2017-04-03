@@ -21,7 +21,7 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-		<form action="${pageContext.servletContext.contextPath}/Bin" method="post">
+		<form action="${pageContext.servletContext.contextPath}/Bins" method="post">
 		
 			<div style="float:left;">
 				<table>

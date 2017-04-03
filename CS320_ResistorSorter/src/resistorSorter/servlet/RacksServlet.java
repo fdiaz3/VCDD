@@ -14,7 +14,7 @@ import resistorSorter.controllers.RackController;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
 
-public class RackServlet extends HttpServlet {
+public class RacksServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private RackController controller;
@@ -26,7 +26,7 @@ public class RackServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class RackServlet extends HttpServlet {
 		
 		//pass inventory_id back to jsp
 		req.setAttribute("inventory_id", inventory_id);
-		req.getRequestDispatcher("/_view/Rack.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {

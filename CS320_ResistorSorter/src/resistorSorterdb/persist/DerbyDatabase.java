@@ -472,21 +472,24 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					//get count
 					stmt1 = conn.prepareStatement(
-							"select bins.count"
+							"select bins.count from bins"
 							+ " where bin_id = ?"
 									
 					);
 					stmt1.setInt(1, bin_id);
 					resultSet = stmt1.executeQuery();
+					resultSet.next();
 					int newCount = resultSet.getInt(1) + count;
 				
 					
 					//update count
 					stmt2 = conn.prepareStatement(
 							"update bins"
-							+ " set count = ?"		
+							+ " set count = ?"	
+							+ " where bin_id = ?"
 					);
 					stmt2.setInt(1, newCount);
+					stmt2.setInt(2, bin_id);
 					stmt2.executeUpdate();
 					
 					
@@ -514,21 +517,24 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					//get count
 					stmt1 = conn.prepareStatement(
-							"select bins.count"
+							"select bins.count from bins"
 							+ " where bin_id = ?"
 									
 					);
 					stmt1.setInt(1, bin_id);
 					resultSet = stmt1.executeQuery();
+					resultSet.next();
 					int newCount = resultSet.getInt(1) - count;
 				
 					
 					//update count
 					stmt2 = conn.prepareStatement(
 							"update bins"
-							+ " set count = ?"		
+							+ " set count = ?"	
+							+ " where bin_id = ?"		
 					);
 					stmt2.setInt(1, newCount);
+					stmt2.setInt(2, bin_id);
 					stmt2.executeUpdate();
 					
 					
@@ -543,8 +549,36 @@ public class DerbyDatabase implements IDatabase {
 		
 	}
 
-
-
+	
+	@Override
+	public int getCount(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.count"
+							+ " from bins"
+							+ " where bin_id = ?"
+									
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+		
+	}
 
 
 

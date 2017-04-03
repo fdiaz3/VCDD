@@ -21,7 +21,7 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-		<form action="${pageContext.servletContext.contextPath}/Rack" method="post">
+		<form action="${pageContext.servletContext.contextPath}/Racks" method="post">
 		
 			
 			<div style="float:left;">

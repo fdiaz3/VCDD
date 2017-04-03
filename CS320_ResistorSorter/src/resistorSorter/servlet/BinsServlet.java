@@ -15,7 +15,7 @@ import resistorSorter.model.Bin;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
 
-public class BinServlet extends HttpServlet {
+public class BinsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private BinController controller;
@@ -26,7 +26,7 @@ public class BinServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("/_view/Bin.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/Bins.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class BinServlet extends HttpServlet {
 		
 		//pass inventory_id back to jsp
 		req.setAttribute("rack_id", rack_id);
-		req.getRequestDispatcher("/_view/Bin.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/Bins.jsp").forward(req, resp);
 	}	
 		
 
