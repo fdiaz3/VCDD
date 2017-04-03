@@ -6,53 +6,74 @@
 <html>
 	<head>
 		<title>Inventories</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
+		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
 	<body>
+	<div class="container">
+			<div class="row">
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
 
 
-		
+		<nav role="navigation" class="navbar navbar-default">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">VCDD</a>
+    </div>
+    <!-- Collection of nav links and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="http://localhost:8081/resistorSorter/Inventories">Home</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Racks">Racks</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Bins">Bins</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Bins">Resistor</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/TestViewInventory">Full Inventory</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+</nav>
 		<form action="${pageContext.servletContext.contextPath}/Inventories" method="post">
 		
 	
-		<div style="float:left;">
-				<table>
+		<div>
+				<table class="col-md-6">
 					<tr>
-						<td class="label">Bin Capacity:</td>
+						<th class="label">Bin Capacity:</th>
 						<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
 					</tr>
 					
 					<tr>
 						
-						<td class="label">User Remove Limit: </td>
+						<th class="label">User Remove Limit: </th>
 						<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 						
 					</tr>
 					
 					<tr>
-						<td><input type="Submit" name="initializeInventory" value="Add Inventory!"></td>
+						<th><th><input type="Submit" name="initializeInventory" value="Add Inventory!"></th>
 					</tr>
-		
+			
 				</table>
 			</div>
 			<div>
-				<table>
+				<table class="col-md-6">
 					
 					<tr>
-						<td class="label">Inventory #: </td> <td class="label">BinCapacity: </td> 	<td class="label">RemoveLimit: </td>
+						<th class="label">Inventory #</th> <th class="label">BinCapacity</th> 	<th class="label">RemoveLimit</th><th>
 					</tr>
 						
 					<c:forEach items="${inventories}" var="item" varStatus="status">
@@ -68,7 +89,8 @@
 				</table>
 			</div>
 		</form>
-		
+		</div>
+		</div>
 	</body>
 	
 </html>

@@ -5,58 +5,79 @@
 <html>
 	<head>
 		<title>Racks</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
+		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
+		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
 	<body>
+		<div class="container">
+			<div class="row">
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
-		
+		<nav role="navigation" class="navbar navbar-default">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">VCDD</a>
+    </div>
+    <!-- Collection of nav links and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="http://localhost:8081/resistorSorter/Inventories">Home</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Racks">Racks</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Bins">Bins</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/Bins">Resistor</a></li>
+            <li><a href="http://localhost:8081/resistorSorter/TestViewInventory">Full Inventory</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+</nav>
 		<form action="${pageContext.servletContext.contextPath}/Racks" method="post">
 		
 			
-			<div style="float:left;">
-				<table>
+			<div>
+				<table class="col-md-6">
 			
 					<tr>
-						<td class="label">Inventory ID: </td>
+						<th class="label">Inventory ID: </th>
 						<td><input type="text" name="inventory_id" size="12" value="${inventory_id}" /></td>
 					</tr>
 				
 					<tr>
-						<td><input type="Submit" name="displayRacks" value="Display Racks!"></td>
+						<th><th><input type="Submit" name="displayRacks" value="Display Racks!"></th>
 					</tr>
 				
 					<tr>
-						<td class="label">Tolerance: </td>
+						<th class="label">Tolerance: </th>
 						<td><input type="text" name="tolerance" size="12"/></td>
 					</tr>
 				
 					<tr>
-						<td class="label">Power: </td>
+						<th class="label">Power: </th>
 						<td><input type="text" name="power" size="12"/></td>
 					</tr>
 				
 					<tr>
-						<td><input type="Submit" name="addRack" value="Add Rack!"></td>
+						<th><th><input type="Submit" name="addRack" value="Add Rack!"></th>
 					</tr>
 				</table>
 			</div>
 			
 			<div>
-				<table>
+				<table class="col-md-6">
 					
 					<tr>
-						<td class="label">Rack #: </td> <td class="label">Tolerance: </td> 	<td class="label">Power: </td>
+						<th>Rack # </th> <th>Tolerance </th> 	<th>Power </th> <th>
 					</tr>
 						
 					<c:forEach items="${racks}" var="item" varStatus="status">
@@ -73,7 +94,8 @@
 			</div>
 			
 		</form>
-		
+		</div>
+		</div>
 	</body>
 	
 </html>

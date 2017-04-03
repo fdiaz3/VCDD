@@ -1,14 +1,10 @@
 package resistorSorter.model;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Rack{
 	
 	//Parameters//
 	private float tolerance;
 	private float wattage;
-	private int binLength;
 	private int inventory_id;
 	private int rack_id;
 	
