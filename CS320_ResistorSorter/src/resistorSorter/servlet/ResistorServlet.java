@@ -47,10 +47,12 @@ public class ResistorServlet extends HttpServlet {
 		
 		if (req.getParameter("addResistors") != null) {
 			binController.addResistor(bin_id, getInteger(req, "count"));
+			count = db.getCount(bin_id);
 			
 		}
 		else if (req.getParameter("removeResistors") != null) {
 			binController.removeResistor(bin_id, getInteger(req, "count"));
+			count = db.getCount(bin_id);
 		}
 
 		//sending back info
