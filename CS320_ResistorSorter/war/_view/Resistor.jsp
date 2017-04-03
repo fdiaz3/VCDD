@@ -38,7 +38,7 @@
 					
 					<tr>
 						<td class="label">Count: </td>
-						<td><input type="text" name="count" size="12" value="${count}" /></td>
+						<td><input type="text" name="count" size="12" value="0" /></td>
 					</tr>
 					
 					<tr>
