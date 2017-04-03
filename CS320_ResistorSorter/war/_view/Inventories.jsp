@@ -15,6 +15,7 @@
 			text-align: right;
 		}
 		</style>
+		
 	</head>
 
 	<body>
@@ -22,8 +23,13 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		
-
-
+		<p>
+			<a href="Inventories" class="btn">Inventories</a>
+			<a href="Racks" class="btn">Racks</a>
+			<a href="Bins" class="btn">Bins</a>
+			<a href="Resistor" class="btn">Resistor</a>
+			<a href="TestViewInventory" class="btn">TestViewInventory</a>
+		</p>
 		
 		<form action="${pageContext.servletContext.contextPath}/Inventories" method="post">
 		
