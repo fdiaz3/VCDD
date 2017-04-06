@@ -39,23 +39,19 @@ public class ResistorServlet extends HttpServlet {
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
-		//getting count based on bin_id
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		count = db.getCount(bin_id);
-		
 		
 		if (req.getParameter("addResistors") != null) {
-			binController.addResistor(bin_id, getInteger(req, "count"));
-			count = db.getCount(bin_id);
+			binController.addResistor(bin_id, getInteger(req, "countChange"));
 			
 		}
 		else if (req.getParameter("removeResistors") != null) {
-			binController.removeResistor(bin_id, getInteger(req, "count"));
-			count = db.getCount(bin_id);
+			binController.removeResistor(bin_id, getInteger(req, "countChange"));
 		}
-
-		//sending back info
+		
+		//getting updated count based on bin_id
+		count = binController.getCount(bin_id);
+		
+		//sending info back to jsp
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
 		
