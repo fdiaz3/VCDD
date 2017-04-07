@@ -1,6 +1,5 @@
 package resistorSorter.main;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import org.eclipse.jetty.server.Server;

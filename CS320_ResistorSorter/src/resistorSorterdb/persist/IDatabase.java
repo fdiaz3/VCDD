@@ -30,6 +30,5 @@ public interface IDatabase {
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);
-	public void dropAllTables();
 	
 }

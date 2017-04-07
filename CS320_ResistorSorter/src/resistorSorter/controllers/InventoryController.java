@@ -12,7 +12,8 @@ public class InventoryController {
 
 	Inventory model;
 	IDatabase db;
-	//With model
+	
+	//constructor with model
 	public InventoryController(Inventory model, String database){
 		if (database == "inventory"){
 			DatabaseProvider.setInstance(new DerbyDatabase());
@@ -22,6 +23,8 @@ public class InventoryController {
 		db = DatabaseProvider.getInstance();
 		this.model = model;
 	}
+	
+	//constructor without model
 	public InventoryController(String database){
 		model = null;
 		if (database == "inventory"){
@@ -31,6 +34,10 @@ public class InventoryController {
 		}
 		db = DatabaseProvider.getInstance();
 	}
+	
+	
+	
+	
 		//Add rack is pressed
 		public void addInventory(int binCapacity, int userRemoveLimit){
 			db.insertInventory(binCapacity, userRemoveLimit);

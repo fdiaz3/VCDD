@@ -2,7 +2,6 @@ package resistorSorter.controllers;
 import java.util.List;
 
 import resistorSorter.model.Bin;
-import resistorSorter.model.Inventory;
 import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorterdb.persist.IDatabase;
@@ -52,11 +51,17 @@ public class BinController {
 		}
 		
 		public void removeResistor(int bin_id, int count){
-			
 			db.removeResistors(bin_id, count);
-			
 		}
+		
 		public int getCount(int bin_id){
 			return db.getCount(bin_id);
 		}
+		public int getUserRemoveLimit(int bin_id){
+			return db.getUserRemoveLimit(bin_id);
+		}
+		public int getCapacity(int bin_id){
+			return db.getCapacity(bin_id);
+		}
+		
 }

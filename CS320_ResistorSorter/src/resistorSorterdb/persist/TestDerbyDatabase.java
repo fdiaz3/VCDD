@@ -89,7 +89,7 @@ public class TestDerbyDatabase implements IDatabase {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
-
+				
 				try {
 					stmt1 = conn.prepareStatement(
 
@@ -125,9 +125,9 @@ public class TestDerbyDatabase implements IDatabase {
 					stmt3.executeUpdate();
 					
 				System.out.println("TestInventory Created");
+				
 				} catch(SQLException e){
-					
-					System.out.println("TestInventory Loaded");
+					System.out.println("Test inventory loaded");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
@@ -145,6 +145,46 @@ public class TestDerbyDatabase implements IDatabase {
 		TestDerbyDatabase db = new TestDerbyDatabase();
 		db.createTables();
 
+	}
+	
+	public static void deleteDataBase(){
+		TestDerbyDatabase db = new TestDerbyDatabase();
+		db.dropTables();
+	}
+	
+	
+	public void dropTables() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				try {
+					//delete all tables
+					stmt1 = conn.prepareStatement(
+						"drop table bins"
+					);
+					stmt1.executeUpdate();
+					
+					stmt2 = conn.prepareStatement(
+						"drop table racks"
+					);
+					stmt2.executeUpdate();
+					
+					stmt3 = conn.prepareStatement(
+						"drop table inventories"
+					);
+					stmt3.executeUpdate();
+					System.out.println("Test inventory deleted");
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -644,31 +684,7 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
-	@Override
-	public void dropAllTables() {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				
-				try {
-					//get count
-					stmt1 = conn.prepareStatement(
-							"delete from inventories, racks, bins"
-									
-					);
-
-					stmt1.executeUpdate();
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-		
-	}
+	
 
 
 

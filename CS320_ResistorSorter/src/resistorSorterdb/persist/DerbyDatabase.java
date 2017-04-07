@@ -1,6 +1,5 @@
 package resistorSorterdb.persist;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -141,8 +140,7 @@ public class DerbyDatabase implements IDatabase {
 	
 	// The main method creates the database tables and loads the initial data.
 	public static void loadDataBase(){
-		
-		TestDerbyDatabase db = new TestDerbyDatabase();
+		DerbyDatabase db = new DerbyDatabase();
 		db.createTables();
 
 	}
@@ -644,31 +642,7 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
-	@Override
-	public void dropAllTables() {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				
-				try {
-					//get count
-					stmt1 = conn.prepareStatement(
-							"delete from inventories, racks, bins"
-									
-					);
-
-					stmt1.executeUpdate();
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-		
-	}
+	
 
 
 
