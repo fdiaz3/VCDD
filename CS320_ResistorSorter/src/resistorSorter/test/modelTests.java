@@ -5,32 +5,25 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import resistorSorter.controllers.BinController;
-import resistorSorter.controllers.InventoryController;
-import resistorSorter.controllers.RackController;
 import resistorSorter.model.Bin;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
 import resistorSorter.model.User;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.IDatabase;
 
 
-public class resistorSorterTest {
+
+public class modelTests {
 
 	private Inventory modelInventory1, modelInventory2;
 	private Rack modelRack1, modelRack2, modelRack3, modelRack4;
 	private Bin modelBin1, modelBin2, modelBin3, modelBin4;
 	private User modelUser;
 
-	private InventoryController controlInv;
-	private RackController controlRack;
-	private BinController controlBin;
+
 	
 	@Before
-	public void setUp() {
-			
+	public void setUp() throws Exception{
+		
 		//Initialize inventory object with a bin capacity of 500 and user remove limit of 100
 		modelInventory1 = new Inventory(1,500,100);
 		modelInventory2 = new Inventory(2,400,150);
@@ -47,11 +40,6 @@ public class resistorSorterTest {
 		modelBin4 = new Bin(4, 4, 100, "10-ohm");
 		//Create a user object to test
 		modelUser = new User("username", 14);
-		
-		/////////////////////////////////////////////
-		controlInv = new InventoryController();
-		controlRack = new RackController();
-		controlBin = new BinController();
 	}
 		
 	//Tests///////////////////////////////////////////////////////////////////////////
@@ -99,50 +87,7 @@ public class resistorSorterTest {
 		
 		assertTrue(modelRack1.getInventory_id() == 1);
 	}
-	
-	@Test 
-	public void testAddInventory(){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		controlInv.addInventory(500, 100);
-		assertTrue(db.getAllInventories().get(0).getBinCapacity() == 500);
-		assertTrue(db.getAllInventories().get(0).getUserRemoveLimit() == 100);
-	}
-	
-	@Test 
-	public void testRemoveInventory(){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		controlInv.addInventory(500, 100);
-		int size1 = db.getAllInventories().size();
-		db.removeInventory(db.getAllInventories().size());
-		int size2 = db.getAllInventories().size();
-		assertTrue(size2 == size1-1);
-	}
-	
-	@Test 
-	public void testRemoveInventoryWithRacks(){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		controlInv.addInventory(500, 100);
-		controlRack.addRack(5, (float) 0.5, 1);
-		controlRack.addRack(7, (float)0.25, 1);
-		int size1 = db.getAllInventories().size();
-		
-		try{
-			db.removeInventory(1);
-		}
-		catch(resistorSorterdb.persist.PersistenceException e){
-			System.out.println("Not removing inventories correctly!!");
-			assertTrue(false);
-		}
-		int size2 = db.getAllInventories().size();
-		assertTrue(size2 == size1-1);
-		
 
-	}
-	//////////////////////////////////////////////////////////////////////////////////
-	
 	//Rack Methods test///////////////////////////////////////////////////////////////
 	
 	@Test
@@ -234,4 +179,6 @@ public class resistorSorterTest {
 		assertTrue(modelBin4.getBin_id() == 4);
 	}
 	/////////////////////////////////////////////////////////////////////////////////
+
+	
 }

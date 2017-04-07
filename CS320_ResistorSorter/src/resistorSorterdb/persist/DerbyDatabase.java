@@ -72,8 +72,9 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:Inventory.db;create=true");
 		
+		Connection conn = DriverManager.getConnection("jdbc:derby:Inventory.db;create=true");
+
 		// Set autocommit to false to allow execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);
@@ -81,7 +82,7 @@ public class DerbyDatabase implements IDatabase {
 		return conn;
 	}
 	
-	public void createTables() {
+	public void createTables(){
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -122,27 +123,28 @@ public class DerbyDatabase implements IDatabase {
 						+ ")"
 					);
 					stmt3.executeUpdate();
-						
-					return true;
-				} finally {
+					
+				System.out.println("Inventory Created");
+				} catch(SQLException e){
+					
+					System.out.println("Inventory Loaded");
+					
+				}finally{
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
 				}
+				return true;
 			}
 		});
 	}
 	
 	// The main method creates the database tables and loads the initial data.
-	public static void main(String[] args) throws IOException {
-		System.out.println("Creating tables...");
-		DerbyDatabase db = new DerbyDatabase();
+	public static void loadDataBase(){
+		
+		TestDerbyDatabase db = new TestDerbyDatabase();
 		db.createTables();
-		
-		//System.out.println("Loading initial data...");
-		//db.loadInitialData();
-		
-		System.out.println("Success!");
+
 	}
 
 	@Override
@@ -573,6 +575,94 @@ public class DerbyDatabase implements IDatabase {
 					
 				} finally {
 					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+		
+	}
+
+	@Override
+	public int getUserRemoveLimit(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select inventories.userremovelimit"
+							+ " from inventories, racks, bins"
+							+ " where bins.rack_id = racks.rack_id"
+							+ " and racks.inventory_id = inventories.inventory_id"
+							+ " and bin_id = ?"
+									
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
+	@Override
+	public int getCapacity(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select inventories.bincapacity"
+							+ " from inventories, racks, bins"
+							+ " where bins.rack_id = racks.rack_id"
+							+ " and racks.inventory_id = inventories.inventory_id"
+							+ " and bin_id = ?"
+									
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
+	@Override
+	public void dropAllTables() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				
+				try {
+					//get count
+					stmt1 = conn.prepareStatement(
+							"delete from inventories, racks, bins"
+									
+					);
+
+					stmt1.executeUpdate();
+					
+					return true;
+				} finally {
 					DBUtil.closeQuietly(stmt1);
 				}
 			}

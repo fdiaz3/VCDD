@@ -1,8 +1,6 @@
 package resistorSorter.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.BinController;
-import resistorSorter.controllers.RackController;
-import resistorSorter.model.Bin;
-import resistorSorter.model.Inventory;
-import resistorSorter.model.Rack;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.IDatabase;
 
 public class ResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +26,7 @@ public class ResistorServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		binController = new BinController();
+		binController = new BinController("inventory");
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
