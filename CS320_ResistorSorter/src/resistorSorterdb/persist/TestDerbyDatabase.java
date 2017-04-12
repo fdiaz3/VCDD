@@ -139,12 +139,9 @@ public class TestDerbyDatabase implements IDatabase {
 		});
 	}
 	
-	// The main method creates the database tables and loads the initial data.
 	public static void loadDataBase(){
-		
 		TestDerbyDatabase db = new TestDerbyDatabase();
 		db.createTables();
-
 	}
 	
 	public static void deleteDataBase(){

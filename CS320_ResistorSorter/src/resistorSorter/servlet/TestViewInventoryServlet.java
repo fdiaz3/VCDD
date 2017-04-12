@@ -50,8 +50,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-
+		if (req.getParameter("resetInventory") != null) {
+			DerbyDatabase.deleteDataBase();
+			DerbyDatabase.loadDataBase();
+		}
 		
+		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
 	

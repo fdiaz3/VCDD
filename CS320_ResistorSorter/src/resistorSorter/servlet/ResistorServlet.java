@@ -15,7 +15,7 @@ public class ResistorServlet extends HttpServlet {
 	private BinController binController;
 	private int bin_id;
 	private int count;
-	
+	String error;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -32,17 +32,18 @@ public class ResistorServlet extends HttpServlet {
 		bin_id = getInteger(req, "bin_id");
 		
 		if (req.getParameter("addResistors") != null) {
-			binController.addResistor(bin_id, getInteger(req, "countChange"));
+			error = binController.addResistor(bin_id, getInteger(req, "countChange"));
 			
 		}
 		else if (req.getParameter("removeResistors") != null) {
-			binController.removeResistor(bin_id, getInteger(req, "countChange"));
+			error = binController.removeResistor(bin_id, getInteger(req, "countChange"));
 		}
 		
 		//getting updated count based on bin_id
 		count = binController.getCount(bin_id);
 		
 		//sending info back to jsp
+		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
 		

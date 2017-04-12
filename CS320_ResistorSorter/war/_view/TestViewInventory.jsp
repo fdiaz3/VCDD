@@ -48,7 +48,7 @@
 		
 		<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 		
-		
+		<div> <input type="Submit" name="resetInventory" value="Reset Inventory"></div>
 		
 		<div>
 				<table class="col-md-4">

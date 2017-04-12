@@ -138,13 +138,50 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	// The main method creates the database tables and loads the initial data.
 	public static void loadDataBase(){
 		DerbyDatabase db = new DerbyDatabase();
 		db.createTables();
-
 	}
-
+	
+	public static void deleteDataBase(){
+		DerbyDatabase db = new DerbyDatabase();
+		db.dropTables();
+	}
+	
+	public void dropTables() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				try {
+					//delete all tables
+					stmt1 = conn.prepareStatement(
+						"drop table bins"
+					);
+					stmt1.executeUpdate();
+					
+					stmt2 = conn.prepareStatement(
+						"drop table racks"
+					);
+					stmt2.executeUpdate();
+					
+					stmt3 = conn.prepareStatement(
+						"drop table inventories"
+					);
+					stmt3.executeUpdate();
+					System.out.println("Inventory deleted");
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void insertInventory(int binCapacity, int userRemoveLimit) {
 		executeTransaction(new Transaction<Boolean>() {

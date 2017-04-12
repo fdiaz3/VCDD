@@ -45,13 +45,36 @@ public class BinController {
 			return db.getAllBins(rackID);
 		}
 		
-		public void addResistor(int bin_id, int count){
-			//get userRemoveLimit from database based on bin_id
-			db.addResistors(bin_id, count);
+		public String addResistor(int bin_id, int addition){
+			int count = db.getCount(bin_id);
+			int capacity = db.getCapacity(bin_id);
+			
+			if(addition < 0){
+				return "Can't add negative values";
+			} else if(count + addition > capacity){
+				return "Exceeding Capacity";
+			}
+			
+			//if all tests pass
+			db.addResistors(bin_id, addition);
+			return null;
 		}
 		
-		public void removeResistor(int bin_id, int count){
-			db.removeResistors(bin_id, count);
+		public String removeResistor(int bin_id, int subtraction){
+			int count = db.getCount(bin_id);
+			int removelimit = db.getUserRemoveLimit(bin_id);
+			
+			if(subtraction < 0){
+				return "Can't subtract negative values";
+			} else if(count > removelimit){
+				return "Exceeding Remove Limit";
+			} else if(count - subtraction < 0){
+				return "Subtracting more than avaliable";
+			}			
+			
+			//if all tests pass
+			db.removeResistors(bin_id, subtraction);
+			return null;
 		}
 		
 		public int getCount(int bin_id){
