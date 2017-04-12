@@ -66,7 +66,7 @@ public class BinController {
 			
 			if(subtraction < 0){
 				return "Can't subtract negative values";
-			} else if(count > removelimit){
+			} else if(subtraction > removelimit){
 				return "Exceeding Remove Limit";
 			} else if(count - subtraction < 0){
 				return "Subtracting more than avaliable";

@@ -46,7 +46,12 @@
 		
 			<div>
 				<table class="col-md-6">
-			
+				
+					<tr>
+						<th class="label">Capacity: ${capacity} </th>  <th class="label">User Remove Limit: ${userRemoveLimit}</th>
+						
+					</tr>
+				
 					<tr>
 						<th class="label">Bin ID: </th>
 						<td><input type="text" name="bin_id" size="12" value="${bin_id}" /></td>

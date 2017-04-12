@@ -15,6 +15,8 @@ public class ResistorServlet extends HttpServlet {
 	private BinController binController;
 	private int bin_id;
 	private int count;
+	private int userRemoveLimit;
+	private int capacity;
 	String error;
 	
 	@Override
@@ -30,7 +32,7 @@ public class ResistorServlet extends HttpServlet {
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
-		
+
 		if (req.getParameter("addResistors") != null) {
 			error = binController.addResistor(bin_id, getInteger(req, "countChange"));
 			
@@ -39,13 +41,19 @@ public class ResistorServlet extends HttpServlet {
 			error = binController.removeResistor(bin_id, getInteger(req, "countChange"));
 		}
 		
-		//getting updated count based on bin_id
+		//getting updated info based on bin_id
 		count = binController.getCount(bin_id);
+		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
+		capacity = binController.getCapacity(bin_id);
+		
 		
 		//sending info back to jsp
 		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
+		req.setAttribute("userRemoveLimit", userRemoveLimit);
+		req.setAttribute("capacity", capacity);
+		
 		
 		req.getRequestDispatcher("/_view/Resistor.jsp").forward(req, resp);
 	}
