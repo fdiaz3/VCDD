@@ -34,13 +34,13 @@ public class TestViewInventoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		inventoryController = new InventoryController();
+		inventoryController = new InventoryController("inventory");
 		displayInventories(req);
 		
-		rackController = new RackController();
+		rackController = new RackController("inventory");
 		displayRacks(req);
 		
-		binController = new BinController();
+		binController = new BinController("inventory");
 		displayBins(req);
 		
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
@@ -50,8 +50,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-
+		if (req.getParameter("resetInventory") != null) {
+			DerbyDatabase.deleteDataBase();
+			DerbyDatabase.loadDataBase();
+		}
 		
+		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
 	

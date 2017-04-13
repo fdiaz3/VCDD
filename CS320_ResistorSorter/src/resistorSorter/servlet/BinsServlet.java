@@ -34,7 +34,7 @@ public class BinsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//setup controller
-		controller = new BinController();
+		controller = new BinController("inventory");
 		//first time entering this servlet
 
 		//get parameters from jsp
@@ -90,3 +90,4 @@ public class BinsServlet extends HttpServlet {
 		req.setAttribute("bins", bins);
 	}
 }
+

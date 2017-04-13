@@ -6,6 +6,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import resistorSorterdb.persist.DerbyDatabase;
+
+
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8081);
@@ -21,7 +24,10 @@ public class Main {
 		
 		// Start the server
 		server.start();
-		
+
+		//creates the database if it doesn't exist
+		DerbyDatabase.loadDataBase();
+
 		// Wait for the user to type "quit"
 		System.out.println("Web server started, type quit to shut down");
 		Scanner keyboard = new Scanner(System.in);

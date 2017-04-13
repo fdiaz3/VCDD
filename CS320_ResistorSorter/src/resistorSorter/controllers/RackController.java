@@ -1,44 +1,46 @@
 package resistorSorter.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 
-import resistorSorter.model.Bin;
 import resistorSorter.model.Rack;
 import resistorSorterdb.persist.DatabaseProvider;
 import resistorSorterdb.persist.DerbyDatabase;
 import resistorSorterdb.persist.IDatabase;
+import resistorSorterdb.persist.TestDerbyDatabase;
 
 public class RackController {
 	Rack model;
+	IDatabase db;
 	
-	public RackController(Rack model){
+	public RackController(Rack model, String database){
+		if (database == "inventory"){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+		}else{
+			DatabaseProvider.setInstance(new TestDerbyDatabase());
+		}
+		db = DatabaseProvider.getInstance();
 		this.model = model;
 	}
-	public RackController(){
+	public RackController(String database){
 		model = null;
+		if (database == "inventory"){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+		}else{
+			DatabaseProvider.setInstance(new TestDerbyDatabase());
+		}
+		db = DatabaseProvider.getInstance();
 	}
-	
 	//Add rack is pressed
 	public void addRack(float tolerance, float wattage, int inventory_id){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		
 		db.insertRack(inventory_id, tolerance, wattage);
 	}
 	
 	//Delete rack is pressed
 	public void removeRack(int rackID){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		
 		db.removeRack(rackID);
 	}
 	
 	public List<Rack> displayRacks(int inventory_id){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		
 		return db.getAllRacks(inventory_id);
 	}
 }

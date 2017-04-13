@@ -1,8 +1,6 @@
 package resistorSorter.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.BinController;
-import resistorSorter.controllers.RackController;
-import resistorSorter.model.Bin;
-import resistorSorter.model.Inventory;
-import resistorSorter.model.Rack;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.IDatabase;
 
 public class ResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +15,9 @@ public class ResistorServlet extends HttpServlet {
 	private BinController binController;
 	private int bin_id;
 	private int count;
-	
+	private int userRemoveLimit;
+	private int capacity;
+	String error;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -35,29 +28,32 @@ public class ResistorServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		binController = new BinController();
+		binController = new BinController("inventory");
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
-		//getting count based on bin_id
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		count = db.getCount(bin_id);
-		
-		
+
 		if (req.getParameter("addResistors") != null) {
-			binController.addResistor(bin_id, getInteger(req, "count"));
-			count = db.getCount(bin_id);
+			error = binController.addResistor(bin_id, getInteger(req, "countChange"));
 			
 		}
 		else if (req.getParameter("removeResistors") != null) {
-			binController.removeResistor(bin_id, getInteger(req, "count"));
-			count = db.getCount(bin_id);
+			error = binController.removeResistor(bin_id, getInteger(req, "countChange"));
 		}
-
-		//sending back info
+		
+		//getting updated info based on bin_id
+		count = binController.getCount(bin_id);
+		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
+		capacity = binController.getCapacity(bin_id);
+		
+		
+		//sending info back to jsp
+		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
+		req.setAttribute("userRemoveLimit", userRemoveLimit);
+		req.setAttribute("capacity", capacity);
+		
 		
 		req.getRequestDispatcher("/_view/Resistor.jsp").forward(req, resp);
 	}

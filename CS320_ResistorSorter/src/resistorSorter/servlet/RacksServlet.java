@@ -34,7 +34,7 @@ public class RacksServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//setup controller
-		controller = new RackController();
+		controller = new RackController("inventory");
 		
 		//get parameters from jsp
 		inventory_id = getInteger(req, "inventory_id");

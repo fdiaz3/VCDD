@@ -20,7 +20,7 @@ public class InventoriesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		controller = new InventoryController();
+		controller = new InventoryController("inventory");
 		displayInventories(req);
 		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);	
 	}
@@ -30,7 +30,7 @@ public class InventoriesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//setup controller
-		controller = new InventoryController();
+		controller = new InventoryController("inventory");
 		
 		//getting parameters from jsp
 		int binCapacity = getInteger(req, "binCapacity");
