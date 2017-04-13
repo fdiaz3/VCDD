@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Racks</title>
+		<title>Resistors</title>
 		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
 		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
 		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
