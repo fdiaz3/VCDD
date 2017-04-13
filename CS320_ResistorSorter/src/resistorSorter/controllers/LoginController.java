@@ -1,6 +1,6 @@
 package resistorSorter.controllers;
 
-import edu.ycp.cs320.lab02.model.Library;
+import resistorSorter.model.Library;
 
 public class LoginController {
 	private Library model = null;
