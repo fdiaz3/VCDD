@@ -6,7 +6,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import resistorSorterdb.persist.DerbyDatabase;
+import resistorSorter.persist.DerbyDatabase;
 
 
 public class Main {

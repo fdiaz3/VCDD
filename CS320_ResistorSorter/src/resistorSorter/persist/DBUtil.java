@@ -1,4 +1,4 @@
-package resistorSorterdb.persist;
+package resistorSorter.persist;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

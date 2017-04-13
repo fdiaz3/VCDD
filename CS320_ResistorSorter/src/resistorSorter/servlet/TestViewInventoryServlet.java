@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.IDatabase;
+import resistorSorter.persist.DerbyDatabase;
+import resistorSorter.persist.DatabaseProvider;
+import resistorSorter.persist.IDatabase;
 import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryController;
 import resistorSorter.controllers.RackController;

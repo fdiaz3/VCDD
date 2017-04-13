@@ -1,4 +1,4 @@
-package resistorSorterdb.persist;
+package resistorSorter.persist;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import resistorSorterdb.persist.DBUtil;
+import resistorSorter.persist.DBUtil;
 import resistorSorter.model.*;
 
 public class DerbyDatabase implements IDatabase {

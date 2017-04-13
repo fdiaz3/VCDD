@@ -1,4 +1,4 @@
-package resistorSorterdb.persist;
+package resistorSorter.persist;
 
 public class DatabaseProvider {
 	private static IDatabase theInstance;

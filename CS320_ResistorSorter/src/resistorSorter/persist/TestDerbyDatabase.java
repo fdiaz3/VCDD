@@ -1,4 +1,4 @@
-package resistorSorterdb.persist;
+package resistorSorter.persist;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import resistorSorterdb.persist.DBUtil;
+import resistorSorter.persist.DBUtil;
 import resistorSorter.model.*;
 
 public class TestDerbyDatabase implements IDatabase {
