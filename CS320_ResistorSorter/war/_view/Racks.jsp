@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<title>Racks</title>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
 		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
 		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
@@ -47,6 +48,7 @@
 			
 			<div>
 				<table class="col-md-6">
+				
 			
 					<tr>
 						<th class="label">Inventory ID: </th>

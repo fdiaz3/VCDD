@@ -9,7 +9,7 @@ import org.junit.Test;
 import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryController;
 import resistorSorter.controllers.RackController;
-import resistorSorterdb.persist.TestDerbyDatabase;
+import resistorSorter.persist.TestDerbyDatabase;
 
 
 public class controllerTests {
@@ -61,7 +61,7 @@ public class controllerTests {
 		try{
 			inventoryController.removeInventory(1);
 		}
-		catch(resistorSorterdb.persist.PersistenceException e){
+		catch(resistorSorter.persist.PersistenceException e){
 			System.out.println("Not removing inventories correctly!!");
 			assertTrue(false);
 		}

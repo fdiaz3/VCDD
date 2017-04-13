@@ -90,4 +90,3 @@ public class BinsServlet extends HttpServlet {
 		req.setAttribute("bins", bins);
 	}
 }
-

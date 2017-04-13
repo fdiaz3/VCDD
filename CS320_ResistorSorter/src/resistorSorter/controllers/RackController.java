@@ -3,10 +3,10 @@ package resistorSorter.controllers;
 import java.util.List;
 
 import resistorSorter.model.Rack;
-import resistorSorterdb.persist.DatabaseProvider;
-import resistorSorterdb.persist.DerbyDatabase;
-import resistorSorterdb.persist.IDatabase;
-import resistorSorterdb.persist.TestDerbyDatabase;
+import resistorSorter.persist.DatabaseProvider;
+import resistorSorter.persist.DerbyDatabase;
+import resistorSorter.persist.IDatabase;
+import resistorSorter.persist.TestDerbyDatabase;
 
 public class RackController {
 	Rack model;
