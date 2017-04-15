@@ -40,4 +40,6 @@ public class Library {
 		}			
 		return false;
 	}
+	//DISCLAIMER//
+	//All work seen in here has been copied, but modified from the Library example//
 }

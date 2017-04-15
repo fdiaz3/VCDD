@@ -26,8 +26,14 @@
     <servlet-name>Resistor</servlet-name>
     <servlet-class>resistorSorter.servlet.ResistorServlet</servlet-class>
   </servlet>
-  
-
+  <servlet>
+  	<servlet-name>Login</servlet-name>
+  	<servlet-class>resistorSorter.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>CreateAccount</servlet-name>
+  	<servlet-class>resistorSorter.servlet.CreateAccountServlet</servlet-class>
+  </servlet>
 
   <!-- Servlet mappings -->
   <servlet-mapping>
@@ -50,7 +56,14 @@
    <servlet-name>Resistor</servlet-name>
     <url-pattern>/Resistor</url-pattern>
   </servlet-mapping>
-
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateAccount</servlet-name>
+    <url-pattern>/CreateAccount</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>

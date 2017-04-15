@@ -88,6 +88,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
 
 				try {
 					stmt1 = conn.prepareStatement(
@@ -123,6 +124,15 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt3.executeUpdate();
 					
+					stmt4 = conn.prepareStatement(
+							"CREATE TABLE users("
+							+ " user_id integer primary key"
+							+ " generated always as identity (start with 1, increment by 1),"
+							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean"
+							+ ")"
+						);
+					stmt4.executeUpdate();
+					
 				System.out.println("Inventory Created");
 				} catch(SQLException e){
 					
@@ -132,6 +142,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
 				}
 				return true;
 			}
@@ -155,6 +166,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
 				try {
 					//delete all tables
 					stmt1 = conn.prepareStatement(
@@ -172,11 +184,16 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt3.executeUpdate();
 					System.out.println("Inventory deleted");
+					stmt4 = conn.prepareStatement(
+						"drop table users"
+					);
+					stmt4.executeUpdate();
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
 				}
 			}
 		});
@@ -677,6 +694,99 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});	
+	}
+
+	@Override
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq) values (?, ?, ?, ?, ?)");
+					stmt.setString(1, username);
+					stmt.setString(2, password);
+					stmt.setString(3, firstname);
+					stmt.setString(4, lastname);
+					stmt.setBoolean(5, adminReq);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public boolean checkExistingUsernames(String username) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(username)"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 0 listings then username is good
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public boolean validateCredentials(String username, String password) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(username)"
+							+ " from users"
+							+ " where users.username = ? and users.password = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					stmt1.setString(2, password);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 1 listings then user exists
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+
 	}
 
 	

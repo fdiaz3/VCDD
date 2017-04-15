@@ -33,14 +33,14 @@
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/resistorSorter/Inventories">Home</a></li>
+            <li><a href="/resistorSorter/Inventories">Home</a></li>
             <li><a href="/resistorSorter/Racks">Racks</a></li>
             <li><a href="/resistorSorter/Bins">Bins</a></li>
             <li><a href="/resistorSorter/Resistor">Resistor</a></li>
-            <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
+            <li class="active"><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Login</a></li>
+            <li><a href="/resistorSorter/Login">Login</a></li>
         </ul>
     </div>
 </nav>

@@ -42,7 +42,7 @@
             <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Login</a></li>
+            <li><a href="/resistorSorter/Login">Login</a></li>
         </ul>
     </div>
 </nav>

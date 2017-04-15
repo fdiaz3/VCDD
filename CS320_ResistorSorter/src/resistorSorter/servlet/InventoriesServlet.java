@@ -19,7 +19,6 @@ public class InventoriesServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		controller = new InventoryController("inventory");
 		displayInventories(req);
 		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);	
