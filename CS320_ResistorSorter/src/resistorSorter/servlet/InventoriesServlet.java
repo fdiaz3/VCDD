@@ -14,13 +14,13 @@ import resistorSorter.model.Inventory;
 public class InventoriesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private InventoryController controller;
+	private InventoryController inventoryController;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		controller = new InventoryController("inventory");
+		inventoryController = new InventoryController("inventory");
 		displayInventories(req);
 		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);	
 	}
@@ -30,7 +30,7 @@ public class InventoriesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//setup controller
-		controller = new InventoryController("inventory");
+		inventoryController = new InventoryController("inventory");
 		
 		//getting parameters from jsp
 		int binCapacity = getInteger(req, "binCapacity");
@@ -41,7 +41,7 @@ public class InventoriesServlet extends HttpServlet {
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
 			
-			controller.addInventory(binCapacity, userRemoveLimit);
+			inventoryController.addInventory(binCapacity, userRemoveLimit);
 			displayInventories(req);
 			req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 		
@@ -50,7 +50,7 @@ public class InventoriesServlet extends HttpServlet {
 		//delete an inventory
 		for(int i=1; i<1000; i++){
 			if(req.getParameter("deleteInventory" + i) != null){
-				controller.removeInventory(i);
+				inventoryController.removeInventory(i);
 				displayInventories(req);
 				req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 			}
@@ -71,7 +71,7 @@ public class InventoriesServlet extends HttpServlet {
 	
 	private void displayInventories(HttpServletRequest req){
 		//display inventories
-		List<Inventory> inventories = controller.displayInventories();
+		List<Inventory> inventories = inventoryController.displayInventories();
 		req.setAttribute("inventories", inventories);
 	}
 	

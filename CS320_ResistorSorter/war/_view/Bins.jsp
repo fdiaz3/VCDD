@@ -5,9 +5,10 @@
 <html>
 	<head>
 		<title>Bins</title>
-		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
-		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
-		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
@@ -48,7 +49,7 @@
 							<table class="col-md-6">
 								
 								<tr>
-									<th class="label"> Rack ID: </th>
+									<th> Rack ID: </th>
 									<td><input type="text" name="rack_id" size="12" value="${rack_id}" /></td>
 								</tr>
 							
@@ -57,12 +58,12 @@
 								</tr>
 								
 								<tr>
-									<th class="label">Resistance: </th>
+									<th>Resistance: </th>
 									<td><input type="text" name="resistance" size="12"/></td>
 								</tr>
 							
 								<tr>
-									<th class="label">Count: </th>
+									<th>Count: </th>
 									<td><input type="text" name="count" size="12"/></td>
 								</tr>
 							
