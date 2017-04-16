@@ -31,4 +31,8 @@ public interface IDatabase {
 	//All of the removing methods
 	public void removeInventory(int inventoryID);
 	
+	//User related methods
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq);
+	public boolean checkExistingUsernames(String username);
+	public boolean validateCredentials(String username, String password);
 }

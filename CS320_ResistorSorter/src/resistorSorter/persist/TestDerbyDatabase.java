@@ -681,6 +681,27 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean checkExistingUsernames(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean validateCredentials(String username, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+>>>>>>> refs/remotes/dwebb4/master
 	
 
 

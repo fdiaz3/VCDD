@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import resistorSorter.controllers.InventoryController;
 import resistorSorter.controllers.RackController;
 import resistorSorter.model.Inventory;
 import resistorSorter.model.Rack;
@@ -18,9 +17,7 @@ import resistorSorter.model.Rack;
 public class RacksServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private RackController rackController;
-	private InventoryController inventoryController;
-	
+	private RackController controller;
 	private int inventory_id;
 	private float tolerance;
 	private float power;
@@ -28,11 +25,7 @@ public class RacksServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		//setup inventoryController and display inventory ids
-		inventoryController = new InventoryController("inventory");
-		displayInventories(req);
-		
+
 		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}
 	
@@ -40,16 +33,14 @@ public class RacksServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//setup controllers
-		rackController = new RackController("inventory");
-		inventoryController = new InventoryController("inventory");
-		
-		
+		//setup controller
+		controller = new RackController("inventory");
 		
 		//get parameters from jsp
 		inventory_id = getInteger(req, "inventory_id");
 		tolerance = getFloat(req, "tolerance");
 		power = getFloat(req, "power");
+		System.out.println(inventory_id);
 		
 		//display racks
 		if (req.getParameter("displayRacks") != null) {
@@ -59,7 +50,7 @@ public class RacksServlet extends HttpServlet {
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
 			
-			rackController.addRack(tolerance, power, inventory_id);
+			controller.addRack(tolerance, power, inventory_id);
 			displayRacks(req);
 		
 		}
@@ -67,7 +58,7 @@ public class RacksServlet extends HttpServlet {
 		//delete a rack
 		for(int i=1; i<1000; i++){
 			if(req.getParameter("deleteRack" + i) != null){
-				rackController.removeRack(i);
+				controller.removeRack(i);
 				displayRacks(req);
 				
 			}
@@ -76,9 +67,6 @@ public class RacksServlet extends HttpServlet {
 		
 		//pass inventory_id back to jsp
 		req.setAttribute("inventory_id", inventory_id);
-		//pass list of inventories back to jsp
-		displayInventories(req);
-		
 		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}
 	
@@ -106,14 +94,8 @@ public class RacksServlet extends HttpServlet {
 	private void displayRacks(HttpServletRequest req){
 		//display inventories
 		inventory_id = getInteger(req, "inventory_id");
-		List<Rack> racks = rackController.displayRacks(inventory_id);
+		List<Rack> racks = controller.displayRacks(inventory_id);
 		req.setAttribute("racks", racks);
+		
 	}
-	
-	private void displayInventories(HttpServletRequest req){
-		//display inventories
-		List<Inventory> inventories = inventoryController.displayInventories();
-		req.setAttribute("inventories", inventories);
-	}
-	
 }
