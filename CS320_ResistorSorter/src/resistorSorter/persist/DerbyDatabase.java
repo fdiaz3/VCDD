@@ -295,7 +295,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					// check if the title was found
 					if (!found) {
-						System.out.println("no Inventories in the inventories table");
+						//System.out.println("no Inventories in the inventories table");
 					}
 					
 					return result;
@@ -354,7 +354,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					// check if the title was found
 					if (!found) {
-						System.out.println("no Racks in the Racks table");
+						//System.out.println("no Racks in the Racks table");
 					}
 					
 					return result;
@@ -413,7 +413,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					// check if the title was found
 					if (!found) {
-						System.out.println("no Bins in the Bins table");
+						//System.out.println("no Bins in the Bins table");
 					}
 					
 					return result;

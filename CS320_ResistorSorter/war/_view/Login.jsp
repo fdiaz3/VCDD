@@ -7,10 +7,11 @@ All work seen in here has been copied, but modified from the Library example -->
 
 <html>
 	<head>
-		<title>Inventories</title>
-		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
-		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
-		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
+		<title>Resistors</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
@@ -42,7 +43,7 @@ All work seen in here has been copied, but modified from the Library example -->
             <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a"href="/resistorSorter/Login">Login</a></li>
+            <li class="active"><a href="/resistorSorter/Login">Login</a></li>
         </ul>
     </div>
 </nav>
@@ -50,11 +51,11 @@ All work seen in here has been copied, but modified from the Library example -->
 			<div>
 				<table class="col-md-6">
 					<tr>
-						<th class="label">User Name:</th>
+						<th>User Name:</th>
 						<td><input type="text" name="username" size="12" value="${username}" /></td>
 					</tr>
 					<tr>
-						<th class="label">Password:</th>
+						<th>Password:</th>
 						<td><input type="text" name="password" size="12" value="${password}" /></td>
 					</tr>
 					<tr>
@@ -67,7 +68,7 @@ All work seen in here has been copied, but modified from the Library example -->
 			<div>
 				<table class="col-md-6">
 					<tr>
-						<td class="label">Don't have an account? Click here to get started!</td>
+						<th>Don't have an account? Click here to get started!</th>
 						<td><input type="Submit" name="createAccount" value="Create Account"></td>
 					</tr>
 				</table>

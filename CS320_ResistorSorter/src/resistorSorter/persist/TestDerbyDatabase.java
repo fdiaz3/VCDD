@@ -681,6 +681,8 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
+<<<<<<< HEAD
+=======
 	@Override
 	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq) {
 		// TODO Auto-generated method stub
@@ -699,6 +701,7 @@ public class TestDerbyDatabase implements IDatabase {
 		return false;
 	}
 
+>>>>>>> refs/remotes/dwebb4/master
 	
 
 

@@ -5,11 +5,24 @@
 
 <html>
 	<head>
-		<title>View Inventory</title>
-		<link href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" rel="stylesheet" type="text/css">
+	
+	<!-- UNUSED
 		<link href= "_view/css/bootstrap-theme.min.css" rel= "stylesheet" type= "text/css">
 		<link href= "_view/css/bootstrap.min.css" rel= "stylesheet" type= "text/css">
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
+	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  		<script src="_view/bootstrap.min.js"></script>
+	 -->
+	
+		<title>View Inventory</title>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
+  		
 	</head>
 
 	<body>
@@ -53,7 +66,7 @@
 		<div>
 				<table class="col-md-4">
 					<tr>
-						<th class="label">Inventory ID </th> <th class="label">BinCapacity </th> 	<th class="label">RemoveLimit </th>
+						<th> Inventory ID </th> <th>BinCapacity </th> 	<th>RemoveLimit </th>
 					</tr>
 					<c:forEach items="${inventories}" var="item" varStatus="status">
  						<tr> 
@@ -68,7 +81,7 @@
 		<div>
 				<table class="col-md-4">
 					<tr>
-						<th class="label">Rack ID</th> <th class="label">Inventory ID</th> <th class="label">Tolerance</th> 	<th class="label">Power</th>
+						<th>Rack ID</th> <th>Inventory ID</th> <th>Tolerance</th> 	<th>Power</th>
 					</tr>
 					<c:forEach items="${racks}" var="item" varStatus="status">
  						<tr> 
@@ -84,7 +97,7 @@
 		<div>
 				<table class="col-md-4">
 					<tr>
-						<th class="label">Bin ID</th> <th class="label">Rack ID</th> <th class="label">Resistance</th> 	<th class="label">Count</th>
+						<th>Bin ID</th> <th>Rack ID</th> <th>Resistance</th> 	<th>Count</th>
 					</tr>
 					<c:forEach items="${bins}" var="item" varStatus="status">
  						<tr> 
@@ -96,10 +109,13 @@
 					</c:forEach>
 				</table>
 			</div>
-			
-		</form>
+
+		</form>	
+		
 		</div>
 		</div>
+
+
 	</body>
 	
 </html>
