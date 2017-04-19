@@ -22,31 +22,12 @@ All work seen in here has been copied, but modified from the Library example -->
 				<div class="error">${errorMessage}</div>
 			</c:if>
 	
-				<nav role="navigation" class="navbar navbar-default">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a href="#" class="navbar-brand">VCDD</a>
-    </div>
-    <!-- Collection of nav links and other content for toggling -->
-    <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="/resistorSorter/Inventories">Home</a></li>
-            <li><a href="/resistorSorter/Racks">Racks</a></li>
-            <li><a href="/resistorSorter/Bins">Bins</a></li>
-            <li><a href="/resistorSorter/Resistor">Resistor</a></li>
-            <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="/resistorSorter/Login">Login</a></li>
-        </ul>
-    </div>
-</nav>
+	  <div class="jumbotron">
+	    <h1>Login</h1> 
+	    <p>Welcome to The Voltage Current Divider Divider</p> 
+	  </div>
+
+
 		<form action="${pageContext.servletContext.contextPath}/Login" method="post">
 			<div>
 				<table class="col-md-6">

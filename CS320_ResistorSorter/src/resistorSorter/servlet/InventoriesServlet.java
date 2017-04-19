@@ -20,6 +20,17 @@ public class InventoriesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		
+		String user = (String) req.getSession().getAttribute("user");
+		if (user == null) {
+			System.out.println("   User: <" + user + "> not logged in or session timed out");
+			
+			// user is not logged in, or the session expired
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
+		
+		
 		inventoryController = new InventoryController("inventory");
 		displayInventories(req);
 		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);	
@@ -36,27 +47,20 @@ public class InventoriesServlet extends HttpServlet {
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 		
-		
-		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			
 			inventoryController.addInventory(binCapacity, userRemoveLimit);
-			displayInventories(req);
-			req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
-		
 		}
 		
 		//delete an inventory
-		for(int i=1; i<1000; i++){
-			if(req.getParameter("deleteInventory" + i) != null){
-				inventoryController.removeInventory(i);
-				displayInventories(req);
-				req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
-			}
+		if (req.getParameter("deleteInventory") != null) {
+			int deleteInventoryID = getInteger(req, "deleteInventory");
+			inventoryController.removeInventory(deleteInventoryID);
 		}
-
 		
+		//re-send info to be displayed
+		displayInventories(req);
+		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {
