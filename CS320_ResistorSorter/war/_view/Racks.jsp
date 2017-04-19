@@ -18,7 +18,7 @@
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
-		<nav role="navigation" class="navbar navbar-default">
+		<nav class="navbar navbar-inverse">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -56,9 +56,21 @@
 					
 					<td>
 						<select class="form-control" name="inventory_id">
-							<!-- default value after post -->
-							<option selected> ${inventory_id} </option>
+						
+						<c:if test="${empty inventory_id}">
+								<option selected disabled> Select an Inventory ID </option>
+							</c:if>
+						
+						
 							<c:forEach items="${inventories}" var="item">
+							
+							<!-- default value after post -->
+							<!-- if an inventory_id comes back from servlet, display it as the selected one -->
+							<!-- (value =) is what gets passed back to the servlet -->
+							<c:if test="${item.inventory_id == inventory_id}">
+								<option selected value = "${item.inventory_id}"> ID${item.inventory_id} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
+							</c:if>
+
 							<!-- test used to prevent showing selected value twice -->
 							<c:if test="${item.inventory_id != inventory_id}">
 								<option value = "${item.inventory_id}">ID${item.inventory_id} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
@@ -102,8 +114,7 @@
  							<td>${item.rack_id}</td>
  						 	<td>${item.tolerance}</td>
  						 	<td>${item.wattage}</td>
- 						 	<td><input type="Submit" name="deleteRack${item.rack_id}" value="Delete"></td>
- 						 	
+ 						 	<td><button type="submit" name="deleteRack" value="${item.rack_id}">Delete</button></td> 
  						</tr>
 					</c:forEach>
 

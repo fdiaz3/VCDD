@@ -44,40 +44,28 @@ public class RacksServlet extends HttpServlet {
 		rackController = new RackController("inventory");
 		inventoryController = new InventoryController("inventory");
 		
-		
-		
 		//get parameters from jsp
 		inventory_id = getInteger(req, "inventory_id");
 		tolerance = getFloat(req, "tolerance");
 		power = getFloat(req, "power");
 		
-		//display racks
-		if (req.getParameter("displayRacks") != null) {
-			displayRacks(req);
-		}
-		
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
-			
 			rackController.addRack(tolerance, power, inventory_id);
-			displayRacks(req);
-		
 		}
-		
+
 		//delete a rack
-		for(int i=1; i<1000; i++){
-			if(req.getParameter("deleteRack" + i) != null){
-				rackController.removeRack(i);
-				displayRacks(req);
-				
-			}
+		if (req.getParameter("deleteRack") != null) {
+			int deleteRackID = getInteger(req, "deleteRack");
+			rackController.removeRack(deleteRackID);
 		}
-		
-		
-		//pass inventory_id back to jsp
-		req.setAttribute("inventory_id", inventory_id);
-		//pass list of inventories back to jsp
+
+		//re-send info to be displayed
 		displayInventories(req);
+		displayRacks(req);
+		
+		//pass inventory_id back to jsp to change the default selected value in the drop-down menu
+		req.setAttribute("inventory_id", inventory_id);
 		
 		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}

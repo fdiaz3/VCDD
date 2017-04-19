@@ -18,7 +18,7 @@
 					<c:if test="${! empty errorMessage}">
 						<div class="error">${errorMessage}</div>
 					</c:if>
-					<nav role="navigation" class="navbar navbar-default">
+					<nav class="navbar navbar-inverse">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -85,7 +85,7 @@
 			 							<td>${item.bin_id}</td>
 			 						 	<td>${item.resistance}</td>
 			 						 	<td>${item.count}</td>
-			 						 	<td><input type="Submit" name="deleteBin${item.bin_id}" value="Delete"></td>
+			 						 	<td><button type="submit" name="deleteBin" value="${item.bin_id}">Delete</button></td> 
 			 						 	
 			 						</tr>
 								</c:forEach>

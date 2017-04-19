@@ -18,7 +18,7 @@ import resistorSorter.model.Rack;
 public class BinsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private BinController controller;
+	private BinController binController;
 	private int rack_id;
 	private int resistance;
 	private int count;
@@ -34,36 +34,26 @@ public class BinsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		//setup controller
-		controller = new BinController("inventory");
-		//first time entering this servlet
+		binController = new BinController("inventory");
 
 		//get parameters from jsp
 		rack_id = getInteger(req, "rack_id");
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
-		System.out.println(rack_id);
-			
-		if (req.getParameter("displayBins") != null) {
-			displayBins(req);
-		}
 		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			
-			controller.addBin(rack_id, resistance, count);;
-			displayBins(req);
-		
+			binController.addBin(rack_id, resistance, count);;
 		}
 		
 		//delete a bin
-		for(int i=1; i<1000; i++){
-			if(req.getParameter("deleteBin" + i) != null){
-				controller.removeBin(i);;
-				displayBins(req);
-				
-			}
+		if (req.getParameter("deleteBin") != null) {
+			int deleteBinID = getInteger(req, "deleteBin");
+			binController.removeBin(deleteBinID);
 		}
 		
+		//re-send info to be displayed
+		displayBins(req);
 		
 		//pass inventory_id back to jsp
 		req.setAttribute("rack_id", rack_id);
@@ -86,7 +76,7 @@ public class BinsServlet extends HttpServlet {
 	private void displayBins(HttpServletRequest req){
 		//display bins
 		rack_id = getInteger(req, "rack_id");
-		List<Bin> bins = controller.displayBins(rack_id);
+		List<Bin> bins = binController.displayBins(rack_id);
 		req.setAttribute("bins", bins);
 	}
 }

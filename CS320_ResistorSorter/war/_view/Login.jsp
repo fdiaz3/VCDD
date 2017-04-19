@@ -22,7 +22,7 @@ All work seen in here has been copied, but modified from the Library example -->
 				<div class="error">${errorMessage}</div>
 			</c:if>
 	
-				<nav role="navigation" class="navbar navbar-default">
+				<nav class="navbar navbar-inverse">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">

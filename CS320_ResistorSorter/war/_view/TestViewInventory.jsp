@@ -32,7 +32,7 @@
 			<div class="error">${errorMessage}</div>
 		</c:if>
 		<div class="row">
-		<nav role="navigation" class="navbar navbar-default">
+		<nav class="navbar navbar-inverse">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
