@@ -37,11 +37,11 @@ All work seen in here has been copied, but modified from the Library example -->
 					</tr>
 					<tr>
 						<th>Password:</th>
-						<td><input type="text" name="password" size="12" value="${password}" /></td>
+						<td><input type="password" name="password" size="12" value="${password}" /></td>
 					</tr>
 					<tr>
 						<th>Re-Enter Password:</th>
-						<td><input type="text" name="passwordCheck" size="12" value="${passwordCheck}" /></td>
+						<td><input type="password" name="passwordCheck" size="12" value="${passwordCheck}" /></td>
 					</tr>
 					<tr> 
 						<th>First Name:</th>
