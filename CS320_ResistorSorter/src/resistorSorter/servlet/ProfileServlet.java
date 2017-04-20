@@ -44,6 +44,7 @@ public class ProfileServlet extends HttpServlet {
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		
 		if (req.getParameter("logout") != null) {
+			System.out.println("logout");
 			req.getSession().invalidate();
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;

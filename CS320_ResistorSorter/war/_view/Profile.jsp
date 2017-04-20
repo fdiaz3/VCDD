@@ -74,7 +74,7 @@ All work seen in here has been copied, but modified from the Library example -->
 				</table>
 			</div>
 		
-		<form action="${pageContext.servletContext.contextPath}/Profile" method="get">
+		<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
 			<div>
 				<table class="col-md-1">
 					<tr>

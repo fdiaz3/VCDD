@@ -186,33 +186,43 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
 				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
 				try {
 					//delete all tables
 					stmt1 = conn.prepareStatement(
-						"drop table bins"
-					);
+						"drop table transactions"
+						);
 					stmt1.executeUpdate();
 					
 					stmt2 = conn.prepareStatement(
-						"drop table racks"
+						"drop table bins"
 					);
 					stmt2.executeUpdate();
 					
 					stmt3 = conn.prepareStatement(
-						"drop table inventories"
+						"drop table racks"
 					);
 					stmt3.executeUpdate();
-					System.out.println("Inventory deleted");
+					
 					stmt4 = conn.prepareStatement(
-						"drop table users"
+						"drop table inventories"
 					);
 					stmt4.executeUpdate();
+					
+					stmt5 = conn.prepareStatement(
+						"drop table users"
+					);
+					stmt5.executeUpdate();
+					
+					System.out.println("database deleted");
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
 					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
 				}
 			}
 		});
