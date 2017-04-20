@@ -85,10 +85,7 @@ public class DerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt1 = null;
-				PreparedStatement stmt2 = null;
-				PreparedStatement stmt3 = null;
-				PreparedStatement stmt4 = null;
+				PreparedStatement stmt1 = null, stmt2 = null, stmt3 = null, stmt4 = null, stmt5 = null;
 
 				try {
 					stmt1 = conn.prepareStatement(
@@ -133,16 +130,35 @@ public class DerbyDatabase implements IDatabase {
 						);
 					stmt4.executeUpdate();
 					
-				System.out.println("Inventory Created");
-				} catch(SQLException e){
+					//
+					stmt5 = conn.prepareStatement(
+							"CREATE TABLE transacations("
+							+ " transaction_id integer primary key"
+							+ " generated always as identity (start with 1, increment by 1),"
+							+ " user_id integer constraint user_id references users on delete cascade,"
+							//had to add 2 to the ids because there can only be one unique constraint
+							+ " inventory_id integer constraint inventory_id2 references inventories on delete cascade,"
+							+ " rack_id integer constraint rack_id2 references racks on delete cascade,"
+							+ " bin_id integer constraint bin_id2 references bins on delete cascade,"
+							+ " transactionTime timestamp,"
+							+ " transactionType varchar(20),"
+							+ " quantity integer"
+							+ ")"
+						);
+					stmt5.executeUpdate();
 					
-					System.out.println("Inventory Loaded");
+					
+				System.out.println("Inventory Created");
+				//} catch(SQLException e){
+					
+				//	System.out.println("Inventory Loaded");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
 					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
 				}
 				return true;
 			}
