@@ -22,7 +22,7 @@ public class BinsServlet extends HttpServlet {
 	private int rack_id;
 	private int resistance;
 	private int count;
-	
+	private String errormessage;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -51,9 +51,10 @@ public class BinsServlet extends HttpServlet {
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
 		
+		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			binController.addBin(rack_id, resistance, count);
+			errormessage = binController.addBin(rack_id, resistance, count);
 		}
 		
 		//delete a bin
@@ -64,9 +65,8 @@ public class BinsServlet extends HttpServlet {
 		
 		//re-send info to be displayed
 		displayBins(req);
-		
-		//pass inventory_id back to jsp
 		req.setAttribute("rack_id", rack_id);
+		req.setAttribute("errorMessage", errormessage);
 		req.getRequestDispatcher("/_view/Bins.jsp").forward(req, resp);
 	}	
 		

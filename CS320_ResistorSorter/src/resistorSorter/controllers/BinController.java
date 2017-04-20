@@ -33,8 +33,20 @@ public class BinController {
 	}
 	
 	
-		public void addBin(int rack_id, int resistance, int count){
-			db.insertBin(rack_id, resistance, count);
+		public String addBin(int rack_id, int resistance, int count){
+			int capacity = db.getCapacityFromRack(rack_id);
+			if(count < 0){
+				System.out.println("Negative count");
+				return "Count cannot be negative";
+			}
+			else if(count > capacity){
+				System.out.println("Exceeding cap");
+				return "Count cannot exceed Bin Capacity";
+			}
+			else{
+				db.insertBin(rack_id, resistance, count);
+				return null;
+			}
 		}
 		
 		public void removeBin(int binID){
