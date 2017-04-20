@@ -23,7 +23,7 @@ public class InventoryTransaction{
 		this.inventory_id = inventory_id;
 		this.rack_id = rack_id;
 		this.bin_id = bin_id;
-		this.transactionTime = transactionTime.toString();
+		this.transactionTime = transactionTime.toString().substring(0, transactionTime.toString().indexOf("."));
 		this.transactionType = transactionType;
 		this.quantity = quantity;
 	}
