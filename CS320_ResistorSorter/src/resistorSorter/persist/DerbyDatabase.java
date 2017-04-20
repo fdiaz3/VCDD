@@ -132,7 +132,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					//
 					stmt5 = conn.prepareStatement(
-							"CREATE TABLE transacations("
+							"CREATE TABLE transactions("
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
 							+ " user_id integer constraint user_id references users on delete cascade,"
@@ -149,9 +149,9 @@ public class DerbyDatabase implements IDatabase {
 					
 					
 				System.out.println("Inventory Created");
-				//} catch(SQLException e){
+				} catch(SQLException e){
 					
-				//	System.out.println("Inventory Loaded");
+					System.out.println("Inventory Loaded");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
