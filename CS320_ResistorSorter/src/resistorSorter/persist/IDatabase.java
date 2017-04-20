@@ -28,6 +28,7 @@ public interface IDatabase {
 	public int getCount(int bin_id);
 	public int getUserRemoveLimit(int bin_id);
 	public int getCapacity(int bin_id);
+	public int getCapacityFromRack(int rack_id);
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);

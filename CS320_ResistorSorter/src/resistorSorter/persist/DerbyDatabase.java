@@ -949,6 +949,36 @@ public class DerbyDatabase implements IDatabase {
 
 	}
 
+	@Override
+	public int getCapacityFromRack(int rack_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select inventories.bincapacity"
+							+ " from inventories, racks"
+							+ " where inventories.inventory_id = racks.inventory_id"
+							+ " and racks.rack_id = ?"
+									
+					);
+					stmt1.setInt(1, rack_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
 
 
 }
