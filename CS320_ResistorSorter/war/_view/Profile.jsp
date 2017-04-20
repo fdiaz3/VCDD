@@ -53,18 +53,20 @@ All work seen in here has been copied, but modified from the Library example -->
 	    <p>From here, you can view your activity</p> 
 	  </div>
 			<div>
-				<table class="col-md-6">
+				<table class="col-md-11">
 					
 					<tr>
-						<th>Transaction Time</th> <th>Type</th> <th>Quantity</th> <th>Resistance</th> 
+						<th>Transaction Time</th> <th>Inventory ID</th> <th>Rack ID</th> <th>Bin ID</th> <th>Type</th> <th>Quantity</th>
 					</tr>
 						
-					<c:forEach items="${inventories}" var="item" varStatus="status">
+					<c:forEach items="${transactions}" var="item" varStatus="status">
  						<tr> 
- 							<td>${item.inventory_id}</td>
- 						 	<td>${item.binCapacity}</td>
- 						 	<td>${item.userRemoveLimit}</td>
- 						 	<td><button type="submit" name="deleteInventory" value="${item.inventory_id}">Delete</button></td> 	
+ 							<td>${item.transactionTime}</td>
+ 						 	<td>${item.inventory_id}</td>
+ 						 	<td>${item.rack_id}</td>
+ 						 	<td>${item.bin_id}</td>
+ 						 	<td>${item.type}</td>
+ 						 	<td>${item.quantity}</td> 	
  						</tr>
 					</c:forEach>
 
@@ -73,7 +75,7 @@ All work seen in here has been copied, but modified from the Library example -->
 		
 		<form action="${pageContext.servletContext.contextPath}/Profile" method="get">
 			<div>
-				<table class="col-md-6">
+				<table class="col-md-1">
 					<tr>
 						<td><input type="Submit" name="logout" value="Logout"></td>
 					</tr>
