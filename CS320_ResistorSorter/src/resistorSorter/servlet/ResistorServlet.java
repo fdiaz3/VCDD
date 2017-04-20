@@ -1,6 +1,7 @@
 package resistorSorter.servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,22 +9,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.BinController;
+import resistorSorter.controllers.InventoryTransactionController;
 
 public class ResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private BinController binController;
+	private InventoryTransactionController inventoryTransactionController;
 	private int bin_id;
 	private int count;
 	private int userRemoveLimit;
 	private int capacity;
+	private int countChange;
+	private String user;
 	String error;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String user = (String) req.getSession().getAttribute("user");
+		user = (String) req.getSession().getAttribute("user");
 		if (user == null) {
 			System.out.println("   User: <" + user + "> not logged in or session timed out");
 			
@@ -32,7 +37,6 @@ public class ResistorServlet extends HttpServlet {
 			return;
 		}
 		
-		
 		req.getRequestDispatcher("/_view/Resistor.jsp").forward(req, resp);
 	}
 	
@@ -40,16 +44,21 @@ public class ResistorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		binController = new BinController("inventory");
+		inventoryTransactionController = new InventoryTransactionController("inventory");
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
-
+		countChange = getInteger(req, "countChange");
+		//get user from session
+		user = (String) req.getSession().getAttribute("user");
+		
 		if (req.getParameter("addResistors") != null) {
-			error = binController.addResistor(bin_id, getInteger(req, "countChange"));
-			
+			error = binController.addResistor(bin_id, countChange);
+			inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
 		}
 		else if (req.getParameter("removeResistors") != null) {
-			error = binController.removeResistor(bin_id, getInteger(req, "countChange"));
+			error = binController.removeResistor(bin_id, countChange);
+			inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 		}
 		
 		//getting updated info based on bin_id

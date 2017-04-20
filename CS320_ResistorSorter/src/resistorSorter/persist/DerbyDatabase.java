@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +137,8 @@ public class DerbyDatabase implements IDatabase {
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
 							+ " user_id integer constraint user_id references users on delete cascade,"
+							//this username is based on user_id
+							+ " username varchar(20),"
 							//had to add 2 to the ids because there can only be one unique constraint
 							+ " inventory_id integer constraint inventory_id2 references inventories on delete cascade,"
 							+ " rack_id integer constraint rack_id2 references racks on delete cascade,"
@@ -151,7 +154,7 @@ public class DerbyDatabase implements IDatabase {
 				System.out.println("Inventory Created");
 				} catch(SQLException e){
 					
-					System.out.println("Inventory Loaded");
+					System.out.println("Inventory Loaded or creation failed");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
@@ -806,7 +809,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<InventoryTransaction> getAllTransactions(int user_id) {
+	public List<InventoryTransaction> getAllTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -815,16 +818,11 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					
-					//used for testViewInventory to display allRacks
-					
-					//most commonly used when displaying a specific rack
-					
 					stmt = conn.prepareStatement(
-							"select * from transactions, users"
-							+ " where users.user_id = transactions.user_id"
-							+ " and users.user_id = ?"
+							"select * from transactions"
+							+ " where transactions.username = ?"
 					);
-					stmt.setInt(1, user_id);
+					stmt.setString(1, username);
 					
 					
 					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
@@ -837,19 +835,25 @@ public class DerbyDatabase implements IDatabase {
 					while (resultSet.next()) {
 						found = true;
 						
-						int rackID = resultSet.getInt(1);
-						int inventoryID = resultSet.getInt(2);
-						float tolerance = resultSet.getFloat(3);
-						float wattage = resultSet.getFloat(4);
+						int transaction_id = resultSet.getInt(1);
+						int user_id = resultSet.getInt(2);
+						String userName = resultSet.getString(3);
+						int inventory_id = resultSet.getInt(4);
+						int rack_id = resultSet.getInt(5);
+						int bin_id = resultSet.getInt(6);
+						Timestamp transactionTime = resultSet.getTimestamp(7);
+						String transactionType = resultSet.getString(8);
+						int quantity = resultSet.getInt(9);
 						
-						Rack rack = new Rack(rackID, inventoryID, tolerance, wattage);
 						
-						//result.add(rack);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						
+						result.add(inventoryTransaction);
 					}
 					
-					// check if the title was found
+					// check if the inventoryTransaction was found
 					if (!found) {
-						//System.out.println("no Racks in the Racks table");
+						//do nothing
 					}
 					
 					return result;
@@ -861,9 +865,79 @@ public class DerbyDatabase implements IDatabase {
 		});
 
 	}
-
 	
+	@Override
+	public void addTransaction(String username, int bin_id, Timestamp transactionTime, String transactionType, int quantity) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				ResultSet resultSet3 = null;
 
+				try {
+					stmt1 = conn.prepareStatement(
+							"select rack_id from bins"
+							+ " where bins.bin_id = ?"
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet1 = stmt1.executeQuery();
+					resultSet1.next();
+					int rack_id = resultSet1.getInt(1);
+					
+					stmt2 = conn.prepareStatement(
+							"select inventory_id from racks"
+							+ " where racks.rack_id = ?"
+					);
+					stmt2.setInt(1, rack_id);
+					resultSet2 = stmt2.executeQuery();
+					resultSet2.next();
+					int inventory_id = resultSet2.getInt(1);
+					
+					stmt3 = conn.prepareStatement(
+							"select username from users"
+							+ " where users.username = ?"
+					);
+					stmt3.setString(1, username);
+					
+					resultSet3 = stmt3.executeQuery();
+					resultSet3.next();
+					int user_id = resultSet2.getInt(1);
+					
+					stmt4 = conn.prepareStatement(
+							"insert into transactions "
+							+ "(user_id, username, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity)"
+							+ " values (?, ?, ?, ?, ?, ?, ?, ?)");
+					stmt4.setInt(1, user_id);
+					stmt4.setString(2, username);
+					stmt4.setInt(3, inventory_id);
+					stmt4.setInt(4, rack_id);
+					stmt4.setInt(5, bin_id);
+					stmt4.setTimestamp(6, transactionTime);
+					stmt4.setString(7, transactionType);
+					stmt4.setInt(8, quantity);
+					stmt4.executeUpdate();
+					
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(resultSet3);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
+				}
+			}
+		});
+
+	}
 
 
 

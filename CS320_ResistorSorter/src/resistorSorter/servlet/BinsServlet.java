@@ -53,7 +53,7 @@ public class BinsServlet extends HttpServlet {
 		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			binController.addBin(rack_id, resistance, count);;
+			binController.addBin(rack_id, resistance, count);
 		}
 		
 		//delete a bin

@@ -1,5 +1,6 @@
 package resistorSorter.persist;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import resistorSorter.model.*;
@@ -37,5 +38,6 @@ public interface IDatabase {
 	public boolean validateCredentials(String username, String password);
 	
 	//Profile related
-	public List<InventoryTransaction> getAllTransactions(int user_id);
+	public List<InventoryTransaction> getAllTransactions(String username);
+	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
 }
