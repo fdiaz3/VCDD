@@ -132,7 +132,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					//
 					stmt5 = conn.prepareStatement(
-							"CREATE TABLE transacations("
+							"CREATE TABLE transactions("
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
 							+ " user_id integer constraint user_id references users on delete cascade,"
@@ -149,9 +149,9 @@ public class DerbyDatabase implements IDatabase {
 					
 					
 				System.out.println("Inventory Created");
-				//} catch(SQLException e){
+				} catch(SQLException e){
 					
-				//	System.out.println("Inventory Loaded");
+					System.out.println("Inventory Loaded");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
@@ -802,6 +802,63 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});		
+
+	}
+
+	@Override
+	public List<InventoryTransaction> getAllTransactions(int user_id) {
+		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
+			@Override
+			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					//used for testViewInventory to display allRacks
+					
+					//most commonly used when displaying a specific rack
+					
+					stmt = conn.prepareStatement(
+							"select * from transactions, users"
+							+ " where users.user_id = transactions.user_id"
+							+ " and users.user_id = ?"
+					);
+					stmt.setInt(1, user_id);
+					
+					
+					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int rackID = resultSet.getInt(1);
+						int inventoryID = resultSet.getInt(2);
+						float tolerance = resultSet.getFloat(3);
+						float wattage = resultSet.getFloat(4);
+						
+						Rack rack = new Rack(rackID, inventoryID, tolerance, wattage);
+						
+						//result.add(rack);
+					}
+					
+					// check if the title was found
+					if (!found) {
+						//System.out.println("no Racks in the Racks table");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 
 	}
 
