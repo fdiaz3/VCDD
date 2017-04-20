@@ -773,6 +773,12 @@ public class TestDerbyDatabase implements IDatabase {
 		});		
 
 	}
+
+	@Override
+	public List<InventoryTransaction> getAllTransactions(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 
