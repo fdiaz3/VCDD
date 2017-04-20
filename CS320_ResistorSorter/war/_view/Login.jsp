@@ -37,7 +37,7 @@ All work seen in here has been copied, but modified from the Library example -->
 					</tr>
 					<tr>
 						<th>Password:</th>
-						<td><input type="text" name="password" size="12" value="${password}" /></td>
+						<td><input type="password" name="password" size="12" value="${password}" /></td>
 					</tr>
 					<tr>
 						<th><th><input type="Submit" name="login" value="Login"></th>
