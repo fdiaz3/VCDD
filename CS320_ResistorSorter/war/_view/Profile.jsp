@@ -21,7 +21,9 @@ All work seen in here has been copied, but modified from the Library example -->
 			<c:if test="${! empty errorMessage}">
 				<div class="error">${errorMessage}</div>
 			</c:if>
-		
+			
+			
+	<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
 		<nav class="navbar navbar-inverse">
     	<!-- Brand and toggle get grouped for better mobile display -->
    		<div class="navbar-header">
@@ -43,8 +45,10 @@ All work seen in here has been copied, but modified from the Library example -->
 	            <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
-	            <li class="active"><a href="/resistorSorter/Profile">Your Profile</a></li>
+	        	<li><a href="/resistorSorter/Profile"><span class="glyphicon glyphicon-user"></span>Your Profile</a></li>
+	        	<li><button class="btn btn-danger navbar-btn" type="submit" name="logout">Logout</button></li>
 	        </ul>
+	       		
 	    </div>
 	</nav>
 	
@@ -71,15 +75,6 @@ All work seen in here has been copied, but modified from the Library example -->
  						</tr>
 					</c:forEach>
 
-				</table>
-			</div>
-		
-		<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
-			<div>
-				<table class="col-md-1">
-					<tr>
-						<td><input type="Submit" name="logout" value="Logout"></td>
-					</tr>
 				</table>
 			</div>
 		</form>
