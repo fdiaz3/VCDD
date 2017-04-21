@@ -76,9 +76,9 @@ public class controllerTests {
 	public void testgetCount(){
 		inventoryController.addInventory(500, 100);
 		rackController.addRack(5, (float) 0.5, 1);
-		binController.addBin(1, 250, 150);
+		binController.addBin(1, 250, 99);
 		
-		assertTrue(binController.getCount(1) == 150);
+		assertTrue(binController.getCount(1) == 99);
 
 	}
 	
@@ -86,7 +86,7 @@ public class controllerTests {
 	public void testgetUserRemoveLimit(){
 		inventoryController.addInventory(500, 100);
 		rackController.addRack(5, (float) 0.5, 1);
-		binController.addBin(1, 250, 150);
+		binController.addBin(1, 250, 100);
 		
 		assertTrue(binController.getUserRemoveLimit(1) == 100);
 

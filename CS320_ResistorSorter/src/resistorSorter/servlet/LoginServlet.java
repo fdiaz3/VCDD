@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.InventoryController;
 import resistorSorter.controllers.LoginController;
-import resistorSorter.model.Library;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Library model;
+
 	private LoginController controller;
 
 	@Override
@@ -37,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 		boolean validLogin  = false;
 
 		controller = new LoginController("inventory");
-		model = new Library();
+
 		// Decode form parameters and dispatch to controller
 		name = req.getParameter("username");
 		pw   = req.getParameter("password");

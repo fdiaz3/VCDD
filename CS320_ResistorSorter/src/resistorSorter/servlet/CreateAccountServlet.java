@@ -8,11 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.LoginController;
-import resistorSorter.model.Library;
 
 public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Library model;
 	private LoginController controller;
 
 	@Override
@@ -58,8 +56,7 @@ public class CreateAccountServlet extends HttpServlet {
 			validAccount = false;
 		}
 		else {
-			model = new Library();
-			controller = new LoginController(model, "inventory");
+			controller = new LoginController("inventory");
 			controller.createAccount(username, password, firstname, lastname, adminReq);
 			validAccount = true;
 		}
