@@ -103,12 +103,10 @@ public class controllerTests {
 
 	}
 	
-
+	
 	 @After
 	 public void after() throws Exception {
-		 
 		 TestDerbyDatabase.deleteDataBase();
-		 
 	 }
 
 }
