@@ -36,7 +36,6 @@ public class UserController {
 	public boolean checkUserName(String name) {
 		return model.validateUserName(name);
 	}
-	
 	public boolean validateCredentials(String name, String pw) {
 		return db.validateCredentials(name, pw);
 	}
