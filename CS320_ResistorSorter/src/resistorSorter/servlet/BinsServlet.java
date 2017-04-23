@@ -62,7 +62,12 @@ public class BinsServlet extends HttpServlet {
 			int deleteBinID = getInteger(req, "deleteBin");
 			binController.removeBin(deleteBinID);
 		}
-		
+		if (req.getParameter("logout") != null) {
+			System.out.println("logout");
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
 		//re-send info to be displayed
 		displayBins(req);
 		req.setAttribute("rack_id", rack_id);

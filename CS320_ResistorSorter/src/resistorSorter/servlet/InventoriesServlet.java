@@ -15,6 +15,7 @@ public class InventoriesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private InventoryController inventoryController;
+	private String error;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -49,17 +50,24 @@ public class InventoriesServlet extends HttpServlet {
 		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			inventoryController.addInventory(binCapacity, userRemoveLimit);
+			error = inventoryController.addInventory(binCapacity, userRemoveLimit);
 		}
 		
 		//delete an inventory
-		if (req.getParameter("deleteInventory") != null) {
+		else if (req.getParameter("deleteInventory") != null) {
 			int deleteInventoryID = getInteger(req, "deleteInventory");
 			inventoryController.removeInventory(deleteInventoryID);
+		}
+		else if (req.getParameter("logout") != null) {
+			System.out.println("logout");
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
 		}
 		
 		//re-send info to be displayed
 		displayInventories(req);
+		req.setAttribute("errorMessage", error);
 		req.getRequestDispatcher("/_view/Inventories.jsp").forward(req, resp);
 	}
 	

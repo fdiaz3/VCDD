@@ -43,6 +43,9 @@ public class BinController {
 				System.out.println("Exceeding cap");
 				return "Count cannot exceed Bin Capacity";
 			}
+			else if(resistance < 0){
+				return "Resistance cannot be negative";
+			}
 			else{
 				db.insertBin(rack_id, resistance, count);
 				return null;

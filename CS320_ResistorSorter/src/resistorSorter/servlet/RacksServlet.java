@@ -24,6 +24,8 @@ public class RacksServlet extends HttpServlet {
 	private int inventory_id;
 	private float tolerance;
 	private float power;
+	private String error;
+	private String user;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -37,7 +39,7 @@ public class RacksServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
-		
+
 		//setup inventoryController and display inventory ids
 		inventoryController = new InventoryController("inventory");
 		displayInventories(req);
@@ -49,9 +51,16 @@ public class RacksServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		if (req.getParameter("logout") != null) {
+			System.out.println("logout");
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
 		//setup controllers
 		rackController = new RackController("inventory");
 		inventoryController = new InventoryController("inventory");
+		user = (String) req.getSession().getAttribute("user");
 		
 		//get parameters from jsp
 		inventory_id = getInteger(req, "inventory_id");
@@ -60,11 +69,11 @@ public class RacksServlet extends HttpServlet {
 		
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
-			rackController.addRack(tolerance, power, inventory_id);
+			error = rackController.addRack(tolerance, power, inventory_id);
 		}
 
 		//delete a rack
-		if (req.getParameter("deleteRack") != null) {
+		else if (req.getParameter("deleteRack") != null) {
 			int deleteRackID = getInteger(req, "deleteRack");
 			rackController.removeRack(deleteRackID);
 		}
@@ -75,6 +84,7 @@ public class RacksServlet extends HttpServlet {
 		
 		//pass inventory_id back to jsp to change the default selected value in the drop-down menu
 		req.setAttribute("inventory_id", inventory_id);
+		req.setAttribute("errorMessage", error);
 		
 		req.getRequestDispatcher("/_view/Racks.jsp").forward(req, resp);
 	}

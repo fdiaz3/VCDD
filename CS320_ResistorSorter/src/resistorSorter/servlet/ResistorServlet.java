@@ -46,6 +46,13 @@ public class ResistorServlet extends HttpServlet {
 		binController = new BinController("inventory");
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		
+		if (req.getParameter("logout") != null) {
+			System.out.println("logout");
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
+		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
 		countChange = getInteger(req, "countChange");
@@ -60,7 +67,7 @@ public class ResistorServlet extends HttpServlet {
 			error = binController.removeResistor(bin_id, countChange);
 			inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 		}
-		
+
 		//getting updated info based on bin_id
 		count = binController.getCount(bin_id);
 		userRemoveLimit = binController.getUserRemoveLimit(bin_id);

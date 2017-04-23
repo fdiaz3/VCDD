@@ -31,8 +31,12 @@ public class RackController {
 		db = DatabaseProvider.getInstance();
 	}
 	//Add rack is pressed
-	public void addRack(float tolerance, float wattage, int inventory_id){
+	public String addRack(float tolerance, float wattage, int inventory_id){
+		if(tolerance < 0 || wattage < 0){
+			return "Tolerance or wattage cannot be negative";
+		}
 		db.insertRack(inventory_id, tolerance, wattage);
+		return null;
 	}
 	
 	//Delete rack is pressed

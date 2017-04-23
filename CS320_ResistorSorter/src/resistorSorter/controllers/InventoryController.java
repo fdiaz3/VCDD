@@ -39,8 +39,12 @@ public class InventoryController {
 	
 	
 		//Add rack is pressed
-		public void addInventory(int binCapacity, int userRemoveLimit){
+		public String addInventory(int binCapacity, int userRemoveLimit){
+			if(binCapacity < 0 || userRemoveLimit < 0){
+				return "Cannot have negative Bin Capacity or User Remove Limit";
+			}
 			db.insertInventory(binCapacity, userRemoveLimit);
+			return null;
 		}
 		
 		//Delete rack is pressed

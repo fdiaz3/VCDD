@@ -65,6 +65,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 			DerbyDatabase.deleteDataBase();
 			DerbyDatabase.loadDataBase();
 		}
+		else if (req.getParameter("logout") != null) {
+			System.out.println("logout");
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
 		
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}

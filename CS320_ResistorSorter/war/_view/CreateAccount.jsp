@@ -60,6 +60,16 @@ All work seen in here has been copied, but modified from the Library example -->
 				</table>
 			</div>
 		</form>
+		<form action="${pageContext.servletContext.contextPath}/Login" method="get">
+			<div>
+				<table class="col-md-6">
+					<tr>
+						<th>Already have an account? Click here to login!</th> 
+						<td><input type="Submit" name="login" value="Login"></td>
+					</tr>
+				</table>
+			</div>
+		</form>
 		</div>
 		</div>
 	</body>
