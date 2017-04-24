@@ -5,7 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CS320_Jetty"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CS320_Derby"/>
-	<classpathentry kind="lib" path="D:/CS320/Mail Jar/activation.jar"/>
-	<classpathentry kind="lib" path="D:/CS320/Mail Jar/mail.jar"/>
+	<classpathentry kind="lib" path="D:/CS320/activation.jar"/>
+	<classpathentry kind="lib" path="D:/CS320/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
