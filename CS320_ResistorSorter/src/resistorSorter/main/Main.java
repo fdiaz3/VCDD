@@ -44,9 +44,9 @@ public class Main {
 			if (line.trim().toLowerCase().equals("quit")) {
 				String[] requests = EmailReceive.check(host, mailStoreType, username, password);
 				for(int i=0; i<requests.length; i++){
-					System.out.println(requests[i]);
-					String request = requests[i].substring(requests[i].indexOf(" "), requests[i].indexOf(" ", requests[i].indexOf(" ")));
-					System.out.println(request);
+					//System.out.println(requests[i]);
+					String subjectLine = requests[i].substring(requests[i].indexOf(" "), requests[i].indexOf(" ", requests[i].indexOf(" ")));
+					System.out.println(subjectLine);
 				}
 				break;
 			}

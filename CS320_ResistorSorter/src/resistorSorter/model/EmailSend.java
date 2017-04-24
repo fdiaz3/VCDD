@@ -33,7 +33,7 @@ public class EmailSend {
 				mimeMessage.addRecipient(RecipientType.TO, toAddress[i]);
 			}
 			//add subject
-			mimeMessage.setSubject(username+" ADMIN REQ");
+			mimeMessage.setSubject("ADMIN REQ: "+username);
 			//Set message
 			mimeMessage.setText(message);
 			Transport transport = session.getTransport("smtp");
