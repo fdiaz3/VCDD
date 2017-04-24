@@ -979,6 +979,12 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
+	@Override
+	public void addPermissions(String username, int num) {
+		
+		
+	}
+
 
 
 }

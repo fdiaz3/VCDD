@@ -981,6 +981,12 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
+	@Override
+	public void addPermissions(String username, int num) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 

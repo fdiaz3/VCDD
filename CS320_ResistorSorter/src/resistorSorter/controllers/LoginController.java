@@ -11,7 +11,6 @@ import resistorSorter.persist.TestDerbyDatabase;
 
 public class LoginController {
 	private IDatabase db;
-	private EmailSend emailSend;
 	
 	public LoginController(String database){
 
@@ -29,12 +28,19 @@ public class LoginController {
 			String[] to = {"dwebb4@ycp.edu", "blinne@ycp.edu" , "fdiaz@ycp.edu"};
 			
 			String message = "Hello creators of the VCDD, this is your automated email sending unit up and running (hopefully). "
-					+"User: "+username+", "+"First Name: "+firstname+", "+"Lastname: "+lastname+", "+"has requested for admin permissions. Reply 1 to grant or 0 to deny.";
-			if(emailSend.sendMail("vcddProj@gmail.com", "team_dbf", message, to)){
+					+"User: "+username+", "+"First Name: "+firstname+", "+"Lastname: "+lastname+", "+"has requested for admin permissions. Simply add a 1(yes) or 0(no) in subject line."
+					+" Make sure you leave the username in the suject line!";
+			if(EmailSend.sendMail("vcddProj@gmail.com", "team_dbf", message, to, username)){
 				System.out.println("Message sent successfuly");
 			}
 			else{
-				System.out.println("Email error occured");
+				if(EmailSend.sendMail("vcddProj@gmail.com", "team_dbf", message, to, username)){
+					System.out.println("Message sent successfuly");
+				}
+				else{
+					System.out.println("Email error occured, something went really wrong");
+				}
+				
 			}
 		}
 		db.createAccount(username, password, firstname, lastname, false);
