@@ -37,7 +37,7 @@ public interface IDatabase {
 	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq);
 	public boolean checkExistingUsernames(String username);
 	public boolean validateCredentials(String username, String password);
-	public void addPermissions(String username, int num);
+	public void updateAdminFlag(String username, boolean adminReq);
 	
 	//Profile related
 	public List<InventoryTransaction> getAllTransactions(String username);

@@ -27,9 +27,12 @@ public class LoginController {
 		if(adminReq){
 			String[] to = {"dwebb4@ycp.edu", "blinne@ycp.edu" , "fdiaz@ycp.edu"};
 			
-			String message = "Hello creators of the VCDD, this is your automated email sending unit up and running (hopefully). "
-					+"User: "+username+", "+"First Name: "+firstname+", "+"Lastname: "+lastname+", "+"has requested for admin permissions. Simply add a 1(yes) or 0(no) in subject line."
-					+" Make sure you leave the username in the suject line!";
+			String message = "Hello creators of the VCDD, this is your automated email sending unit up and running (hopefully). \n"
+					+"User: "+username+", "+"First Name: "+firstname+", "+"Lastname: "+lastname+", "+"has requested for admin permissions. \n"
+					+"Click here to grant: "
+					+"http://localhost:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=true \n"
+					+"Click here to deny: "
+					+"http://localhost:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=false \n";
 			if(EmailSend.sendMail("vcddProj@gmail.com", "team_dbf", message, to, username)){
 				System.out.println("Message sent successfuly");
 			}
@@ -46,9 +49,6 @@ public class LoginController {
 		db.createAccount(username, password, firstname, lastname, false);
 	}
 	public boolean validateCredentials(String name, String pw) {
-		if(name.equals("Elon") && pw.equals(" ")){
-			return true;
-		}
 		return db.validateCredentials(name, pw);
 	}
 	public boolean checkExistingUsernames(String username){
@@ -56,6 +56,9 @@ public class LoginController {
 		return db.checkExistingUsernames(username);
 	}
 	
+	public void updateAdminFlag(String username, boolean adminReq){
+		db.updateAdminFlag(username, adminReq);
+	}
 	//DISCLAIMER//
 	//All work seen in here has been copied, but modified from the Library example//
 	
