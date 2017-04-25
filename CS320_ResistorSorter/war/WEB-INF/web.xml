@@ -42,6 +42,10 @@
   	<servlet-name>AdminRequest</servlet-name>
   	<servlet-class>resistorSorter.servlet.AdminRequestServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AllTransactions</servlet-name>
+  	<servlet-class>resistorSorter.servlet.AllTransactionsServlet</servlet-class>
+  </servlet>
   <!-- Servlet mappings -->
   <servlet-mapping>
     <servlet-name>Inventories</servlet-name>
@@ -78,6 +82,10 @@
   <servlet-mapping>
   	<servlet-name>AdminRequest</servlet-name>
     <url-pattern>/AdminRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AllTransactions</servlet-name>
+    <url-pattern>/AllTransactions</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

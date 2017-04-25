@@ -7,7 +7,7 @@ All work seen in here has been copied, but modified from the Library example -->
 
 <html>
 	<head>
-		<title>Profile</title>
+		<title>Transactions</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -23,7 +23,7 @@ All work seen in here has been copied, but modified from the Library example -->
 			</c:if>
 			
 			
-	<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
+	<form action="${pageContext.servletContext.contextPath}/AllTransactions" method="post">
 		<nav class="navbar navbar-inverse">
     	<!-- Brand and toggle get grouped for better mobile display -->
    		<div class="navbar-header">
@@ -53,12 +53,7 @@ All work seen in here has been copied, but modified from the Library example -->
 	</nav>
 	
 	  <div class="jumbotron">
-	    <h1>Welcome, ${username}</h1> 
-	    <p>From here, you can view your activity</p> 
-	    <p>User status: <span class="label label-info"> ${adminFlag} </span></p>
-	   	<c:if test="${viewAll}">
-				<p>View all user activity: <button type="submit" class="btn btn-primary active" name="viewTransactions">All Transactions</button></p>
-		</c:if>
+	    <h1>All Transactions </h1> 
 	  </div>
 			<div>
 				<table class="col-md-11">

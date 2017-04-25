@@ -982,9 +982,15 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void addPermissions(String username, int num) {
+	public void updateAdminFlag(String username, boolean adminReq) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean getAdminFlag(String username) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

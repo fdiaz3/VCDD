@@ -13,7 +13,7 @@ import resistorSorter.controllers.LoginController;
 import resistorSorter.model.InventoryTransaction;
 
 
-public class ProfileServlet extends HttpServlet {
+public class AllTransactionsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private InventoryTransactionController inventoryTransactionController;
 	private LoginController loginController;
@@ -37,20 +37,17 @@ public class ProfileServlet extends HttpServlet {
 		//Showing user status based on adminReq
 		//Also to allow admin to view all transactions or not
 		if(loginController.getAdminFlag((String)req.getSession().getAttribute("user"))){
-			req.setAttribute("adminFlag", "Administrator");
-			req.setAttribute("viewAll", true);
+
 		}
 		else{
-			req.setAttribute("adminFlag", "User");
-			req.setAttribute("viewAll", false);
+			resp.sendRedirect(req.getContextPath() + "/Login");
 		}
 		
 
 		
 		//send info to jsp
-		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
 		displayTransactions(req);
-		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/AllTransactions.jsp").forward(req, resp);
 	}
 
 	@Override
@@ -66,16 +63,11 @@ public class ProfileServlet extends HttpServlet {
 			return;
 		}
 		
-		//Send to transactions
-		if(req.getParameter("viewTransactions") != null){
-			resp.sendRedirect(req.getContextPath() + "/AllTransactions");
-			return;
-		}
 		//send info to jsp
 		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
 		displayTransactions(req);
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/AllTransactions.jsp").forward(req, resp);
 	}
 	
 	private void displayTransactions(HttpServletRequest req){
