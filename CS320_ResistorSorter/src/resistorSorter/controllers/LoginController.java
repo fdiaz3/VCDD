@@ -59,6 +59,10 @@ public class LoginController {
 	public void updateAdminFlag(String username, boolean adminReq){
 		db.updateAdminFlag(username, adminReq);
 	}
+	
+	public boolean getAdminFlag(String username){
+		return db.getAdminFlag(username);
+	}
 	//DISCLAIMER//
 	//All work seen in here has been copied, but modified from the Library example//
 	

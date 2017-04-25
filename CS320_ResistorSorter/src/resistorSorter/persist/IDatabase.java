@@ -42,4 +42,5 @@ public interface IDatabase {
 	//Profile related
 	public List<InventoryTransaction> getAllTransactions(String username);
 	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
+	public boolean getAdminFlag(String username);
 }

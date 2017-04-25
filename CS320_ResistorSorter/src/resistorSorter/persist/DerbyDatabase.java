@@ -1002,6 +1002,40 @@ public class DerbyDatabase implements IDatabase {
 		
 	}
 
+	@Override
+	public boolean getAdminFlag(String username) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.adminReq"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 1 listings then user exists
+					if(resultSet.getBoolean(1)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
 
 
 }
