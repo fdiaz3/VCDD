@@ -980,8 +980,25 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void addPermissions(String username, int num) {
-		
+	public void updateAdminFlag(String username, boolean adminReq) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("UPDATE users" 
+							+ " SET adminReq = ?"
+							+ " WHERE username = ?");
+					
+					stmt.setBoolean(1, adminReq);
+					stmt.setString(2, username);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 		
 	}
 

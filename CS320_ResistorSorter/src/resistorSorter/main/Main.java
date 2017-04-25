@@ -10,7 +10,6 @@ import resistorSorter.persist.DerbyDatabase;
 import resistorSorter.model.*;
 
 public class Main {
-	private static EmailReceive model;
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8081);
 
@@ -29,25 +28,12 @@ public class Main {
 		//creates the database if it doesn't exist
 		DerbyDatabase.loadDataBase();
 
-		//Check up on emails
-        String host = "pop.gmail.com";// change accordingly
-        String mailStoreType = "pop3";
-        String username = "vcddProj@gmail.com";// change accordingly
-        String password = "team_dbf";// change accordingly
-
-        
 		// Wait for the user to type "quit"
 		System.out.println("Web server started, type quit to shut down");
 		Scanner keyboard = new Scanner(System.in);
 		while (keyboard.hasNextLine()) {
 			String line = keyboard.nextLine();
 			if (line.trim().toLowerCase().equals("quit")) {
-				String[] requests = EmailReceive.check(host, mailStoreType, username, password);
-				for(int i=0; i<requests.length; i++){
-					//System.out.println(requests[i]);
-					String subjectLine = requests[i].substring(requests[i].indexOf(" "), requests[i].indexOf(" ", requests[i].indexOf(" ")));
-					System.out.println(subjectLine);
-				}
 				break;
 			}
 		}
