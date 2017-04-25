@@ -39,9 +39,11 @@ public class InventoryTransactionController {
 		db.addTransaction(userName, bin_id, transactionTime, transactionType, quantity);
 	}
 	
-	public List<InventoryTransaction> displayInventoryTransactions(String username){
-		return db.getAllTransactions(username);
+	public List<InventoryTransaction> displayUserInventoryTransactions(String username){
+		return db.getAllUserTransactions(username);
 	}
-
+	public List<InventoryTransaction> displayInventoryTransactions(){
+		return db.getAllTransactions();
+	}
 		
 }

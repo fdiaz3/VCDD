@@ -81,7 +81,7 @@ public class ProfileServlet extends HttpServlet {
 	private void displayTransactions(HttpServletRequest req){
 		//display inventories
 		String username = (String) req.getSession().getAttribute("user");
-		List<InventoryTransaction> transactions = inventoryTransactionController.displayInventoryTransactions(username);
+		List<InventoryTransaction> transactions = inventoryTransactionController.displayUserInventoryTransactions(username);
 		req.setAttribute("transactions", transactions);
 	}
 	

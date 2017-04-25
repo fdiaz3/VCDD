@@ -24,6 +24,9 @@ All work seen in here has been copied, but modified from the Library example -->
 	
 	<div class="jumbotron">
 	    <h1>Create Account</h1> 
+	    <div class="alert alert-danger">
+  			<strong>Warning:</strong> passwords are not stored securely.
+		</div>
 	  </div>
 	  
 	  

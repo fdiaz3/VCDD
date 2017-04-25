@@ -820,7 +820,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<InventoryTransaction> getAllTransactions(String username) {
+	public List<InventoryTransaction> getAllUserTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -1069,6 +1069,60 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});		
+	}
+
+	@Override
+	public List<InventoryTransaction> getAllTransactions() {
+		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
+			@Override
+			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select * from transactions"
+					);					
+					
+					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int transaction_id = resultSet.getInt(1);
+						int user_id = resultSet.getInt(2);
+						String userName = resultSet.getString(3);
+						int inventory_id = resultSet.getInt(4);
+						int rack_id = resultSet.getInt(5);
+						int bin_id = resultSet.getInt(6);
+						Timestamp transactionTime = resultSet.getTimestamp(7);
+						String transactionType = resultSet.getString(8);
+						int quantity = resultSet.getInt(9);
+						
+						
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						
+						result.add(inventoryTransaction);
+					}
+					
+					// check if the inventoryTransaction was found
+					if (!found) {
+						//do nothing
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 
 

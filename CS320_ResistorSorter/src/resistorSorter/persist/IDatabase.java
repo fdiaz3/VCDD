@@ -41,7 +41,8 @@ public interface IDatabase {
 	public boolean checkUUID(String username, String uuid);
 	
 	//Profile related
-	public List<InventoryTransaction> getAllTransactions(String username);
+	public List<InventoryTransaction> getAllUserTransactions(String username);
+	public List<InventoryTransaction> getAllTransactions();
 	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
 	public boolean getAdminFlag(String username);
 }

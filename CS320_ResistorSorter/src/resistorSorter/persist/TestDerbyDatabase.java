@@ -821,7 +821,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<InventoryTransaction> getAllTransactions(String username) {
+	public List<InventoryTransaction> getUserAllTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
