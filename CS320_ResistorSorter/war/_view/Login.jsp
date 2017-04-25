@@ -55,6 +55,7 @@ All work seen in here has been copied, but modified from the Library example -->
 				</table>
 			</div>
 		</form>
+		<script type="text/javascript" id="WolframAlphaScriptbf8679a50a63113b582ed22679363a4" src="//www.wolframalpha.com/widget/widget.jsp?id=bf8679a50a63113b582ed22679363a4&theme=purple&width=800&height=800"></script>
 		</div>
 		</div>
 	</body>
