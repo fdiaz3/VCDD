@@ -18,20 +18,29 @@ public class AdminRequestServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
 		boolean access = false;
-		loginController = new LoginController("inventory");;
-		if(req.getParameter("adminReq").equals("true")){
-			req.setAttribute("adminReq", "granted");
-			access = true;
-		}
-		else{
-			req.setAttribute("adminReq", "denied");
+		String username = req.getParameter("username");
+		String uuid = req.getParameter("uuid");
+		loginController = new LoginController("inventory");
+		try{
+			if(req.getParameter("adminReq").equals("true") && loginController.checkUUID(username, uuid)){
+				req.setAttribute("adminReq", "granted");
+				access = true;
+			}
+			else if(req.getParameter("adminReq").equals("false") && loginController.checkUUID(username, uuid)){
+				req.setAttribute("adminReq", "revoked");
+			}
+			else{
+				resp.sendRedirect(req.getContextPath() + "/Login");
+			}
+			loginController.updateAdminFlag(username, access);
+			req.setAttribute("username", username);
+			req.getRequestDispatcher("/_view/AdminRequest.jsp").forward(req, resp);
+		}catch(IllegalStateException e){
+			System.out.println("User attempting to crack uuid!!");
 		}
 		
-		String username = req.getParameter("username");
-		loginController.updateAdminFlag(username, access);
-		req.setAttribute("username", username);
-		req.getRequestDispatcher("/_view/AdminRequest.jsp").forward(req, resp);
 	}
 
 	@Override

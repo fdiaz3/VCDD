@@ -728,7 +728,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq) {
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -989,6 +989,12 @@ public class TestDerbyDatabase implements IDatabase {
 
 	@Override
 	public boolean getAdminFlag(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean checkUUID(String username, String uuid) {
 		// TODO Auto-generated method stub
 		return false;
 	}
