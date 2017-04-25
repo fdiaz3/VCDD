@@ -61,11 +61,15 @@ public class ResistorServlet extends HttpServlet {
 		
 		if (req.getParameter("addResistors") != null) {
 			error = binController.addResistor(bin_id, countChange);
-			inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
+			if(error == null){
+				inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
+			}
 		}
 		else if (req.getParameter("removeResistors") != null) {
 			error = binController.removeResistor(bin_id, countChange);
-			inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
+			if(error == null){
+				inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
+			}
 		}
 
 		//getting updated info based on bin_id

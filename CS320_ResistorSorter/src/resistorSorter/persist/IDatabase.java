@@ -34,13 +34,15 @@ public interface IDatabase {
 	public void removeInventory(int inventoryID);
 	
 	//User related methods
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq);
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid);
 	public boolean checkExistingUsernames(String username);
 	public boolean validateCredentials(String username, String password);
 	public void updateAdminFlag(String username, boolean adminReq);
+	public boolean checkUUID(String username, String uuid);
 	
 	//Profile related
-	public List<InventoryTransaction> getAllTransactions(String username);
+	public List<InventoryTransaction> getAllUserTransactions(String username);
+	public List<InventoryTransaction> getAllTransactions();
 	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
 	public boolean getAdminFlag(String username);
 }

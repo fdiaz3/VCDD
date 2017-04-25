@@ -64,13 +64,12 @@ All work seen in here has been copied, but modified from the Library example -->
 				<table class="col-md-11">
 					
 					<tr>
-						<th>Transaction Time (yyyy-mm-dd hh:mm:ss)</th> <th>User Name:</th> <th>Inventory ID</th> <th>Rack ID</th> <th>Bin ID</th> <th>Type</th> <th>Quantity</th>
+						<th>Transaction Time (yyyy-mm-dd hh:mm:ss)</th> <th>Inventory ID</th> <th>Rack ID</th> <th>Bin ID</th> <th>Type</th> <th>Quantity</th>
 					</tr>
 						
 					<c:forEach items="${transactions}" var="item" varStatus="status">
  						<tr> 
  							<td>${item.transactionTime}</td>
- 							<td>${item.username}</td>
  						 	<td>${item.inventory_id}</td>
  						 	<td>${item.rack_id}</td>
  						 	<td>${item.bin_id}</td>

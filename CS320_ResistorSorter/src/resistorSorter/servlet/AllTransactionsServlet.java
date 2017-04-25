@@ -46,7 +46,7 @@ public class AllTransactionsServlet extends HttpServlet {
 
 		
 		//send info to jsp
-		displayTransactions(req);
+		displayAllTransactions(req);
 		req.getRequestDispatcher("/_view/AllTransactions.jsp").forward(req, resp);
 	}
 
@@ -62,18 +62,15 @@ public class AllTransactionsServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
-		
-		//send info to jsp
-		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
-		displayTransactions(req);
+	
+		displayAllTransactions(req);
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/AllTransactions.jsp").forward(req, resp);
 	}
 	
-	private void displayTransactions(HttpServletRequest req){
+	private void displayAllTransactions(HttpServletRequest req){
 		//display inventories
-		String username = (String) req.getSession().getAttribute("user");
-		List<InventoryTransaction> transactions = inventoryTransactionController.displayInventoryTransactions(username);
+		List<InventoryTransaction> transactions = inventoryTransactionController.displayInventoryTransactions();
 		req.setAttribute("transactions", transactions);
 	}
 	

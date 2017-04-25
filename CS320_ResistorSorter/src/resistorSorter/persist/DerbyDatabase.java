@@ -126,7 +126,7 @@ public class DerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean"
+							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean, uuid varchar(60)"
 							+ ")"
 						);
 					stmt4.executeUpdate();
@@ -726,18 +726,19 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq) {
+	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
-					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq) values (?, ?, ?, ?, ?)");
+					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq, uuid) values (?, ?, ?, ?, ?, ?)");
 					stmt.setString(1, username);
 					stmt.setString(2, password);
 					stmt.setString(3, firstname);
 					stmt.setString(4, lastname);
 					stmt.setBoolean(5, adminReq);
+					stmt.setString(6, uuid);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -819,7 +820,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<InventoryTransaction> getAllTransactions(String username) {
+	public List<InventoryTransaction> getAllUserTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -1034,6 +1035,94 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});		
+	}
+
+	@Override
+	public boolean checkUUID(String username, String uuid) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.uuid"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+
+					if(resultSet.getString(1).equals(uuid)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public List<InventoryTransaction> getAllTransactions() {
+		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
+			@Override
+			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select * from transactions"
+					);					
+					
+					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int transaction_id = resultSet.getInt(1);
+						int user_id = resultSet.getInt(2);
+						String userName = resultSet.getString(3);
+						int inventory_id = resultSet.getInt(4);
+						int rack_id = resultSet.getInt(5);
+						int bin_id = resultSet.getInt(6);
+						Timestamp transactionTime = resultSet.getTimestamp(7);
+						String transactionType = resultSet.getString(8);
+						int quantity = resultSet.getInt(9);
+						
+						
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						
+						result.add(inventoryTransaction);
+					}
+					
+					// check if the inventoryTransaction was found
+					if (!found) {
+						//do nothing
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 
 
