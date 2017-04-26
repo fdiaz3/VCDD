@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryTransactionController;
+import resistorSorter.persist.PersistenceException;
 
 public class ResistorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -60,22 +61,39 @@ public class ResistorServlet extends HttpServlet {
 		user = (String) req.getSession().getAttribute("user");
 		
 		if (req.getParameter("addResistors") != null) {
-			error = binController.addResistor(bin_id, countChange);
+			
+			if(countChange > 0){
+				error = binController.addResistor(bin_id, countChange);
+			}
+			else{
+				error = "Invalid input, must be non-string/zero";
+			}
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
 			}
 		}
 		else if (req.getParameter("removeResistors") != null) {
-			error = binController.removeResistor(bin_id, countChange);
+			if(countChange > 0){
+				error = binController.removeResistor(bin_id, countChange);
+			}
+			else{
+				error = "Invalid input, must be non-string/zero";
+			}
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 			}
 		}
 
 		//getting updated info based on bin_id
-		count = binController.getCount(bin_id);
-		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
-		capacity = binController.getCapacity(bin_id);
+		try{
+			count = binController.getCount(bin_id);
+			userRemoveLimit = binController.getUserRemoveLimit(bin_id);
+			capacity = binController.getCapacity(bin_id);
+		}catch(PersistenceException e){
+			error = "Invalid input, bin_id does not exist";
+			
+		}
+		
 		
 		
 		//sending info back to jsp
@@ -92,7 +110,11 @@ public class ResistorServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			return Integer.parseInt(req.getParameter(name));
+			try{
+				return Integer.parseInt(req.getParameter(name));
+			}catch(NumberFormatException e){
+				return 0;
+			}
 		}
 		else{
 			return 0;

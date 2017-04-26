@@ -50,7 +50,13 @@ public class InventoriesServlet extends HttpServlet {
 		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			error = inventoryController.addInventory(binCapacity, userRemoveLimit);
+			if(binCapacity > 0 && userRemoveLimit > 0){
+				error = inventoryController.addInventory(binCapacity, userRemoveLimit);
+			}
+			else{
+				error = "Invalid input, must be non-string/zero";
+			}
+			
 		}
 		
 		//delete an inventory
@@ -74,7 +80,11 @@ public class InventoriesServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			return Integer.parseInt(req.getParameter(name));
+			try{
+				return Integer.parseInt(req.getParameter(name));
+			}catch(NumberFormatException e){
+				return 0;
+			}
 		}
 		else{
 			return 0;

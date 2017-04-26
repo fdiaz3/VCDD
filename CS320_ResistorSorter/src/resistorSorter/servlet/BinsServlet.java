@@ -54,7 +54,12 @@ public class BinsServlet extends HttpServlet {
 		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			errormessage = binController.addBin(rack_id, resistance, count);
+			if(resistance > 0 && count > 0){
+				errormessage = binController.addBin(rack_id, resistance, count);
+			}
+			else{
+				errormessage = "Invalid input, must be non-string/zero";
+			}
 		}
 		
 		//delete a bin
@@ -80,7 +85,11 @@ public class BinsServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			return Integer.parseInt(req.getParameter(name));
+			try{
+				return Integer.parseInt(req.getParameter(name));
+			}catch(NumberFormatException e){
+				return 0;
+			}
 		}
 		else{
 			return 0;

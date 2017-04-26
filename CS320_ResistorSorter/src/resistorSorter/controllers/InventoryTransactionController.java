@@ -45,5 +45,5 @@ public class InventoryTransactionController {
 	public List<InventoryTransaction> displayInventoryTransactions(){
 		return db.getAllTransactions();
 	}
-		
+	
 }
