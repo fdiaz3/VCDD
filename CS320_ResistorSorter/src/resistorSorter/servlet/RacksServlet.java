@@ -69,7 +69,13 @@ public class RacksServlet extends HttpServlet {
 		
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
-			error = rackController.addRack(tolerance, power, inventory_id);
+			
+			if(tolerance > 0 && power > 0){
+				error = rackController.addRack(tolerance, power, inventory_id);
+			}
+			else{
+				error = "Invalid input, must be non-string/zero";
+			}
 		}
 
 		//delete a rack
@@ -92,7 +98,11 @@ public class RacksServlet extends HttpServlet {
 	private int getInteger(HttpServletRequest req, String name) {
 
 		if(req.getParameter(name) != ""){
-			return Integer.parseInt(req.getParameter(name));
+			try{
+				return Integer.parseInt(req.getParameter(name));
+			}catch(NumberFormatException e){
+				return 0;
+			}
 		}
 		else{
 			return 0;
@@ -103,7 +113,11 @@ public class RacksServlet extends HttpServlet {
 		
 		if(req.getParameter(name) != ""){
 			
-			return Float.parseFloat(req.getParameter(name));
+			try{
+				return Float.parseFloat(req.getParameter(name));
+			}catch(NumberFormatException e){
+				return 0;
+			}
 		}
 		else{
 			return 0;
