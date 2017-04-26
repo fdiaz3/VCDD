@@ -85,7 +85,7 @@ public class BinController {
 				}
 			}
 			else{
-				C
+				
 			}
 			//if all tests pass
 			db.addResistors(bin_id, addition);
@@ -113,7 +113,7 @@ public class BinController {
 				}			
 			}
 			else{
-				return "Cannot enter negative/string/zero/large values"
+				return "Cannot enter negative/string/zero/large values";
 			}
 			//if all tests pass
 			db.removeResistors(bin_id, subtraction);
