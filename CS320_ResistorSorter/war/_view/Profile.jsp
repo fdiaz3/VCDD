@@ -12,6 +12,7 @@ All work seen in here has been copied, but modified from the Library example -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="_view/javaScript/tableSort.js"></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
@@ -24,33 +25,7 @@ All work seen in here has been copied, but modified from the Library example -->
 			
 			
 	<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
-		<nav class="navbar navbar-inverse">
-    	<!-- Brand and toggle get grouped for better mobile display -->
-   		<div class="navbar-header">
-        	<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-            	<span class="sr-only">Toggle navigation</span>
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-        	</button>
-        	<a href="#" class="navbar-brand">VCDD</a>
-    	</div>
-    <!-- Collection of nav links and other content for toggling -->
-	    <div id="navbarCollapse" class="collapse navbar-collapse">
-	        <ul class="nav navbar-nav">
-	            <li><a href="/resistorSorter/Inventories">Home</a></li>
-	            <li><a href="/resistorSorter/Racks">Racks</a></li>
-	            <li><a href="/resistorSorter/Bins">Bins</a></li>
-	            <li><a href="/resistorSorter/Resistor">Resistor</a></li>
-	            <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>
-	        </ul>
-	        <ul class="nav navbar-nav navbar-right">
-	        	<li><a href="/resistorSorter/Profile"><span class="glyphicon glyphicon-user"></span>Your Profile</a></li>
-	        	<li><button class="btn btn-danger navbar-btn" type="submit" name="logout">Logout</button></li>
-	        </ul>
-	       		
-	    </div>
-	</nav>
+		<script src="_view/javaScript/navbar.js"></script>
 	
 	  <div class="jumbotron">
 	    <h1>Welcome, ${username}</h1> 
@@ -61,10 +36,15 @@ All work seen in here has been copied, but modified from the Library example -->
 		</c:if>
 	  </div>
 			<div>
-				<table class="col-md-11">
+				<table class="col-md-11" id="transactionTable">
 					
 					<tr>
-						<th>Transaction Time (yyyy-mm-dd hh:mm:ss)</th> <th>Inventory ID</th> <th>Rack ID</th> <th>Bin ID</th> <th>Type</th> <th>Quantity</th>
+						<th onclick="sortTable(0, 'transactionTable')">Transaction Time (yyyy-mm-dd hh:mm:ss)</th>
+						<th onclick="sortTable(1, 'transactionTable')">Inventory ID</th>
+						<th onclick="sortTable(2, 'transactionTable')">Rack ID</th>
+						<th onclick="sortTable(3, 'transactionTable')">Bin ID</th>
+						<th onclick="sortTable(4, 'transactionTable')">Type</th>
+						<th onclick="sortTable(5, 'transactionTable')">Quantity</th>
 					</tr>
 						
 					<c:forEach items="${transactions}" var="item" varStatus="status">
@@ -84,4 +64,11 @@ All work seen in here has been copied, but modified from the Library example -->
 		</div>
 		</div>
 	</body>
+	
+	
+	
+
+
+
+
 </html>
