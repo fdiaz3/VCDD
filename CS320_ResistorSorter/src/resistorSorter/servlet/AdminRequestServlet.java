@@ -38,7 +38,7 @@ public class AdminRequestServlet extends HttpServlet {
 			req.setAttribute("username", username);
 			req.getRequestDispatcher("/_view/AdminRequest.jsp").forward(req, resp);
 		}catch(IllegalStateException e){
-			System.out.println("User attempting to crack uuid!!");
+			System.out.println(username + " attempting to crack uuid!!");
 		}
 		
 	}
@@ -49,7 +49,5 @@ public class AdminRequestServlet extends HttpServlet {
 
 		
 	}
-	
-	//DISCLAIMER//
-	//All work seen in here has been copied, but modified from the Library example//
+
 }

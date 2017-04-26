@@ -33,10 +33,12 @@ public class LoginController {
 	
 			String message = "Hello creators of the VCDD, this is your automated email sending unit up and running (hopefully). \n"
 					+"User: "+username+", "+"First Name: "+firstname+", "+"Lastname: "+lastname+", "+"has requested for admin permissions. \n"
-					+"Click here to grant: "
+					+"Click here to grant: \n"
 					+"http://localhost:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=true&uuid="+uuid+"\n"
-					+"Click here to revoke: "
-					+"http://localhost:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=false&uuid="+uuid+"\n";
+					+"http://calientecraft.org:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=true&uuid="+uuid+"\n"
+					+"Click here to revoke: \n"
+					+"http://localhost:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=false&uuid="+uuid+"\n"
+					+"http://calientecraft.org:8081/resistorSorter/AdminRequest?username="+username+"&adminReq=false&uuid="+uuid+"\n";
 			if(EmailSend.sendMail("vcddProj@gmail.com", "team_dbf", message, to, username)){
 				System.out.println("Message sent successfuly");
 			}
