@@ -54,7 +54,7 @@
 								
 								<tr>
 									<th> Rack ID: </th>
-									<td><input type="text" name="rack_id" size="12" value="${rack_id}" /></td>
+									<td><input type="number" min="1" name="rack_id" size="12" value="${rack_id}" /></td>
 								</tr>
 							
 								<tr>

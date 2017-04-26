@@ -22,7 +22,7 @@ public class BinsServlet extends HttpServlet {
 	private int rack_id;
 	private int resistance;
 	private int count;
-	private String errormessage;
+	private String error;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -50,16 +50,15 @@ public class BinsServlet extends HttpServlet {
 		rack_id = getInteger(req, "rack_id");
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
-		
-		
+		if(rack_id == 0){
+			error = "Invalid rack ID";
+		}
+		else{
+			error = null;
+		}
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			if(resistance > 0 && count > 0){
-				errormessage = binController.addBin(rack_id, resistance, count);
-			}
-			else{
-				errormessage = "Invalid input, must be non-string/zero";
-			}
+			error = binController.addBin(rack_id, resistance, count);			
 		}
 		
 		//delete a bin
@@ -76,7 +75,7 @@ public class BinsServlet extends HttpServlet {
 		//re-send info to be displayed
 		displayBins(req);
 		req.setAttribute("rack_id", rack_id);
-		req.setAttribute("errorMessage", errormessage);
+		req.setAttribute("errorMessage", error);
 		req.getRequestDispatcher("/_view/Bins.jsp").forward(req, resp);
 	}	
 		

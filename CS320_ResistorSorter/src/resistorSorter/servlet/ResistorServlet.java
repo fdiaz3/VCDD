@@ -56,45 +56,35 @@ public class ResistorServlet extends HttpServlet {
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
+		//If bin_id = 0
+		if(bin_id == 0){
+			error = "Invalid Bin ID";
+		}else{
+			error = null;
+		}
 		countChange = getInteger(req, "countChange");
 		//get user from session
 		user = (String) req.getSession().getAttribute("user");
 		
 		if (req.getParameter("addResistors") != null) {
-			
-			if(countChange > 0){
-				error = binController.addResistor(bin_id, countChange);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
+			error = binController.addResistor(bin_id, countChange);
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
 			}
 		}
+		
 		else if (req.getParameter("removeResistors") != null) {
-			if(countChange > 0){
-				error = binController.removeResistor(bin_id, countChange);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
+			error = binController.removeResistor(bin_id, countChange);
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 			}
 		}
 
 		//getting updated info based on bin_id
-		try{
-			count = binController.getCount(bin_id);
-			userRemoveLimit = binController.getUserRemoveLimit(bin_id);
-			capacity = binController.getCapacity(bin_id);
-		}catch(PersistenceException e){
-			error = "Invalid input, bin_id does not exist";
-			
-		}
 		
-		
+		count = binController.getCount(bin_id);
+		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
+		capacity = binController.getCapacity(bin_id);		
 		
 		//sending info back to jsp
 		req.setAttribute("errorMessage", error);
