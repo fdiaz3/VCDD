@@ -55,6 +55,10 @@ public class CreateAccountServlet extends HttpServlet {
 			errorMessage = "Passwords do not match";
 			validAccount = false;
 		}
+		else if(!controller.containsNoSpacesUsername(username)){
+			errorMessage = "Username can't contain spaces";
+			validAccount = false;
+		}
 		else {
 			controller = new LoginController("inventory");
 			controller.createAccount(username, password, firstname, lastname, adminReq);

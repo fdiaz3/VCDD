@@ -15,6 +15,9 @@ public interface IDatabase {
 	public void addResistors(int bin_id, int count);
 	public void removeResistors(int bin_id, int count);
 	
+	public boolean checkExistingRacks(float tolerance, float wattage, int inventory_id);
+	public boolean checkExistingBins(int rack_id, int resistance);
+	
 	//Deleting methods
 	
 	public void removeRack(int rackID);
@@ -45,4 +48,5 @@ public interface IDatabase {
 	public List<InventoryTransaction> getAllTransactions();
 	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
 	public boolean getAdminFlag(String username);
+	
 }

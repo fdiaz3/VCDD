@@ -28,7 +28,7 @@
 								
 								<tr>
 									<th> Rack ID: </th>
-									<td><input type="text" name="rack_id" size="12" value="${rack_id}" /></td>
+									<td><input type="number" min="1" name="rack_id" size="12" value="${rack_id}" /></td>
 								</tr>
 							
 								<tr>
@@ -37,12 +37,12 @@
 								
 								<tr>
 									<th>Resistance: </th>
-									<td><input type="text" name="resistance" size="12"/></td>
+									<td><input type="number" min="1" name="resistance" size="12" value="1"/></td>
 								</tr>
 							
 								<tr>
 									<th>Count: </th>
-									<td><input type="text" name="count" size="12"/></td>
+									<td><input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/></td>
 								</tr>
 							
 								<tr>

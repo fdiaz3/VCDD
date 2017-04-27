@@ -63,13 +63,14 @@
 					</tr>
 				
 					<tr>
+					<!-- Maximum tolerance of 25% is acceptable -->
 						<th>Tolerance: </th>
-						<td><input type="text" name="tolerance" size="12"/></td>
+						<td><input type="number" min="1" max="25" name="tolerance" size="12"/></td>
 					</tr>
 				
 					<tr>
-						<th>Power: </th>
-						<td><input type="text" name="power" size="12"/></td>
+						<th>Power: </th> 
+						<td><input type="number" min="0.05" step="0.01" name="power" size="12"/></td>
 					</tr>
 				
 					<tr>

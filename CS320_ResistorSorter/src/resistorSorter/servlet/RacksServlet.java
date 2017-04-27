@@ -66,16 +66,9 @@ public class RacksServlet extends HttpServlet {
 		inventory_id = getInteger(req, "inventory_id");
 		tolerance = getFloat(req, "tolerance");
 		power = getFloat(req, "power");
-		
 		//add a Rack
 		if (req.getParameter("addRack") != null) {
-			
-			if(tolerance > 0 && power > 0){
-				error = rackController.addRack(tolerance, power, inventory_id);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
+			error = rackController.addRack(tolerance, power, inventory_id);
 		}
 
 		//delete a rack

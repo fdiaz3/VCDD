@@ -22,6 +22,7 @@ public class ResistorServlet extends HttpServlet {
 	private int userRemoveLimit;
 	private int capacity;
 	private int countChange;
+	private int maxCount;
 	private String user;
 	String error;
 	
@@ -56,50 +57,41 @@ public class ResistorServlet extends HttpServlet {
 		
 		//get parameters from jsp
 		bin_id = getInteger(req, "bin_id");
+		//If bin_id = 0
+		if(bin_id == 0){
+			error = "Invalid Bin ID";
+		}else{
+			error = null;
+		}
 		countChange = getInteger(req, "countChange");
 		//get user from session
 		user = (String) req.getSession().getAttribute("user");
 		
 		if (req.getParameter("addResistors") != null) {
-			
-			if(countChange > 0){
-				error = binController.addResistor(bin_id, countChange);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
+			error = binController.addResistor(bin_id, countChange);
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "adding");
 			}
 		}
+		
 		else if (req.getParameter("removeResistors") != null) {
-			if(countChange > 0){
-				error = binController.removeResistor(bin_id, countChange);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
+			error = binController.removeResistor(bin_id, countChange);
 			if(error == null){
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 			}
 		}
-
 		//getting updated info based on bin_id
-		try{
-			count = binController.getCount(bin_id);
-			userRemoveLimit = binController.getUserRemoveLimit(bin_id);
-			capacity = binController.getCapacity(bin_id);
-		}catch(PersistenceException e){
-			error = "Invalid input, bin_id does not exist";
-			
-		}
 		
-		
+		count = binController.getCount(bin_id);
+		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
+		capacity = binController.getCapacity(bin_id);		
+		maxCount = binController.getMaxCount(bin_id);
 		
 		//sending info back to jsp
 		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
+		req.setAttribute("max_count", maxCount);
 		req.setAttribute("userRemoveLimit", userRemoveLimit);
 		req.setAttribute("capacity", capacity);
 		
@@ -108,16 +100,11 @@ public class ResistorServlet extends HttpServlet {
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {
-
 		if(req.getParameter(name) != ""){
-			try{
-				return Integer.parseInt(req.getParameter(name));
-			}catch(NumberFormatException e){
-				return 0;
-			}
+			return Integer.parseInt(req.getParameter(name));
 		}
 		else{
-			return 0;
+			return 1;
 		}
 	}
 

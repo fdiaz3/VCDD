@@ -32,8 +32,17 @@ public class RackController {
 	}
 	//Add rack is pressed
 	public String addRack(float tolerance, float wattage, int inventory_id){
-		if(tolerance < 0 || wattage < 0){
-			return "Tolerance or wattage cannot be negative";
+		if(inventory_id == 0){
+			return "Adding to invalid inventory";
+		}
+		if(tolerance > 25){
+			return "Only a maximum tolerance of 25% is acceptable";
+		}
+		if(tolerance <= 0 || wattage <= 0){
+			return "Tolerance or wattage cannot be  negative/string/zero/large ";
+		}
+		if(db.checkExistingRacks(tolerance, wattage, inventory_id)){
+			return "Cannot have matching racks under one inventory";
 		}
 		db.insertRack(inventory_id, tolerance, wattage);
 		return null;

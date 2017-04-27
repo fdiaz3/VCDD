@@ -50,13 +50,7 @@ public class InventoriesServlet extends HttpServlet {
 		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			if(binCapacity > 0 && userRemoveLimit > 0){
-				error = inventoryController.addInventory(binCapacity, userRemoveLimit);
-			}
-			else{
-				error = "Invalid input, must be non-string/zero";
-			}
-			
+			error = inventoryController.addInventory(binCapacity, userRemoveLimit);
 		}
 		
 		//delete an inventory

@@ -5,6 +5,7 @@ import resistorSorter.model.Bin;
 import resistorSorter.persist.DatabaseProvider;
 import resistorSorter.persist.DerbyDatabase;
 import resistorSorter.persist.IDatabase;
+import resistorSorter.persist.PersistenceException;
 import resistorSorter.persist.TestDerbyDatabase;
 
 public class BinController {
@@ -35,21 +36,15 @@ public class BinController {
 	
 		public String addBin(int rack_id, int resistance, int count){
 			int capacity = db.getCapacityFromRack(rack_id);
-			if(count < 0){
-				System.out.println("Negative count");
-				return "Count cannot be negative";
-			}
-			else if(count > capacity){
-				System.out.println("Exceeding cap");
-				return "Count cannot exceed Bin Capacity";
-			}
-			else if(resistance < 0){
-				return "Resistance cannot be negative";
+		
+			if(db.checkExistingBins(rack_id, resistance)){
+				return "Cannot add identical bins under same rack";
 			}
 			else{
 				db.insertBin(rack_id, resistance, count);
 				return null;
 			}
+			
 		}
 		
 		public void removeBin(int binID){
@@ -63,30 +58,39 @@ public class BinController {
 		public String addResistor(int bin_id, int addition){
 			int count = db.getCount(bin_id);
 			int capacity = db.getCapacity(bin_id);
+			//Making sure bin is valid
 			
-			if(addition < 0){
-				return "Can't add negative values";
-			} else if(count + addition > capacity){
+			if(count + addition > capacity){
 				return "Exceeding Capacity";
 			}
-			
 			//if all tests pass
 			db.addResistors(bin_id, addition);
 			return null;
 		}
 		
 		public String removeResistor(int bin_id, int subtraction){
-			int count = db.getCount(bin_id);
-			int removelimit = db.getUserRemoveLimit(bin_id);
-			
-			if(subtraction < 0){
-				return "Can't subtract negative values";
-			} else if(subtraction > removelimit){
-				return "Exceeding Remove Limit";
-			} else if(count - subtraction < 0){
-				return "Subtracting more than avaliable";
-			}			
-			
+			int count;
+			int removelimit;
+			if(bin_id == 0){
+				return "Removing from Invalid Bin ID";
+			}
+			try{
+				count = db.getCount(bin_id);
+				removelimit = db.getUserRemoveLimit(bin_id);
+			}catch(PersistenceException e){
+				return "Removing from Invalid Bin ID";
+			}
+			if(subtraction > 0){
+				if(subtraction > removelimit){
+					return "Exceeding Remove Limit";
+				}
+				else if(count - subtraction < 0){
+					return "Subtracting more than avaliable";
+				}			
+			}
+			else{
+				return "Cannot enter negative/string/zero/large values";
+			}
 			//if all tests pass
 			db.removeResistors(bin_id, subtraction);
 			return null;
@@ -101,5 +105,13 @@ public class BinController {
 		public int getCapacity(int bin_id){
 			return db.getCapacity(bin_id);
 		}
-		
+		public int getCapacityFromRack(int rack_id){
+			return db.getCapacityFromRack(rack_id);
+		}
+		public int getMaxCount(int bin_id){
+			if(db.getUserRemoveLimit(bin_id) > db.getCapacity(bin_id)-db.getCount(bin_id)){
+				return db.getUserRemoveLimit(bin_id);
+			}
+			return db.getCapacity(bin_id)-db.getCount(bin_id);
+		}
 }

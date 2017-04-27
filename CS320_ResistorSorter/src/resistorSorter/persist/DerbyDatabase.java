@@ -1125,6 +1125,72 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
+	@Override
+	public boolean checkExistingRacks(float tolerance, float wattage, int inventory_id) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(rack_id)"
+							+ " from racks"
+							+ " where racks.tolerance = ? and racks.wattage = ?" 		
+					);
+					stmt1.setFloat(1, tolerance);
+					stmt1.setFloat(2, wattage);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 0 listings then rack is good
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});			
+	}
+
+	@Override
+	public boolean checkExistingBins(int rack_id, int resistance) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(bin_id)"
+							+ " from bins, racks"
+							+ " where racks.rack_id = ? and bins.rack_id = ? and bins.resistance = ?" 		
+					);
+					stmt1.setInt(1, rack_id);
+					stmt1.setInt(2, rack_id);
+					stmt1.setInt(3, resistance);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 0 listings then rack is good
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
 
 
 }
