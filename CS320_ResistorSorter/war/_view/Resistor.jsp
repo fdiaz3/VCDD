@@ -32,7 +32,7 @@
 				
 					<tr>
 						<th>Bin ID: </th>
-						<td><input type="text" name="bin_id" size="12" value="${bin_id}" /></td>
+						<td><input type="number" min="1" max="${max_bin}"name="bin_id" size="12" value="${bin_id}" /></td>
 					</tr>
 					
 					<tr>
@@ -42,7 +42,7 @@
 					
 					<tr>
 						<th>Count: </th>
-						<td><input type="text" name="countChange" size="12" value="0" /></td>
+						<td><input type="number" min="1" max="${max_count}"name="countChange" size="12" value="1" /></td>
 					</tr>
 					
 					<tr>

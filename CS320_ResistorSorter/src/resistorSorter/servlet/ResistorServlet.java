@@ -22,6 +22,7 @@ public class ResistorServlet extends HttpServlet {
 	private int userRemoveLimit;
 	private int capacity;
 	private int countChange;
+	private int maxCount;
 	private String user;
 	String error;
 	
@@ -79,17 +80,18 @@ public class ResistorServlet extends HttpServlet {
 				inventoryTransactionController.addTransaction(user, bin_id, countChange, "removing");
 			}
 		}
-
 		//getting updated info based on bin_id
 		
 		count = binController.getCount(bin_id);
 		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
 		capacity = binController.getCapacity(bin_id);		
+		maxCount = binController.getMaxCount(bin_id);
 		
 		//sending info back to jsp
 		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
+		req.setAttribute("max_count", maxCount);
 		req.setAttribute("userRemoveLimit", userRemoveLimit);
 		req.setAttribute("capacity", capacity);
 		
@@ -98,16 +100,11 @@ public class ResistorServlet extends HttpServlet {
 	}
 	
 	private int getInteger(HttpServletRequest req, String name) {
-
 		if(req.getParameter(name) != ""){
-			try{
-				return Integer.parseInt(req.getParameter(name));
-			}catch(NumberFormatException e){
-				return 0;
-			}
+			return Integer.parseInt(req.getParameter(name));
 		}
 		else{
-			return 0;
+			return 1;
 		}
 	}
 

@@ -72,6 +72,12 @@ public class LoginController {
 	public boolean checkUUID(String username, String uuid){
 		return db.checkUUID(username, uuid);
 	}
+	public boolean containsNoSpacesUsername(String username){
+		if(username.contains(" ")){
+			return false;
+		}
+		return true;
+	}
 	//DISCLAIMER//
 	//All work seen in here has been copied, but modified from the Library example//
 	

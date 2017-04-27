@@ -31,11 +31,11 @@
 				<table class="col-md-6">
 					<tr>
 						<th>Bin Capacity:</th>
-						<td><input type="text" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
+						<td><input type="number" min="1" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
 					</tr>
 					<tr>
 						<th>User Remove Limit: </th>
-						<td><input type="text" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
+						<td><input type="number" min="1" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
 					</tr>
 					<tr>
 						<th><th><input type="Submit" name="initializeInventory" value="Add Inventory!"></th>

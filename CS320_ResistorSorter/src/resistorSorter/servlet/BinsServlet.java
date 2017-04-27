@@ -22,6 +22,7 @@ public class BinsServlet extends HttpServlet {
 	private int rack_id;
 	private int resistance;
 	private int count;
+	private int binCapacity;
 	private String error;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -50,6 +51,7 @@ public class BinsServlet extends HttpServlet {
 		rack_id = getInteger(req, "rack_id");
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
+		binCapacity = binController.getCapacityFromRack(rack_id);
 		if(rack_id == 0){
 			error = "Invalid rack ID";
 		}
@@ -75,6 +77,7 @@ public class BinsServlet extends HttpServlet {
 		//re-send info to be displayed
 		displayBins(req);
 		req.setAttribute("rack_id", rack_id);
+		req.setAttribute("binCap", binCapacity);
 		req.setAttribute("errorMessage", error);
 		req.getRequestDispatcher("/_view/Bins.jsp").forward(req, resp);
 	}	
