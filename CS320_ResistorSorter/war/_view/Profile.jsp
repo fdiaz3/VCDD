@@ -10,10 +10,14 @@ All work seen in here has been copied, but modified from the Library example -->
 		<title>Profile</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="_view/javaScript/tableSort.js"></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
+		
+		<script type="text/javascript" src="_view/javaScript/jquery-latest.js"></script> 
+ 		<script type="text/javascript" src="_view/javaScript/jquery.tablesorter.min.js"></script>
+  		<link rel="stylesheet" href="_view/css/tableThemes/blue/style.css" type="text/css" media="print, projection, screen" />
+		
+		
 	</head>
 
 	<body>
@@ -36,33 +40,44 @@ All work seen in here has been copied, but modified from the Library example -->
 		</c:if>
 	  </div>
 			<div>
-				<table class="col-md-11" id="transactionTable">
-					
-					<tr>
-						<th onclick="sortTable(0, 'transactionTable')">Transaction Time (yyyy-mm-dd hh:mm:ss)</th>
-						<th onclick="sortTable(1, 'transactionTable')">Inventory ID</th>
-						<th onclick="sortTable(2, 'transactionTable')">Rack ID</th>
-						<th onclick="sortTable(3, 'transactionTable')">Bin ID</th>
-						<th onclick="sortTable(4, 'transactionTable')">Type</th>
-						<th onclick="sortTable(5, 'transactionTable')">Quantity</th>
-					</tr>
-						
-					<c:forEach items="${transactions}" var="item" varStatus="status">
- 						<tr> 
- 							<td>${item.transactionTime}</td>
- 						 	<td>${item.inventory_id}</td>
- 						 	<td>${item.rack_id}</td>
- 						 	<td>${item.bin_id}</td>
- 						 	<td>${item.transactionType}</td>
- 						 	<td>${item.quantity}</td>
- 						</tr>
-					</c:forEach>
-
+				<table class="tablesorter" id="transactionTable">
+				
+					<thead>
+						<tr>
+							<th>Transaction Time (yyyy-mm-dd hh:mm:ss)</th>
+							<th>Inventory ID</th>
+							<th>Rack ID</th>
+							<th>Bin ID</th>
+							<th>Type</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${transactions}" var="item" varStatus="status">
+	 						<tr> 
+	 							<td>${item.transactionTime}</td>
+	 						 	<td>${item.inventory_id}</td>
+	 						 	<td>${item.rack_id}</td>
+	 						 	<td>${item.bin_id}</td>
+	 						 	<td>${item.transactionType}</td>
+	 						 	<td>${item.quantity}</td>
+	 						</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 			</div>
 		</form>
 		</div>
 		</div>
+		
+	<script>
+    $(document).ready(function() 
+        { 
+            $("#transactionTable").tablesorter(); 
+        } 
+    );
+    </script>
+		
 	</body>
 	
 	
