@@ -36,9 +36,20 @@ public class BinController {
 	
 		public String addBin(int rack_id, int resistance, int count){
 			int capacity = db.getCapacityFromRack(rack_id);
-		
+			int counter = 0;
+			//Checking for valid resistance
+			String res = Integer.toString(resistance);
+			for(int i=2; i<res.length(); i++){
+				if(res.charAt(i) != '0'){
+					System.out.println(res.charAt(i));
+					counter = 1;
+				}
+			}
 			if(db.checkExistingBins(rack_id, resistance)){
 				return "Cannot add identical bins under same rack";
+			}
+			else if(counter == 1){
+				return "The resistance you entered is an invalid value";
 			}
 			else{
 				db.insertBin(rack_id, resistance, count);
