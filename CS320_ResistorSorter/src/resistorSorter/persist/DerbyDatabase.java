@@ -1192,5 +1192,34 @@ public class DerbyDatabase implements IDatabase {
 		});		
 	}
 
+	@Override
+	public int getResistanceFromBin(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.resistance"
+							+ " from bins"
+							+ " where bin_id = ?"							
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
 
 }

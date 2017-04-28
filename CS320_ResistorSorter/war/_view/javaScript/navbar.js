@@ -20,7 +20,7 @@ document.write('\
 	            <li><a href="/resistorSorter/TestViewInventory">Full Inventory</a></li>\
 	        </ul>\
 	        <ul class="nav navbar-nav navbar-right">\
-	        	<li><a href="/resistorSorter/Profile"><span class="glyphicon glyphicon-user"></span>Your Profile</a></li>\
+	        	<li><a href="/resistorSorter/Profile"><span class="glyphicon glyphicon-user"></span> Your Profile</a></li>\
 	        	<li><button class="btn btn-danger navbar-btn" type="submit" name="logout">Logout</button></li>\
 	        </ul>\
 	    </div>\
