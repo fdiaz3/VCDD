@@ -734,12 +734,13 @@ public class TestDerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
-					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq) values (?, ?, ?, ?, ?)");
+					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq, uuid) values (?, ?, ?, ?, ?, ?)");
 					stmt.setString(1, username);
 					stmt.setString(2, password);
 					stmt.setString(3, firstname);
 					stmt.setString(4, lastname);
 					stmt.setBoolean(5, adminReq);
+					stmt.setString(6, uuid);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -821,7 +822,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<InventoryTransaction> getUserAllTransactions(String username) {
+	public List<InventoryTransaction> getAllUserTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -983,23 +984,283 @@ public class TestDerbyDatabase implements IDatabase {
 
 	@Override
 	public void updateAdminFlag(String username, boolean adminReq) {
-		// TODO Auto-generated method stub
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("UPDATE users" 
+							+ " SET adminReq = ?"
+							+ " WHERE username = ?");
+					
+					stmt.setBoolean(1, adminReq);
+					stmt.setString(2, username);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 		
 	}
 
 	@Override
 	public boolean getAdminFlag(String username) {
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.adminReq"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 1 listings then user exists
+					if(resultSet.getBoolean(1)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
 	}
 
 	@Override
 	public boolean checkUUID(String username, String uuid) {
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.uuid"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+
+					if(resultSet.getString(1).equals(uuid)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
 	}
 
+	@Override
+	public List<InventoryTransaction> getAllTransactions() {
+		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
+			@Override
+			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select * from transactions"
+					);					
+					
+					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						int transaction_id = resultSet.getInt(1);
+						int user_id = resultSet.getInt(2);
+						String userName = resultSet.getString(3);
+						int inventory_id = resultSet.getInt(4);
+						int rack_id = resultSet.getInt(5);
+						int bin_id = resultSet.getInt(6);
+						Timestamp transactionTime = resultSet.getTimestamp(7);
+						String transactionType = resultSet.getString(8);
+						int quantity = resultSet.getInt(9);
+						
+						
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						
+						result.add(inventoryTransaction);
+					}
+					
+					// check if the inventoryTransaction was found
+					if (!found) {
+						//do nothing
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
+	@Override
+	public boolean checkExistingRacks(float tolerance, float wattage, int inventory_id) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(rack_id)"
+							+ " from racks"
+							+ " where racks.tolerance = ? and racks.wattage = ?" 		
+					);
+					stmt1.setFloat(1, tolerance);
+					stmt1.setFloat(2, wattage);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 0 listings then rack is good
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});			
+	}
+
+	@Override
+	public boolean checkExistingBins(int rack_id, int resistance) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(bin_id)"
+							+ " from bins, racks"
+							+ " where racks.rack_id = ? and bins.rack_id = ? and bins.resistance = ?" 		
+					);
+					stmt1.setInt(1, rack_id);
+					stmt1.setInt(2, rack_id);
+					stmt1.setInt(3, resistance);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 0 listings then rack is good
+					if(resultSet.getInt(1) == 0){
+						return false;
+					}
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public int getResistanceFromBin(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.resistance"
+							+ " from bins"
+							+ " where bin_id = ?"							
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
+	@Override
+	public float getToleranceFromBin(int bin_id) {
+		return executeTransaction(new Transaction<Float>() {
+			@Override
+			public Float execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.rack_id"
+							+ " from bins"
+							+ " where bins.bin_id = ?"							
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					int rack_id = resultSet.getInt(1);
+					resultSet = null;
+					stmt2 = conn.prepareStatement(
+							"select racks.tolerance"
+							+ " from racks"
+							+ " where rack_id = ?"							
+					);
+					stmt2.setInt(1, rack_id);
+					resultSet = stmt2.executeQuery();
+					resultSet.next();
+					return resultSet.getFloat(1);
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
 
 
 }
