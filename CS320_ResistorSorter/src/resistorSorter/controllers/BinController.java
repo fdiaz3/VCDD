@@ -141,7 +141,7 @@ public class BinController {
 			//Actual colors
 			String[] colors ={"black","brown","red","orange","yellow","green","blue","violet","grey","white"};
 			
-			System.out.println("Resistance in: "+resistance);
+			//System.out.println("Resistance in: "+resistance);
 			//4 bands
 
 			//Getting first band color
@@ -160,7 +160,7 @@ public class BinController {
 				//System.out.println(color1);
 				//Getting multiplier and getting 2nd band color
 				resToMultiply = resToMultiply + num1;
-				System.out.println("Rest to multiply: "+resToMultiply);
+				//System.out.println("Rest to multiply: "+resToMultiply);
 				
 				for(int i = 1; i<res.length(); i++){
 					if(res.charAt(i) == '0'){
@@ -175,7 +175,7 @@ public class BinController {
 						num2 = res.charAt(i);
 						resToMultiply = resToMultiply + num2;
 						
-						System.out.println("2nd number to get color of: "+num2);
+						//System.out.println("2nd number to get color of: "+num2);
 						for(int j = 1; j<=9; j++){
 							iValcmp = Integer.toString(j);
 							iVal = iValcmp.charAt(0);
@@ -188,8 +188,8 @@ public class BinController {
 					}
 				}
 				
-				System.out.println("Second Color: "+color2);
-				System.out.println("What gets multiplied to find 3rd color: "+resToMultiply);
+				//System.out.println("Second Color: "+color2);
+				//System.out.println("What gets multiplied to find 3rd color: "+resToMultiply);
 				//System.out.println(num2);
 
 				resToMult = Integer.parseInt(resToMultiply);
@@ -242,7 +242,7 @@ public class BinController {
 			}
 			
 			float tol = db.getToleranceFromBin(bin_id);
-			System.out.println(tol);
+			//System.out.println(tol);
 			//1% tolerance
 			if(tol <= 1){
 				tolerance = "brown";
