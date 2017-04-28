@@ -21,6 +21,7 @@ public class ProfileServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
 		//initialize controllers
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		loginController = new LoginController("inventory");
@@ -50,7 +51,9 @@ public class ProfileServlet extends HttpServlet {
 		//send info to jsp
 		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
 		displayTransactions(req);
+		
 		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
+		
 	}
 
 	@Override

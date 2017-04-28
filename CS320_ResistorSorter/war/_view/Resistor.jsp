@@ -53,7 +53,15 @@
 					
 				</table>
 			</div>
-
+			
+			<canvas id="aResistor" width="400" height="200">
+				This text is displayed if your browser does not support HTML5 Canvas.
+			</canvas>
+			<script type="text/javascript" src="_view/javaScript/resistor.js"></script>
+			<script type="text/javascript">
+				RESISTOR.init(["red", "orange", "yellow", "purple"]);
+				RESISTOR.drawResistor();
+			</script>
 		</form>
 		</div>
 		</div>

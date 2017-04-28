@@ -45,3 +45,29 @@ tr:nth-child(even) td { background: #F1F1F1; }
 tr:nth-child(odd) td { background: #FEFEFE; }
 
 tr td:hover { background: #666; color: #004040; } /* Hover cell effect! */
+
+
+.tablesorter-childRow td {
+  display: none;
+}
+.tablesorter-childRow.show td {
+  display: table-cell;
+}
+
+/* extra css needed because there are 5 child rows */
+/* no zebra striping */
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+
+/* with zebra striping */
+.tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td .tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td .tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
+  background: #d9d9d9;
+}
+
+.tablesorter-blue tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
+  background: #bfbfbf;
+}
