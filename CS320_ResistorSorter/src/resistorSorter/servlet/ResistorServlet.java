@@ -96,8 +96,7 @@ public class ResistorServlet extends HttpServlet {
 		req.setAttribute("max_count", maxCount);
 		req.setAttribute("userRemoveLimit", userRemoveLimit);
 		req.setAttribute("capacity", capacity);
-		req.setAttribute("colorsBands", colorBands);
-		
+		req.setAttribute("colorBands", colorBands);
 		req.getRequestDispatcher("/_view/Resistor.jsp").forward(req, resp);
 	}
 	

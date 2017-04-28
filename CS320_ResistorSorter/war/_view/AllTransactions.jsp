@@ -66,11 +66,9 @@ All work seen in here has been copied, but modified from the Library example -->
 		</div>
 		</div>
 		<script>
-	    $(document).ready(function() 
-	        { 
+	    $(document).ready(function() { 
 	            $("#transactionTable").tablesorter(); 
-	        } 
-	    );
+	    });
     	</script>
 	</body>
 </html>

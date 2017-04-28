@@ -10,7 +10,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
-		<link rel='stylesheet' type='text/css' href='_view/css/stylesheet.css'/>
 	</head>
 
 	<body>
@@ -54,69 +53,18 @@
 					
 				</table>
 			</div>
-			<div align="center">
-				<table class="col-md-6">
-					<tr>
-						<th>Here is a representation of how the resistor should be colored!</th>
-					</tr>
-				</table>
-				<table class="col-md-6">
- 					 <tr>
-   						<th>Band 1</th>
-    					<th>Band 2</th>
-    					<th>Band 3</th>
-    					<th>Band 4</th>
- 					 </tr>
-  					 <tr>
-   						<td style="background-color:#FF0000;"></td>
-   						<td bgcolor="#00FF00"></td>
-   						<td bgcolor="#FF0000"></td>
-   						<td bgcolor="#00FF00"></td>
- 					 </tr>
-				</table>
-			</div>
+			
+			<canvas id="aResistor" width="400" height="200">
+				This text is displayed if your browser does not support HTML5 Canvas.
+			</canvas>
+			<script type="text/javascript" src="_view/javaScript/resistor.js"></script>
+			<script type="text/javascript">
+				RESISTOR.init("${colorBands[0]}", "${colorBands[1]}", "${colorBands[2]}", "${colorBands[3]}");
+				RESISTOR.drawResistor();
+				
+			</script>
 		</form>
 		</div>
 		</div>
 	</body>
-	<script>// Set up!
-	function showR(a){
-	var a_canvas = document.getElementById("a");
-	var context = a_canvas.getContext("2d");
-	var this_js_script = $('script[src*=_view/Resistor.jsp]');
-
-	// Draw the face
-	context.fillStyle = "yellow";
-	context.beginPath();
-	context.arc(95, 85, 40, 0, 2*Math.PI);
-	context.closePath();
-	context.fill();
-	context.lineWidth = 2;
-	context.stroke();
-	context.fillStyle = "black";
-
-	// Draw the left eye
-	context.beginPath();
-	context.arc(75, 75, 5, 0, 2*Math.PI);
-	context.closePath();
-	context.fill();
-
-	// Draw the right eye
-	context.beginPath();
-	context.arc(114, 75, 5, 0, 2*Math.PI);
-	context.closePath();
-	context.fill();
-
-	// Draw the mouth
-	context.beginPath();
-	context.arc(95, 90, 26, Math.PI, 2*Math.PI, true);
-	context.closePath();
-	context.fill();
-
-	// Write "Hello, World!"
-	context.font = "30px Garamond";
-	context.fillText(a,15,175);
-	alert(a);
-	}
-	</script>
 </html>
