@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import resistorSorter.controllers.BinController;
-import resistorSorter.controllers.ColorController;
 import resistorSorter.controllers.InventoryTransactionController;
 import resistorSorter.persist.PersistenceException;
 
@@ -18,7 +17,6 @@ public class ResistorServlet extends HttpServlet {
 	
 	private BinController binController;
 	private InventoryTransactionController inventoryTransactionController;
-	private ColorController colorController;
 	private int bin_id;
 	private int count;
 	private int userRemoveLimit;
@@ -50,7 +48,6 @@ public class ResistorServlet extends HttpServlet {
 			throws ServletException, IOException {
 		binController = new BinController("inventory");
 		inventoryTransactionController = new InventoryTransactionController("inventory");
-		colorController = new ColorController("inventory");
 		
 		if (req.getParameter("logout") != null) {
 			System.out.println("logout");
@@ -90,7 +87,7 @@ public class ResistorServlet extends HttpServlet {
 		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
 		capacity = binController.getCapacity(bin_id);		
 		maxCount = binController.getMaxCount(bin_id);
-		colorBands = colorController.getResistorColors(bin_id);
+		colorBands = binController.getResistorColors(bin_id);
 
 		//sending info back to jsp
 		req.setAttribute("errorMessage", error);
@@ -99,7 +96,7 @@ public class ResistorServlet extends HttpServlet {
 		req.setAttribute("max_count", maxCount);
 		req.setAttribute("userRemoveLimit", userRemoveLimit);
 		req.setAttribute("capacity", capacity);
-		
+		req.setAttribute("colorsBands", colorBands);
 		
 		req.getRequestDispatcher("/_view/Resistor.jsp").forward(req, resp);
 	}
