@@ -69,13 +69,13 @@ public class controllerTests {
 		assertTrue(size2 == size1-1);
 
 	}
-	
-	//bin controller tests///////////////////////////////////////////////////////////////
+
+	//bin/rack controller tests///////////////////////////////////////////////////////////////
 	
 	@Test 
 	public void testgetCount(){
 		inventoryController.addInventory(500, 100);
-		rackController.addRack(5, (float) 0.5, 1);
+		rackController.addRack((float )5, (float) 0.5, 1);
 		binController.addBin(1, 250, 99);
 		
 		assertTrue(binController.getCount(1) == 99);
@@ -101,6 +101,15 @@ public class controllerTests {
 		assertTrue(binController.getCapacity(1) == 500);
 
 
+	}
+	
+	@Test
+	public void testGetCapacityFromRack(){
+		inventoryController.addInventory(500, 100);
+		rackController.addRack(5, (float) 0.5, 1);
+		binController.addBin(1, 250, 150);
+		
+		assertTrue(binController.getCapacityFromRack(1) == 500);
 	}
 	
 	
