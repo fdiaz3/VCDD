@@ -59,12 +59,12 @@
 			</canvas>
 			<script type="text/javascript" src="_view/javaScript/resistor.js"></script>
 			<script type="text/javascript">
-				RESISTOR.init(["red", "orange", "yellow", "purple"]);
+				RESISTOR.init("${colorBands[0]}", "${colorBands[1]}", "${colorBands[2]}", "${colorBands[3]}");
 				RESISTOR.drawResistor();
+				
 			</script>
 		</form>
 		</div>
 		</div>
 	</body>
-	
 </html>

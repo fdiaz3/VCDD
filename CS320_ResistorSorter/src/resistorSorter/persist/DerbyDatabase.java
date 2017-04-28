@@ -1192,5 +1192,73 @@ public class DerbyDatabase implements IDatabase {
 		});		
 	}
 
+	@Override
+	public int getResistanceFromBin(int bin_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.resistance"
+							+ " from bins"
+							+ " where bin_id = ?"							
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					return resultSet.getInt(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
+	@Override
+	public float getToleranceFromBin(int bin_id) {
+		return executeTransaction(new Transaction<Float>() {
+			@Override
+			public Float execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select bins.rack_id"
+							+ " from bins"
+							+ " where bins.bin_id = ?"							
+					);
+					stmt1.setInt(1, bin_id);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					int rack_id = resultSet.getInt(1);
+					resultSet = null;
+					stmt2 = conn.prepareStatement(
+							"select racks.tolerance"
+							+ " from racks"
+							+ " where rack_id = ?"							
+					);
+					stmt2.setInt(1, rack_id);
+					resultSet = stmt2.executeQuery();
+					resultSet.next();
+					return resultSet.getFloat(1);
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
 
 }

@@ -1,53 +1,65 @@
 var RESISTOR = RESISTOR || (function(){
-    var _args = {}; // private
     var resistorImg = new Image();
     resistorImg.src = "_view/images/resistor.png";
+    var color1;
+    var color2;
+    var color3;
+    var color4;
 
     return {
-        init : function(Args) {
-            _args = Args;
-            // some other initialising
+        init : function(arg1, arg2, arg3, arg4) {
+        	color1 = arg1;
+        	color2 = arg2;
+        	color3 = arg3;
+        	color4 = arg4;
+            
         },
         drawResistor : function() {
         	// Set up!
             var a_canvas = document.getElementById("aResistor");
             var ctx = a_canvas.getContext("2d");
             
-            ctx.drawImage(resistorImg, 0, 0);
-            
-            //ctx.fillStyle = "gold";
-            //ctx.shadowBlur=20;
-            //ctx.shadowColor="black";
-            
-            ctx.fillStyle = _args[0];
-            ctx.beginPath();
-            ctx.fillRect(125, 5, 25, 70);
-            ctx.closePath();
-            ctx.fill();
-            
-            ctx.fillStyle = _args[1];
-            ctx.beginPath();
-            ctx.fillRect(175, 5, 25, 70);
-            ctx.closePath();
-            ctx.fill();
-            
-            ctx.fillStyle = _args[2];
-            ctx.beginPath();
-            ctx.fillRect(225, 5, 25, 70);
-            ctx.closePath();
-            ctx.fill();
-            
-            ctx.fillStyle = _args[3];
-            ctx.beginPath();
-            ctx.fillRect(275, 5, 25, 70);
-            ctx.closePath();
-            ctx.fill();
+            //function called to make sure image is loaded before drawing anything else
+            resistorImg.onload = function() {
+            	
+                ctx.drawImage(resistorImg, 0, 0);
+                
+                ctx.fillStyle = color1;
+                ctx.beginPath();
+                ctx.fillRect(120, 7, 25, 66);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.fillStyle = color2;
+                ctx.beginPath();
+                ctx.fillRect(170, 7, 25, 66);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.fillStyle = color3;
+                ctx.beginPath();
+                ctx.fillRect(220, 7, 25, 66);
+                ctx.closePath();
+                ctx.fill();
+                
+                if(color4.localeCompare("none")){
+                	ctx.fillStyle = color4;
+                	ctx.beginPath();
+                    ctx.fillRect(270, 7, 25, 66);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                
+                
+
+                ctx.fillStyle = "black";
+                ctx.font = "30px Garamond";
+                ctx.fillText(color1 + " " + color2 + " " + color3 + " " + color4,60,110);
+            };
+
             
 
-            ctx.fillStyle = "black";
-            // Write "Hello, World!"
-            ctx.font = "30px Garamond";
-            ctx.fillText(_args[0] + " " + _args[1] + " " + _args[2] + " " + _args[3],15,175);
             
             
             
