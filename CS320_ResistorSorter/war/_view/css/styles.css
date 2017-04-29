@@ -26,7 +26,24 @@ height: 30px;
 transition: all 0.3s; /* Simple transition for hover effect */
 text-align: center;
 }
+.tablesorter-childRow td {
+  display: none;
+}
+.tablesorter-childRow.show td {
+  display: table-cell;
+}
 
+/* extra css needed because there are 5 child rows */
+/* no zebra striping */
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+
+/* with zebra striping */
+.tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td .tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td .tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+.tablesorter-blue tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
+  background: #d9d9d9;
+}
 th {
 background: #DFDFDF; /* Darken header a bit */
 font-weight: bold;
