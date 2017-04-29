@@ -91,7 +91,7 @@ $(this).nextUntil('tr.header1').slideToggle(150);
 		</c:if>
 		<div class="row">
 		
-	<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
+	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 		<script src="_view/javaScript/navbar.js"></script>
 		
 		<div> <input type="Submit" name="resetInventory" value="Reset Inventory"></div>

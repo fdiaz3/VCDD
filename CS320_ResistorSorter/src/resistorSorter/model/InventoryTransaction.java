@@ -12,7 +12,7 @@ public class InventoryTransaction{
 	private float tolerance;
 	private int quantity;
 	//TRUE = ADD, FALSE = REMOVE
-	private boolean transactionType;
+	private char transactionType;
 	private int remaining;
 	
 	
@@ -25,7 +25,11 @@ public class InventoryTransaction{
 		this.wattage = wattage;
 		this.tolerance = tolerance;
 		this.quantity = quantity;
-		this.transactionType = transactionType;
+		if(transactionType == true){
+			this.transactionType = '+';
+		}else{
+			this.transactionType = '-';
+		}
 		this.remaining = remaining;
 		
 	}
@@ -51,7 +55,7 @@ public class InventoryTransaction{
 	public int getQuantity(){
 		return quantity;
 	}
-	public boolean getTransactionType(){
+	public char getTransactionType(){
 		return transactionType;
 	}
 	public int getRemaining(){
