@@ -35,7 +35,7 @@ public class controllerTests {
 		//create new tables
 		TestDerbyDatabase.loadDataBase();
 		
-		inventoryController.addInventory(500, 100, "testing");
+		inventoryController.addInventory(500, 100,"KEC123","testing");
 		
 		rackController.addRack(5, (float) 0.5, 1,"testing");
 		rackController.addRack(7, (float)0.25, 1,"testing");
@@ -62,6 +62,11 @@ public class controllerTests {
 		inventoryController.removeInventory(inventoryController.displayInventories().size(),"testing");
 		int size2 = inventoryController.displayInventories().size();
 		assertTrue(size2 == size1-1);
+		
+		int size3 = inventoryController.displayInventories().size();
+		inventoryController.removeInventory(inventoryController.displayInventories().size(),"evil");
+		int size4 = inventoryController.displayInventories().size();
+		assertTrue(size3 == size4);
 	}
 	
 	@Test 
