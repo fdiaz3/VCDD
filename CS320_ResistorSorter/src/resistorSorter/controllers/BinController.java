@@ -34,7 +34,7 @@ public class BinController {
 	}
 	
 	
-		public String addBin(int rack_id, int resistance, int count){
+		public String addBin(int rack_id, int resistance, int count, String user){
 			int capacity = db.getCapacityFromRack(rack_id);
 			int counter = 0;
 			//Checking for valid resistance
@@ -48,8 +48,14 @@ public class BinController {
 			if(db.checkExistingBins(rack_id, resistance)){
 				return "Cannot add identical bins under same rack";
 			}
+			else if(count > capacity){
+				return "Cannot add a count higher than the capcity";
+			}
 			else if(counter == 1){
 				return "The resistance you entered is an invalid value";
+			}
+			else if(!db.checkAdminStatus(user)){
+				return "Only admistrators can do that";
 			}
 			else{
 				db.insertBin(rack_id, resistance, count);
@@ -58,8 +64,12 @@ public class BinController {
 			
 		}
 		
-		public void removeBin(int binID){
+		public String removeBin(int binID, String user){
+			if(!db.checkAdminStatus(user)){
+				return "Only admistrators can do that";
+			}
 			db.removeBin(binID);
+			return null;
 		}
 		
 		public List<Bin> displayBins(int rackID){
@@ -217,7 +227,7 @@ public class BinController {
 						}
 					}
 					color2 = colors[0];
-					multiplier = "Gold";
+					multiplier = "gold";
 				}
 				else{
 					num2 =res.charAt(1);

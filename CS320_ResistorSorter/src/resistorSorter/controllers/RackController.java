@@ -31,26 +31,33 @@ public class RackController {
 		db = DatabaseProvider.getInstance();
 	}
 	//Add rack is pressed
-	public String addRack(float tolerance, float wattage, int inventory_id){
+	public String addRack(float tolerance, float wattage, int inventory_id, String user){
 		if(inventory_id == 0){
 			return "Adding to invalid inventory";
 		}
-		if(tolerance > 25){
+		else if(tolerance > 25){
 			return "Only a maximum tolerance of 25% is acceptable";
 		}
-		if(tolerance <= 0 || wattage <= 0){
+		else if(tolerance <= 0 || wattage <= 0){
 			return "Tolerance or wattage cannot be  negative/string/zero/large ";
 		}
-		if(db.checkExistingRacks(tolerance, wattage, inventory_id)){
+		else if(db.checkExistingRacks(tolerance, wattage, inventory_id)){
 			return "Cannot have matching racks under one inventory";
+		}
+		else if(!db.checkAdminStatus(user)){
+			return "Only administrators can do that";
 		}
 		db.insertRack(inventory_id, tolerance, wattage);
 		return null;
 	}
 	
 	//Delete rack is pressed
-	public void removeRack(int rackID){
+	public String removeRack(int rackID, String user){
+		if(!db.checkAdminStatus(user)){
+			return "Only administrators can do that";
+		}
 		db.removeRack(rackID);
+		return null;
 	}
 	
 	public List<Rack> displayRacks(int inventory_id){

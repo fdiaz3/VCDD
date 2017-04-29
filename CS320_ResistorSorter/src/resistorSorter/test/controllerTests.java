@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryController;
+import resistorSorter.controllers.LoginController;
 import resistorSorter.controllers.RackController;
 import resistorSorter.persist.TestDerbyDatabase;
 
@@ -17,6 +18,7 @@ public class controllerTests {
 	private InventoryController inventoryController;
 	private RackController rackController;
 	private BinController binController;
+	private LoginController loginController;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -25,19 +27,23 @@ public class controllerTests {
 		inventoryController = new InventoryController("test");
 		rackController = new RackController("test");
 		binController = new BinController("test");
+		loginController = new LoginController("test");
+		
+		loginController.createAccount("testing", "test", "first", "last", true);
+		loginController.createAccount("evil", "test", "first", "last", false);
 		
 		//create new tables
 		TestDerbyDatabase.loadDataBase();
 		
-		inventoryController.addInventory(500, 100);
+		inventoryController.addInventory(500, 100, "testing");
 		
-		rackController.addRack(5, (float) 0.5, 1);
-		rackController.addRack(7, (float)0.25, 1);
+		rackController.addRack(5, (float) 0.5, 1,"testing");
+		rackController.addRack(7, (float)0.25, 1,"testing");
 		
-		binController.addBin(1, 500, 22);
-		binController.addBin(1, 220, 333);
-		binController.addBin(2, 1000, 100);
-		binController.addBin(2, 7200, 56);
+		binController.addBin(1, 500, 22,"testing");
+		binController.addBin(1, 220, 333,"testing");
+		binController.addBin(2, 1000, 100,"testing");
+		binController.addBin(2, 7200, 56,"testing");
 		
 	}
 		
@@ -53,7 +59,7 @@ public class controllerTests {
 	@Test 
 	public void testRemoveInventory(){
 		int size1 = inventoryController.displayInventories().size();
-		inventoryController.removeInventory(inventoryController.displayInventories().size());
+		inventoryController.removeInventory(inventoryController.displayInventories().size(),"testing");
 		int size2 = inventoryController.displayInventories().size();
 		assertTrue(size2 == size1-1);
 	}
@@ -62,7 +68,7 @@ public class controllerTests {
 	public void testRemoveInventoryWithRacks(){
 		int size1 = inventoryController.displayInventories().size();
 		try{
-			inventoryController.removeInventory(1);
+			inventoryController.removeInventory(1,"testing");
 		}
 		catch(resistorSorter.persist.PersistenceException e){
 			System.out.println("Not removing inventories correctly!!");

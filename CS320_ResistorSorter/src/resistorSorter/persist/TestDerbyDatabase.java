@@ -1262,5 +1262,11 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
+	@Override
+	public boolean checkAdminStatus(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
