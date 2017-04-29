@@ -34,7 +34,7 @@
 						<select class="form-control" name="inventory_id">
 						
 						<c:if test="${empty inventory_id}">
-								<option selected disabled> Select an Inventory ID </option>
+								<option selected disabled> Select an Inventory</option>
 							</c:if>
 						
 						
@@ -44,12 +44,12 @@
 							<!-- if an inventory_id comes back from servlet, display it as the selected one -->
 							<!-- (value =) is what gets passed back to the servlet -->
 							<c:if test="${item.inventory_id == inventory_id}">
-								<option selected value = "${item.inventory_id}"> ID${item.inventory_id} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
+								<option selected value = "${item.inventory_id}"> ${item.inventoryName} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
 							</c:if>
 
 							<!-- test used to prevent showing selected value twice -->
 							<c:if test="${item.inventory_id != inventory_id}">
-								<option value = "${item.inventory_id}">ID${item.inventory_id} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
+								<option value = "${item.inventory_id}">${item.inventoryName} Capacity=${item.binCapacity} removeLimit=${item.userRemoveLimit} </option>
 							</c:if>
 
 							</c:forEach>
