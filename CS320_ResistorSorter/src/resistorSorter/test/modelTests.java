@@ -25,8 +25,8 @@ public class modelTests {
 	public void setUp() throws Exception{
 		
 		//Initialize inventory object with a bin capacity of 500 and user remove limit of 100
-		modelInventory1 = new Inventory(1,500,100);
-		modelInventory2 = new Inventory(2,400,150);
+		modelInventory1 = new Inventory(1,500,100,"username");
+		modelInventory2 = new Inventory(2,400,150,"username");
 		
 		//Create a rack object to test 5%, 0.25w
 		modelRack1 = new Rack(1, 1, 5, (float) 0.25);
@@ -102,27 +102,6 @@ public class modelTests {
 		assertTrue(modelRack2.getWattage() == 0.5);
 	}
 	
-	@Test 
-	public void testSetTolerance(){
-		modelRack1.setTol(7);
-		assertFalse(modelRack1.getTolerance() == 5);
-		assertTrue(modelRack1.getTolerance() == 7);
-		
-		modelRack2.setTol(20);
-		assertFalse(modelRack2.getTolerance() == 5);
-		assertTrue(modelRack2.getTolerance() == 20);
-	}
-	
-	@Test
-	public void testSetWatt(){
-		modelRack1.setWatt((float)0.5);
-		assertFalse(modelRack1.getWattage() == 0.25);
-		assertTrue(modelRack1.getWattage() == 0.5);
-		
-		modelRack3.setWatt((float)1);
-		assertFalse(modelRack3.getWattage() == 0.25);
-		assertTrue(modelRack3.getWattage() == 1);
-	}
 	@Test
 	public void testGetRack_id(){
 		assertTrue(modelRack2.getRack_id() == 2);
