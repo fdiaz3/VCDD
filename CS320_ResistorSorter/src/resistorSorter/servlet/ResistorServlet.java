@@ -86,7 +86,7 @@ public class ResistorServlet extends HttpServlet {
 		count = binController.getCount(bin_id);
 		userRemoveLimit = binController.getUserRemoveLimit(bin_id);
 		capacity = binController.getCapacity(bin_id);		
-		maxCount = binController.getMaxCount(bin_id);
+		maxCount = binController.getMaxChangeInCount(bin_id);
 		colorBands = binController.getResistorColors(bin_id);
 
 		//sending info back to jsp

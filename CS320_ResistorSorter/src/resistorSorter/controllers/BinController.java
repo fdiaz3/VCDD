@@ -119,7 +119,7 @@ public class BinController {
 		public int getCapacityFromRack(int rack_id){
 			return db.getCapacityFromRack(rack_id);
 		}
-		public int getMaxCount(int bin_id){
+		public int getMaxChangeInCount(int bin_id){
 			if(db.getUserRemoveLimit(bin_id) > db.getCapacity(bin_id)-db.getCount(bin_id)){
 				return db.getUserRemoveLimit(bin_id);
 			}
@@ -264,9 +264,9 @@ public class BinController {
 				tolerance = "none";
 			}
 			String[] result = {color1, color2, multiplier, tolerance};
-			for(int i=0;i<result.length;i++){
-				System.out.println(result[i]);
-			}
+			/*for(int i=0;i<result.length;i++){
+				//System.out.println(result[i]);
+			}*/
 			return result;
 		}
 }
