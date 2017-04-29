@@ -10,8 +10,10 @@ All work seen in here has been copied, but modified from the Library example -->
 		<title>Create Account</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" defer></script>
 		<link href= "_view/css/styles.css" rel= "stylesheet" type= "text/css">
 	</head>
 
@@ -51,10 +53,10 @@ All work seen in here has been copied, but modified from the Library example -->
 				<label for="last">Last Name:</label>
 				<input type="text" class="form-control" name="lastname" size="12" id="last" value="${lastname}" style="width: 200px;" />
 			</div>	
-			<div class="form-group" data-toggle="buttons">
-				<label class="btn btn-primary">
-				<input type="checkbox" name="adminReq" value="True" autocomplete="off" />
-				Request for Administrator Permissions?
+			<div class="form-group" >
+				<label>
+					<input type="checkbox" name="adminReq" value="True" autocomplete="off" />
+					Request for Administrator Permissions?
 				</label>
 			</div>	
 			<div>
