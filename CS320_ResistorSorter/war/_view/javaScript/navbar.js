@@ -26,3 +26,4 @@ document.write('\
 	    </div>\
 	</nav>\
 ');
+
