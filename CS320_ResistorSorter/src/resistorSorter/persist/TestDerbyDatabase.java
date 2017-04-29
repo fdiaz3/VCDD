@@ -95,6 +95,7 @@ public class TestDerbyDatabase implements IDatabase {
 						"CREATE TABLE inventories("
 						+ " inventory_id integer primary key"
 						+ " generated always as identity (start with 1, increment by 1),"
+						+ " inventoryName varchar(20) unique,"
 						+ " bincapacity integer,"
 						+ " userremovelimit integer"
 						+ ")"
@@ -127,7 +128,7 @@ public class TestDerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean"
+							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean, uuid varchar(60)"
 							+ ")"
 						);
 					stmt4.executeUpdate();
@@ -137,16 +138,14 @@ public class TestDerbyDatabase implements IDatabase {
 							"CREATE TABLE transactions("
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " user_id integer constraint user_id references users on delete cascade,"
-							//this username is based on user_id
-							+ " username varchar(20),"
-							//had to add 2 to the ids because there can only be one unique constraint
-							+ " inventory_id integer constraint inventory_id2 references inventories on delete cascade,"
-							+ " rack_id integer constraint rack_id2 references racks on delete cascade,"
-							+ " bin_id integer constraint bin_id2 references bins on delete cascade,"
 							+ " transactionTime timestamp,"
-							+ " transactionType varchar(20),"
-							+ " quantity integer"
+							+ " username varchar(20),"
+							+ " resistance integer,"
+							+ " wattage float,"
+							+ " tolerance float,"
+							+ " quantity integer,"
+							+ " transactionType boolean,"
+							+ " remaining integer"
 							+ ")"
 						);
 					stmt5.executeUpdate();
@@ -231,15 +230,16 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void insertInventory(int binCapacity, int userRemoveLimit) {
+	public void insertInventory(int binCapacity, int userRemoveLimit, String inventoryName) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
-					stmt = conn.prepareStatement("insert into inventories (binCapacity, userRemoveLimit) values (?, ?)");
+					stmt = conn.prepareStatement("insert into inventories (binCapacity, userRemoveLimit, inventoryName) values (?, ?, ?)");
 					stmt.setInt(1, binCapacity);
 					stmt.setInt(2, userRemoveLimit);
+					stmt.setString(3, inventoryName);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -316,10 +316,11 @@ public class TestDerbyDatabase implements IDatabase {
 						found = true;
 						
 						int inventoryNum = resultSet.getInt(1);
-						int binCapacity = resultSet.getInt(2);
-						int userRemoveLimit = resultSet.getInt(3);
+						String inventoryName = resultSet.getString(2);
+						int binCapacity = resultSet.getInt(3);
+						int userRemoveLimit = resultSet.getInt(4);
 						
-						Inventory inventory = new Inventory(inventoryNum, binCapacity, userRemoveLimit);
+						Inventory inventory = new Inventory(inventoryNum, binCapacity, userRemoveLimit, inventoryName);
 						
 						result.add(inventory);
 					}
@@ -849,17 +850,19 @@ public class TestDerbyDatabase implements IDatabase {
 						found = true;
 						
 						int transaction_id = resultSet.getInt(1);
-						int user_id = resultSet.getInt(2);
-						String userName = resultSet.getString(3);
-						int inventory_id = resultSet.getInt(4);
-						int rack_id = resultSet.getInt(5);
-						int bin_id = resultSet.getInt(6);
-						Timestamp transactionTime = resultSet.getTimestamp(7);
-						String transactionType = resultSet.getString(8);
-						int quantity = resultSet.getInt(9);
+						Timestamp transactionTime = resultSet.getTimestamp(2);
+						//String username = resultSet.getString(3); NOT NEEDED SINCE USERNAME COMES FROM METHOD
+						int resistance = resultSet.getInt(4);
+						float wattage = resultSet.getFloat(5);
+						float tolerance = resultSet.getFloat(6);
+						int quantity = resultSet.getInt(7);
+						boolean transactionType = resultSet.getBoolean(8);
+						int remaining = resultSet.getInt(9);
+
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
@@ -880,7 +883,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addTransaction(String username, int bin_id, Timestamp transactionTime, String transactionType, int quantity) {
+	public void addTransaction(String username, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -888,11 +891,14 @@ public class TestDerbyDatabase implements IDatabase {
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
 				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
 				ResultSet resultSet1 = null;
 				ResultSet resultSet2 = null;
 				ResultSet resultSet3 = null;
+				ResultSet resultSet4 = null;
 
 				try {
+					
 					stmt1 = conn.prepareStatement(
 							"select rack_id from bins"
 							+ " where bins.bin_id = ?"
@@ -902,38 +908,50 @@ public class TestDerbyDatabase implements IDatabase {
 					resultSet1.next();
 					int rack_id = resultSet1.getInt(1);
 					
+					
 					stmt2 = conn.prepareStatement(
-							"select inventory_id from racks"
-							+ " where racks.rack_id = ?"
+							"select resistance from bins"
+							+ " where bins.bin_id = ?"
 					);
-					stmt2.setInt(1, rack_id);
+					stmt2.setInt(1, bin_id);
 					resultSet2 = stmt2.executeQuery();
 					resultSet2.next();
-					int inventory_id = resultSet2.getInt(1);
+					int resistance = resultSet2.getInt(1);
 					
 					stmt3 = conn.prepareStatement(
-							"select username from users"
-							+ " where users.username = ?"
+							"select wattage, tolerance from racks"
+							+ " where racks.rack_id = ?"
 					);
-					stmt3.setString(1, username);
-					
+					stmt3.setInt(1, rack_id);
 					resultSet3 = stmt3.executeQuery();
 					resultSet3.next();
-					int user_id = resultSet2.getInt(1);
+					float wattage = resultSet3.getFloat(1);
+					float tolerance = resultSet3.getFloat(2);
 					
+					//get remaining count. add transaction is called after count has been updated in bins
 					stmt4 = conn.prepareStatement(
+							"select count from bins"
+							+ " where bins.bin_id = ?"
+					);
+					stmt4.setInt(1, bin_id);
+					resultSet4 = stmt4.executeQuery();
+					resultSet4.next();
+					int remaining = resultSet4.getInt(1);
+					
+					stmt5 = conn.prepareStatement(
 							"insert into transactions "
-							+ "(user_id, username, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity)"
+							+ "(transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining)"
 							+ " values (?, ?, ?, ?, ?, ?, ?, ?)");
-					stmt4.setInt(1, user_id);
-					stmt4.setString(2, username);
-					stmt4.setInt(3, inventory_id);
-					stmt4.setInt(4, rack_id);
-					stmt4.setInt(5, bin_id);
-					stmt4.setTimestamp(6, transactionTime);
-					stmt4.setString(7, transactionType);
-					stmt4.setInt(8, quantity);
-					stmt4.executeUpdate();
+					
+					stmt5.setTimestamp(1, transactionTime);
+					stmt5.setString(2, username);
+					stmt5.setInt(3, resistance);
+					stmt5.setFloat(4, wattage);
+					stmt5.setFloat(5, tolerance);
+					stmt5.setInt(6, quantity);
+					stmt5.setBoolean(7, transactionType);
+					stmt5.setInt(8, remaining);
+					stmt5.executeUpdate();
 					
 					
 					
@@ -946,6 +964,7 @@ public class TestDerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
 					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
 				}
 			}
 		});
@@ -1098,17 +1117,17 @@ public class TestDerbyDatabase implements IDatabase {
 						found = true;
 						
 						int transaction_id = resultSet.getInt(1);
-						int user_id = resultSet.getInt(2);
-						String userName = resultSet.getString(3);
-						int inventory_id = resultSet.getInt(4);
-						int rack_id = resultSet.getInt(5);
-						int bin_id = resultSet.getInt(6);
-						Timestamp transactionTime = resultSet.getTimestamp(7);
-						String transactionType = resultSet.getString(8);
-						int quantity = resultSet.getInt(9);
+						Timestamp transactionTime = resultSet.getTimestamp(2);
+						String username = resultSet.getString(3);
+						int resistance = resultSet.getInt(4);
+						float wattage = resultSet.getFloat(5);
+						float tolerance = resultSet.getFloat(6);
+						int quantity = resultSet.getInt(7);
+						boolean transactionType = resultSet.getBoolean(8);
+						int remaining = resultSet.getInt(9);
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, user_id, userName, inventory_id, rack_id, bin_id, transactionTime, transactionType, quantity);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
@@ -1264,8 +1283,33 @@ public class TestDerbyDatabase implements IDatabase {
 
 	@Override
 	public boolean checkAdminStatus(String username) {
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.adminReq"
+							+ " from users"
+							+ " where users.username = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, username);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+
+					return resultSet.getBoolean(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
 	}
 
 
