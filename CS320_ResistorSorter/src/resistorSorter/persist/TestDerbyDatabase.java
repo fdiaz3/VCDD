@@ -255,7 +255,7 @@ public class TestDerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				System.out.println(wattage);
+				//System.out.println(wattage);
 				try {
 					stmt = conn.prepareStatement("insert into racks (inventory_id, tolerance, wattage) values (?, ?, ?)");
 					stmt.setInt(1, inventory_id);
