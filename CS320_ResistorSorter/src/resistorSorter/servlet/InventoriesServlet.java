@@ -16,6 +16,7 @@ public class InventoriesServlet extends HttpServlet {
 	
 	private InventoryController inventoryController;
 	private String error;
+	private String user;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -47,16 +48,17 @@ public class InventoriesServlet extends HttpServlet {
 		//getting parameters from jsp
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
-		
+		user = (String) req.getSession().getAttribute("user");
+		System.out.println(user);
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			error = inventoryController.addInventory(binCapacity, userRemoveLimit);
+			error = inventoryController.addInventory(binCapacity, userRemoveLimit, user);
 		}
 		
 		//delete an inventory
 		else if (req.getParameter("deleteInventory") != null) {
 			int deleteInventoryID = getInteger(req, "deleteInventory");
-			inventoryController.removeInventory(deleteInventoryID);
+			error = inventoryController.removeInventory(deleteInventoryID, user);
 		}
 		else if (req.getParameter("logout") != null) {
 			System.out.println("logout");

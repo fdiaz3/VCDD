@@ -29,7 +29,7 @@ All work seen in here has been copied, but modified from the Library example -->
 
 
 		<form action="${pageContext.servletContext.contextPath}/Login" method="post">
-			<div class="form-group" >
+			<div class="form-group">
 				<label for="user">User Name:</label>
   				<input type="text" class="form-control" name="username" size="12" id="user" value="${username}" style="width: 200px;">
 			</div>

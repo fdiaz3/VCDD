@@ -44,6 +44,7 @@ public interface IDatabase {
 	public boolean validateCredentials(String username, String password);
 	public void updateAdminFlag(String username, boolean adminReq);
 	public boolean checkUUID(String username, String uuid);
+	public boolean checkAdminStatus(String username);
 	
 	//Profile related
 	public List<InventoryTransaction> getAllUserTransactions(String username);

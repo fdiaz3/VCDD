@@ -31,46 +31,42 @@ All work seen in here has been copied, but modified from the Library example -->
 	  
 	  
 		<form action="${pageContext.servletContext.contextPath}/CreateAccount" method="post">
-			<div>
-				<table class="col-md-6">
-					<tr>
-						<th>User Name:</th>
-						<td><input type="text" name="username" size="12" value="${username}" /></td>
-					</tr>
-					<tr>
-						<th>Password:</th>
-						<td><input type="password" name="password" size="12" value="${password}" /></td>
-					</tr>
-					<tr>
-						<th>Re-Enter Password:</th>
-						<td><input type="password" name="passwordCheck" size="12" value="${passwordCheck}" /></td>
-					</tr>
-					<tr> 
-						<th>First Name:</th>
-						<td><input type="text" name="firstname" size="12" value="${firstname}" /></td>
-					</tr>
-					<tr> 
-						<th>Last Name:</th>
-						<td><input type="text" name="lastname" size="12" value="${lastname}" /></td>
-					</tr>
-					<tr> 
-						<th>Request for Administrator Permissions?</th>
-						<td><input type="checkbox" name="adminReq" size="12" value="True" /></td>
-					</tr>
-					<tr>
-						<th><th><input type="Submit" name="createAccount" value="Create Account"></th>
-					</tr>
-				</table>
+			<div class="form-group">
+				<label for="user">User Name:</label>
+				<input type="text" class="form-control" name="username" size="12" id="user" value="${username}" style="width: 200px;" />
 			</div>
+			<div class="form-group">
+				<label for="pass">Password:</label>
+				<input type="password" class="form-control" name="password" size="12" id="pass" value="${password}" style="width: 200px;" />
+			</div>
+			<div class="form-group">
+				<label for="repass">Re-Enter Password:</label>
+				<input type="password" class="form-control" name="passwordCheck" size="12" id="repass" value="${passwordCheck}" style="width: 200px;" />
+			</div>		
+			<div class="form-group">
+				<label for="first">First Name:</label>
+				<input type="text" class="form-control" name="firstname" size="12" id="first" value="${firstname}" style="width: 200px;" />
+			</div>		
+			<div class="form-group">
+				<label for="last">Last Name:</label>
+				<input type="text" class="form-control" name="lastname" size="12" id="last" value="${lastname}" style="width: 200px;" />
+			</div>	
+			<div class="form-group" data-toggle="buttons">
+				<label class="btn btn-primary">
+				<input type="checkbox" name="adminReq" value="True" autocomplete="off" />
+				Request for Administrator Permissions?
+				</label>
+			</div>	
+			<div>
+				<input class="btn btn-primary" type="Submit" name="createAccount" value="Create Account">
+			</div>			
 		</form>
 		<form action="${pageContext.servletContext.contextPath}/Login" method="get">
-			<div>
-				<table class="col-md-6">
-					<tr>
-						<th>Already have an account? Click here to login!</th> 
-						<td><input type="Submit" name="login" value="Login"></td>
-					</tr>
-				</table>
+			<div class="form-group" align="right">
+				<label for="login">Already have an account? Click here to login!</label>
+				<div>
+					<input class="btn btn-primary" type="Submit" id="login" name="login" value="Login">
+				</div>
 			</div>
 		</form>
 		</div>

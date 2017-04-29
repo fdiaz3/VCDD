@@ -39,20 +39,27 @@ public class InventoryController {
 	
 	
 		//Add rack is pressed
-		public String addInventory(int binCapacity, int userRemoveLimit){
+		public String addInventory(int binCapacity, int userRemoveLimit, String user){
 			if(binCapacity <= 0 || userRemoveLimit <= 0){
 				return "Cannot have negative//zero/large int for Bin Capacity or User Remove Limit";
 			}
 			else if(userRemoveLimit > binCapacity){
 				return "Cannot have Bin Capacity smaller than the User Remove Limit";
 			}
+			else if(!db.checkAdminStatus(user)){
+				return "Only administrators have permission to do that";
+			}
 			db.insertInventory(binCapacity, userRemoveLimit);
 			return null;
 		}
 		
 		//Delete rack is pressed
-		public void removeInventory(int inventoryID){
+		public String removeInventory(int inventoryID, String user){
+			if(!db.checkAdminStatus(user)){
+				return "Only administrators have permission to do that";
+			}
 			db.removeInventory(inventoryID);
+			return null;
 		}
 		
 		//For Edit rack pressed
