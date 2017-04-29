@@ -30,12 +30,16 @@
 			<div>
 				<table class="col-md-6">
 					<tr>
+						<th>InventoryName:</th>
+						<td><input type="text" name="inventoryName" size="12"/></td>
+					</tr>
+					<tr>
 						<th>Bin Capacity:</th>
-						<td><input type="number" min="1" name="binCapacity" size="12" value="${inventory.binCapacity}" /></td>
+						<td><input type="number" min="1" name="binCapacity" size="12"/></td>
 					</tr>
 					<tr>
 						<th>User Remove Limit: </th>
-						<td><input type="number" min="1" name="userRemoveLimit" size="12" value="${inventory.userRemoveLimit}" /></td>
+						<td><input type="number" min="1" name="userRemoveLimit" size="12"/></td>
 					</tr>
 					<tr>
 						<th><th><input type="Submit" name="initializeInventory" value="Add Inventory!"></th>
@@ -46,12 +50,13 @@
 				<table class="col-md-6">
 					
 					<tr>
-						<th>Inventory #</th> <th>BinCapacity</th> 	<th>RemoveLimit</th><th>
+						<th>Inventory #</th> <th>Inventory name</th> <th>BinCapacity</th> 	<th>RemoveLimit</th><th>
 					</tr>
 						
 					<c:forEach items="${inventories}" var="item" varStatus="status">
  						<tr> 
  							<td>${item.inventory_id}</td>
+ 							<td>${item.inventoryName}</td>
  						 	<td>${item.binCapacity}</td>
  						 	<td>${item.userRemoveLimit}</td>
  						 	<td><button type="submit" name="deleteInventory" value="${item.inventory_id}">Delete</button></td> 	

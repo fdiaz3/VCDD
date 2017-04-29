@@ -9,13 +9,15 @@ public class Inventory {
 	private int binCapacity;
 	private int userRemoveLimit;
 	private int inventory_id;
+	private String inventoryName;
 
 	
 	//Constructor//
-	public Inventory(int inventory_id, int binCapacity, int userRemoveLimit){
+	public Inventory(int inventory_id, int binCapacity, int userRemoveLimit, String inventoryName){
 		this.binCapacity = binCapacity;
 		this.userRemoveLimit = userRemoveLimit;
 		this.inventory_id = inventory_id;
+		this.inventoryName = inventoryName;
 	}
 	
 	//Define Methods//
@@ -39,5 +41,8 @@ public class Inventory {
 	
 	public int getInventory_id(){
 		return inventory_id;
+	}
+	public String getInventoryName(){
+		return inventoryName;
 	}
 }

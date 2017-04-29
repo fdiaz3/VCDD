@@ -9,7 +9,7 @@ public interface IDatabase {
 	
 	//All of the inserting methods
 	
-	public void insertInventory(int binCapacity, int userRemoveLimit);
+	public void insertInventory(int binCapacity, int userRemoveLimit, String inventoryName);
 	public void insertRack(int inventory_id, float tolerance, float wattage);
 	public void insertBin(int rack_id, int resistance, int count);
 	public void addResistors(int bin_id, int count);
@@ -48,7 +48,7 @@ public interface IDatabase {
 	//Profile related
 	public List<InventoryTransaction> getAllUserTransactions(String username);
 	public List<InventoryTransaction> getAllTransactions();
-	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, String transactionType, int quantity);
+	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity);
 	public boolean getAdminFlag(String username);
 	
 }

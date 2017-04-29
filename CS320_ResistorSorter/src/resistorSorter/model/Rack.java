@@ -27,20 +27,6 @@ public class Rack{
 		return wattage;
 	}
 	
-	//Setters
-	public void setTol(float t){
-		this.tolerance = t;
-		
-	}
-	
-	public void setWatt(float w){
-		this.wattage = w;
-	}
-	
-	public void setInvId(int id){
-		this.inventory_id = id;
-	}
-	
 	public int getInventory_id(){
 		return inventory_id;
 	}

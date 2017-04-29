@@ -34,7 +34,7 @@ public class InventoryTransactionController {
 		db = DatabaseProvider.getInstance();
 	}
 	
-	public void addTransaction(String userName, int bin_id, int quantity, String transactionType){
+	public void addTransaction(String userName, int bin_id, int quantity, boolean transactionType){
 		Timestamp transactionTime = new Timestamp(System.currentTimeMillis());
 		db.addTransaction(userName, bin_id, transactionTime, transactionType, quantity);
 	}

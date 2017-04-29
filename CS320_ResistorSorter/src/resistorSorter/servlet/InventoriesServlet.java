@@ -47,10 +47,11 @@ public class InventoriesServlet extends HttpServlet {
 		//getting parameters from jsp
 		int binCapacity = getInteger(req, "binCapacity");
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
+		String inventoryName = (String) req.getParameter("inventoryName");
 		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
-			error = inventoryController.addInventory(binCapacity, userRemoveLimit);
+			error = inventoryController.addInventory(binCapacity, userRemoveLimit, inventoryName);
 		}
 		
 		//delete an inventory
