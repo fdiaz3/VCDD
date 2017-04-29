@@ -54,9 +54,7 @@ td {
 background: #FAFAFA;
 text-align: center;
 }
-.header{
-	color: white;
-}
+
 /* Cells in even rows (2,4,6...) are one color */
 tr:nth-child(even) td { background: #F1F1F1; }
 
