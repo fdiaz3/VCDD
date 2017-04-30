@@ -19,12 +19,28 @@ public class InventoryTransaction{
 	//Constructor//
 	public InventoryTransaction(int transaction_id, Timestamp transactionTime, String username, int resistance, float wattage, float tolerance, int quantity, boolean transactionType, int remaining){
 		this.transaction_id = transaction_id;
-		this.transactionTime = transactionTime.toString().substring(0, transactionTime.toString().indexOf("."));
+		//parsing the timeStamp
+		String temptt = transactionTime.toString();
+		String yyyy = temptt.substring(0, 4);
+		String dd = temptt.substring(8,10);
+		String mm = temptt.substring(5,7);
+		String minute = temptt.substring(14, 16);
+		String dayPeriod = null;
+		int twentyFourHour = Integer.parseInt(temptt.substring(11, 13));
+		if(twentyFourHour > 12){
+			twentyFourHour -= 12;
+			dayPeriod = "pm";
+		}else{
+			dayPeriod = "am";
+		}
+		this.transactionTime = mm + "/" + dd + "/" + yyyy + "  " + twentyFourHour + ":" + minute + " " + dayPeriod;
+				
 		this.username = username;
 		this.resistance = resistance;
 		this.wattage = wattage;
 		this.tolerance = tolerance;
 		this.quantity = quantity;
+		//parsing the transactionType
 		if(transactionType == true){
 			this.transactionType = '+';
 		}else{

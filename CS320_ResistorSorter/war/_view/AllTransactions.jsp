@@ -39,7 +39,7 @@ All work seen in here has been copied, but modified from the Library example -->
 				
 					<thead>
 						<tr>
-							<th>Transaction Time (yyyy-mm-dd hh:mm:ss)</th>
+							<th>Transaction Time (mm/dd/yyyy hh:mm)</th>
 							<th>Username</th>
 							<th>Resistance</th>
 							<th>Wattage</th>
