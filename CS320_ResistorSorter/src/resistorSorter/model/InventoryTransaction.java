@@ -17,7 +17,7 @@ public class InventoryTransaction{
 	
 	
 	//Constructor//
-	public InventoryTransaction(int transaction_id, Timestamp transactionTime, String username, int resistance, float wattage, float tolerance, int quantity, boolean transactionType, int remaining){
+	public InventoryTransaction(int transaction_id, Timestamp transactionTime, String email, int resistance, float wattage, float tolerance, int quantity, boolean transactionType, int remaining){
 		this.transaction_id = transaction_id;
 		//parsing the timeStamp
 		String temptt = transactionTime.toString();
@@ -35,7 +35,7 @@ public class InventoryTransaction{
 		}
 		this.transactionTime = mm + "/" + dd + "/" + yyyy + "  " + twentyFourHour + ":" + minute + " " + dayPeriod;
 				
-		this.username = username;
+		this.username = email.substring(0, email.indexOf('@'));
 		this.resistance = resistance;
 		this.wattage = wattage;
 		this.tolerance = tolerance;

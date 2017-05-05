@@ -35,6 +35,7 @@ All work seen in here has been copied, but modified from the Library example -->
 	    <h1>Welcome, ${username}</h1> 
 	    <p>From here, you can view your activity</p> 
 	    <p>User status: <span class="label label-info"> ${adminFlag} </span></p>
+	    <p><button type="submit" class="btn btn-primary active" name="requestAdmin">Click to request admin</button></p>
 	   	<c:if test="${viewAll}">
 				<p>View all user activity: <button type="submit" class="btn btn-primary active" name="viewTransactions">All Transactions</button></p>
 		</c:if>

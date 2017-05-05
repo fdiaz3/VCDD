@@ -17,7 +17,7 @@ public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private InventoryTransactionController inventoryTransactionController;
 	private LoginController loginController;
-
+	String username;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -26,30 +26,19 @@ public class ProfileServlet extends HttpServlet {
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		loginController = new LoginController("inventory");
 		
-		String user = (String) req.getSession().getAttribute("user");
-		if (user == null) {			
+		//check to see if user is logged in
+		String email = (String) req.getSession().getAttribute("user");
+		if (email == null) {			
 			// user is not logged in, or the session expired
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
-		
-		//Showing user status based on adminReq
-		//Also to allow admin to view all transactions or not
-		if(loginController.getAdminFlag((String)req.getSession().getAttribute("user"))){
-			req.setAttribute("adminFlag", "Administrator");
-			req.setAttribute("viewAll", true);
-		}
-		else{
-			req.setAttribute("adminFlag", "User");
-			req.setAttribute("viewAll", false);
-		}
-		
-
+		username = email.substring(0, email.indexOf('@'));
 		
 		//send info to jsp
-		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
-		displayTransactions(req);
-		
+		req.setAttribute("username", username);
+		displayUserTransactions(req);
+		displayUserStatus(req);
 		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
 		
 	}
@@ -60,6 +49,10 @@ public class ProfileServlet extends HttpServlet {
 		//initialize controllers
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		
+		//get info from jsp
+		String email = (String) req.getSession().getAttribute("user");
+		username = email.substring(0, email.indexOf('@'));
+		
 		if (req.getParameter("logout") != null) {
 			System.out.println("logout");
 			req.getSession().invalidate();
@@ -67,23 +60,45 @@ public class ProfileServlet extends HttpServlet {
 			return;
 		}
 		
+		if (req.getParameter("requestAdmin") != null) {
+			loginController.userRequestAdmin(email);
+		}
+		
 		//Send to transactions
 		if(req.getParameter("viewTransactions") != null){
 			resp.sendRedirect(req.getContextPath() + "/AllTransactions");
 			return;
 		}
+		
+		
 		//send info to jsp
-		req.setAttribute("username", (String)req.getSession().getAttribute("user"));
-		displayTransactions(req);
+		req.setAttribute("username", username);
+		displayUserTransactions(req);
+		displayUserStatus(req);
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
 	}
 	
-	private void displayTransactions(HttpServletRequest req){
-		//display inventories
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private void displayUserTransactions(HttpServletRequest req){
+		//display transactions
 		String username = (String) req.getSession().getAttribute("user");
 		List<InventoryTransaction> transactions = inventoryTransactionController.displayUserInventoryTransactions(username);
 		req.setAttribute("transactions", transactions);
+	}
+	
+	private void displayUserStatus(HttpServletRequest req){
+		//Showing user status based on adminReq
+		//Also to allow admin to view all transactions or not
+		if(loginController.getAdminFlag((String)req.getSession().getAttribute("user"))){
+			req.setAttribute("adminFlag", "Administrator");
+			req.setAttribute("viewAll", true);
+		}
+		else{
+			req.setAttribute("adminFlag", "User");
+			req.setAttribute("viewAll", false);
+		}
 	}
 	
 }

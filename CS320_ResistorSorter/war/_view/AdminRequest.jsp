@@ -24,7 +24,7 @@ All work seen in here has been copied, but modified from the Library example -->
 	
 	  <div class="jumbotron">
 	    <h1>AdminRequest</h1> 
-	    <p>You have ${adminReq} access to ${username}</p> 
+	    <p>You have ${adminReq} access to ${email}</p> 
 	  </div>
 		</div>
 		</div>

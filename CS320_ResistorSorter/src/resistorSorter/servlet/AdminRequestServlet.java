@@ -22,17 +22,20 @@ public class AdminRequestServlet extends HttpServlet {
 		boolean access = false;
 		String email = req.getParameter("email");
 		String uuid = req.getParameter("uuid");
+		Boolean adminflag = Boolean.parseBoolean(req.getParameter("adminReq"));
 		loginController = new LoginController("inventory");
+		
 		try{
-			if(req.getParameter("admin").equals("true") && loginController.checkUUID(email, uuid)){
-				req.setAttribute("admin", "granted");
+			if(adminflag && loginController.checkUUID(email, uuid)){
+				req.setAttribute("adminReq", "granted");
 				access = true;
-			}
-			else if(req.getParameter("admin").equals("false") && loginController.checkUUID(email, uuid)){
-				req.setAttribute("admin", "revoked");
-			}
+			} 
+			else if(!adminflag && loginController.checkUUID(email, uuid)){
+				req.setAttribute("adminReq", "revoked");
+			} 
 			else{
 				resp.sendRedirect(req.getContextPath() + "/Login");
+				access = false;
 			}
 			loginController.updateAdminFlag(email, access);
 			req.setAttribute("email", email);

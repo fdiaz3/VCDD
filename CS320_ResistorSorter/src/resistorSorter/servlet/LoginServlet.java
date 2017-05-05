@@ -27,12 +27,6 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		System.out.println( req.getParameter("userid") );
-		 
-		
-		
-		System.out.println("\nLoginServlet: doPost");
 
 		String errorMessage = null;
 		String email;     
@@ -42,7 +36,6 @@ public class LoginServlet extends HttpServlet {
 
 		// Decode form parameters and dispatch to controller
 		email = req.getParameter("email");
-
 		// Add parameters as request attributes
 		req.setAttribute("username", req.getParameter("username"));
 		req.setAttribute("password", req.getParameter("password"));
@@ -56,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 
 			// redirect to /index page
 			resp.sendRedirect(req.getContextPath() + "/Inventories");
+			return;
 		}
 		else{
 			if(controller.checkYCP(email)){
@@ -65,6 +59,7 @@ public class LoginServlet extends HttpServlet {
 
 				// redirect to /index page
 				resp.sendRedirect(req.getContextPath() + "/Inventories");
+				return;
 			}
 			else{
 				req.setAttribute("errorMessage", "Must be using a YCP email");

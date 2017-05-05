@@ -28,10 +28,18 @@ All work seen in here has been copied, but modified from the Library example -->
 	    <h1>Login</h1> 
 	    <p>Welcome to The Voltage Current Divider Divider</p>
 	    <p>Now introducing... Sign in, with your Google account:    
-	    <div class="g-signin2" data-onsuccess="onSignIn"></div>		
+	    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+	    <form id="loginForm" action="${pageContext.servletContext.contextPath}/Login" method="post">
+	    <input class="btn btn-primary" type="Submit" name="login" value="Login">
+	    <input type="hidden" name="email" id="sendId"/>
+	    </form>
 	  </div>
+	  
+	  
+	  <!-- 
 	  <a href="#" onclick="signOut();">Sign out</a>
-
+	  
+	  
 		<form id="loginForm" action="${pageContext.servletContext.contextPath}/Login" method="post">
 			<div class="form-group">
 				<label for="user">User Name:</label>
@@ -45,9 +53,13 @@ All work seen in here has been copied, but modified from the Library example -->
 				<input class="btn btn-primary" type="Submit" name="login" value="Login">
 			</div>
 			
-			<input type="hidden" name="userid" id="sendId"/>
+			<input type="hidden" name="email" id="sendId"/>
 				
 		</form>
+		 -->
+		 
+		 
+		<!--  
 		<form action="${pageContext.servletContext.contextPath}/CreateAccount" method="get">
 			<div class="form-group" align="right">
 				<label for="create">Don't have an account? Click here to get started!</label>
@@ -56,6 +68,8 @@ All work seen in here has been copied, but modified from the Library example -->
 				</div>
 			</div>
 		</form>
+		-->
+		
 		</div>
 		</div>
 		
@@ -71,7 +85,7 @@ function onSignIn(googleUser) {
   
   var anchor = document.getElementById("sendId");
   var att = document.createAttribute("value");
-  att.value = profile.getId();
+  att.value = profile.getEmail();
   anchor.setAttributeNode(att);
   //document.forms["loginForm"].submit();
 } 

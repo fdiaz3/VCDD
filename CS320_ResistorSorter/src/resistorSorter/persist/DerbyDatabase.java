@@ -127,7 +127,7 @@ public class DerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " email varchar(40), admin boolean, uuid varchar(20)"
+							+ " email varchar(40), admin boolean, uuid varchar(60)"
 							+ ")"
 						);
 					stmt4.executeUpdate();
@@ -138,7 +138,7 @@ public class DerbyDatabase implements IDatabase {
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
 							+ " transactionTime timestamp,"
-							+ " username varchar(20),"
+							+ " email varchar(20),"
 							+ " resistance integer,"
 							+ " wattage float,"
 							+ " tolerance float,"
@@ -1023,7 +1023,7 @@ public class DerbyDatabase implements IDatabase {
 						
 						int transaction_id = resultSet.getInt(1);
 						Timestamp transactionTime = resultSet.getTimestamp(2);
-						String username = resultSet.getString(3);
+						String email = resultSet.getString(3);
 						int resistance = resultSet.getInt(4);
 						float wattage = resultSet.getFloat(5);
 						float tolerance = resultSet.getFloat(6);
@@ -1032,7 +1032,7 @@ public class DerbyDatabase implements IDatabase {
 						int remaining = resultSet.getInt(9);
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
