@@ -30,6 +30,7 @@ public class BinsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String user = (String) req.getSession().getAttribute("user");
+		
 		if (user == null) {
 			System.out.println("   User: <" + user + "> not logged in or session timed out");
 			
