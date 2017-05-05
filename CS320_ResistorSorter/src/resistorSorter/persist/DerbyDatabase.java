@@ -127,7 +127,7 @@ public class DerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean, uuid varchar(60)"
+							+ " email varchar(40), admin boolean, uuid varchar(20)"
 							+ ")"
 						);
 					stmt4.executeUpdate();
@@ -726,102 +726,9 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
-	@Override
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid) {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				try {
-					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq, uuid) values (?, ?, ?, ?, ?, ?)");
-					stmt.setString(1, username);
-					stmt.setString(2, password);
-					stmt.setString(3, firstname);
-					stmt.setString(4, lastname);
-					stmt.setBoolean(5, adminReq);
-					stmt.setString(6, uuid);
-					stmt.executeUpdate();
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-		
-	}
 
 	@Override
-	public boolean checkExistingUsernames(String username) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select count(username)"
-							+ " from users"
-							+ " where users.username = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-					//If result set is 0 listings then username is good
-					if(resultSet.getInt(1) == 0){
-						return false;
-					}
-					return true;
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-	}
-
-	@Override
-	public boolean validateCredentials(String username, String password) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select count(username)"
-							+ " from users"
-							+ " where users.username = ? and users.password = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					stmt1.setString(2, password);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-					//If result set is 1 listings then user exists
-					if(resultSet.getInt(1) == 0){
-						return false;
-					}
-					return true;
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-
-	}
-
-	@Override
-	public List<InventoryTransaction> getAllUserTransactions(String username) {
+	public List<InventoryTransaction> getAllUserTransactions(String email) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -832,9 +739,9 @@ public class DerbyDatabase implements IDatabase {
 					
 					stmt = conn.prepareStatement(
 							"select * from transactions"
-							+ " where transactions.username = ?"
+							+ " where transactions.email = ?"
 					);
-					stmt.setString(1, username);
+					stmt.setString(1, email);
 					
 					
 					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
@@ -860,7 +767,7 @@ public class DerbyDatabase implements IDatabase {
 						
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
@@ -881,7 +788,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addTransaction(String username, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity) {
+	public void addTransaction(String email, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -938,11 +845,11 @@ public class DerbyDatabase implements IDatabase {
 					
 					stmt5 = conn.prepareStatement(
 							"insert into transactions "
-							+ "(transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining)"
+							+ "(transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining)"
 							+ " values (?, ?, ?, ?, ?, ?, ?, ?)");
 					
 					stmt5.setTimestamp(1, transactionTime);
-					stmt5.setString(2, username);
+					stmt5.setString(2, email);
 					stmt5.setInt(3, resistance);
 					stmt5.setFloat(4, wattage);
 					stmt5.setFloat(5, tolerance);
@@ -1000,18 +907,18 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void updateAdminFlag(String username, boolean adminReq) {
+	public void updateAdminFlag(String email, boolean admin) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
 					stmt = conn.prepareStatement("UPDATE users" 
-							+ " SET adminReq = ?"
-							+ " WHERE username = ?");
+							+ " SET admin = ?"
+							+ " WHERE email = ?");
 					
-					stmt.setBoolean(1, adminReq);
-					stmt.setString(2, username);
+					stmt.setBoolean(1, admin);
+					stmt.setString(2, email);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -1023,7 +930,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean getAdminFlag(String username) {
+	public boolean getAdminFlag(String email) {
 		return executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -1033,12 +940,12 @@ public class DerbyDatabase implements IDatabase {
 				//System.out.println(username);
 				try {
 					stmt1 = conn.prepareStatement(
-							"select users.adminReq"
+							"select users.admin"
 							+ " from users"
-							+ " where users.username = ?" 		
+							+ " where users.email = ?" 		
 					);
 					//System.out.println(username);
-					stmt1.setString(1, username);
+					stmt1.setString(1, email);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
@@ -1057,7 +964,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean checkUUID(String username, String uuid) {
+	public boolean checkUUID(String email, String uuid) {
 		return executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -1069,10 +976,10 @@ public class DerbyDatabase implements IDatabase {
 					stmt1 = conn.prepareStatement(
 							"select users.uuid"
 							+ " from users"
-							+ " where users.username = ?" 		
+							+ " where users.email = ?" 		
 					);
 					//System.out.println(username);
-					stmt1.setString(1, username);
+					stmt1.setString(1, email);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
@@ -1277,37 +1184,6 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});	
-	}
-
-	@Override
-	public boolean checkAdminStatus(String username) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select users.adminReq"
-							+ " from users"
-							+ " where users.username = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-
-					return resultSet.getBoolean(1);
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
 	}
 
 

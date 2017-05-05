@@ -27,9 +27,7 @@ public class ProfileServlet extends HttpServlet {
 		loginController = new LoginController("inventory");
 		
 		String user = (String) req.getSession().getAttribute("user");
-		if (user == null) {
-			System.out.println("   User: <" + user + "> not logged in or session timed out");
-			
+		if (user == null) {			
 			// user is not logged in, or the session expired
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;

@@ -31,7 +31,7 @@ public class RackController {
 		db = DatabaseProvider.getInstance();
 	}
 	//Add rack is pressed
-	public String addRack(float tolerance, float wattage, int inventory_id, String user){
+	public String addRack(float tolerance, float wattage, int inventory_id, String email){
 		if(inventory_id == 0){
 			return "Adding to invalid inventory";
 		}
@@ -44,7 +44,7 @@ public class RackController {
 		else if(db.checkExistingRacks(tolerance, wattage, inventory_id)){
 			return "Cannot have matching racks under one inventory";
 		}
-		else if(!db.checkAdminStatus(user)){
+		else if(!db.getAdminFlag(email)){
 			return "Only administrators can do that";
 		}
 		db.insertRack(inventory_id, tolerance, wattage);
@@ -52,8 +52,8 @@ public class RackController {
 	}
 	
 	//Delete rack is pressed
-	public String removeRack(int rackID, String user){
-		if(!db.checkAdminStatus(user)){
+	public String removeRack(int rackID, String email){
+		if(!db.getAdminFlag(email)){
 			return "Only administrators can do that";
 		}
 		db.removeRack(rackID);
