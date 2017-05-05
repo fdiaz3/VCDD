@@ -32,6 +32,30 @@ All work seen in here has been copied, but modified from the Library example -->
 	  </div>
 	  <a href="#" onclick="signOut();">Sign out</a>
 
+		<form id="loginForm" action="${pageContext.servletContext.contextPath}/Login" method="post">
+			<div class="form-group">
+				<label for="user">User Name:</label>
+  				<input type="text" class="form-control" name="username" size="12" id="user" value="${username}" style="width: 200px;">
+			</div>
+			<div class="form-group">	
+				<label for="pass">Password:</label>
+  				<input type="password" class="form-control" name="password" size="12" id="pass" value="${password}" style="width: 200px;">
+  			</div>
+			<div>
+				<input class="btn btn-primary" type="Submit" name="login" value="Login">
+			</div>
+			
+			<input type="hidden" name="userid" id="sendId"/>
+				
+		</form>
+		<form action="${pageContext.servletContext.contextPath}/CreateAccount" method="get">
+			<div class="form-group" align="right">
+				<label for="create">Don't have an account? Click here to get started!</label>
+				<div>
+					<input class="btn btn-primary" type="Submit" id="create" name="createAccount" value="Create Account">
+				</div>
+			</div>
+		</form>
 		</div>
 		</div>
 		
@@ -44,6 +68,12 @@ function onSignIn(googleUser) {
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  
+  var anchor = document.getElementById("sendId");
+  var att = document.createAttribute("value");
+  att.value = profile.getId();
+  anchor.setAttributeNode(att);
+  //document.forms["loginForm"].submit();
 } 
 
 function signOut() {
@@ -52,8 +82,6 @@ function signOut() {
       console.log('User signed out.');
     });
   }
-  document.write(
-	 
-  );
+
 </script>
 </html>
