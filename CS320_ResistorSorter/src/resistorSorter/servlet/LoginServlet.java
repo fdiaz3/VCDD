@@ -31,13 +31,13 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("\nLoginServlet: doPost");
 
 		String errorMessage = null;
-		String email         = null;
+		String name         = null;
 		boolean validLogin  = false;
 
 		controller = new LoginController("inventory");
 
 		// Decode form parameters and dispatch to controller
-		email = req.getParameter("email");
+		name = req.getParameter("email");
 
 		// Add parameters as request attributes
 		req.setAttribute("username", req.getParameter("username"));
@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 		// if login is valid, start a session
 		if (validLogin) {
 			// store user object in session
-			req.getSession().setAttribute("email", email);
+			req.getSession().setAttribute("user", name);
 
 			// redirect to /index page
 			resp.sendRedirect(req.getContextPath() + "/Inventories");

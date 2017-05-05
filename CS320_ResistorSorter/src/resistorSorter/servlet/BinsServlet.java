@@ -24,13 +24,14 @@ public class BinsServlet extends HttpServlet {
 	private int count;
 	private int binCapacity;
 	private String error;
-	private String email;
+	private String user;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String email = (String) req.getSession().getAttribute("email");
-		if (email == null) {
+		String user = (String) req.getSession().getAttribute("user");
+		if (user == null) {
+			System.out.println("   User: <" + user + "> not logged in or session timed out");
 			
 			// user is not logged in, or the session expired
 			resp.sendRedirect(req.getContextPath() + "/Login");
@@ -51,7 +52,7 @@ public class BinsServlet extends HttpServlet {
 		rack_id = getInteger(req, "rack_id");
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
-		email = (String) req.getSession().getAttribute("email");
+		user = (String) req.getSession().getAttribute("user");
 		binCapacity = binController.getCapacityFromRack(rack_id);
 		if(rack_id == 0){
 			error = "Invalid rack ID";
@@ -61,13 +62,13 @@ public class BinsServlet extends HttpServlet {
 		}
 		//add a bin
 		if (req.getParameter("addBin") != null) {
-			error = binController.addBin(rack_id, resistance, count, email);			
+			error = binController.addBin(rack_id, resistance, count, user);			
 		}
 		
 		//delete a bin
 		if (req.getParameter("deleteBin") != null) {
 			int deleteBinID = getInteger(req, "deleteBin");
-			error = binController.removeBin(deleteBinID, email);
+			error = binController.removeBin(deleteBinID, user);
 		}
 		if (req.getParameter("logout") != null) {
 			System.out.println("logout");

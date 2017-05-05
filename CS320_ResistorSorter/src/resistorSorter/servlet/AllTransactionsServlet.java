@@ -25,8 +25,9 @@ public class AllTransactionsServlet extends HttpServlet {
 		inventoryTransactionController = new InventoryTransactionController("inventory");
 		loginController = new LoginController("inventory");
 		
-		String email = (String) req.getSession().getAttribute("email");
-		if (email == null) {
+		String user = (String) req.getSession().getAttribute("user");
+		if (user == null) {
+			System.out.println("   User: <" + user + "> not logged in or session timed out");
 			
 			// user is not logged in, or the session expired
 			resp.sendRedirect(req.getContextPath() + "/Login");
@@ -35,7 +36,7 @@ public class AllTransactionsServlet extends HttpServlet {
 		
 		//Showing user status based on adminReq
 		//Also to allow admin to view all transactions or not
-		if(loginController.getAdminFlag((String)req.getSession().getAttribute("email"))){
+		if(loginController.getAdminFlag((String)req.getSession().getAttribute("user"))){
 
 		}
 		else{
