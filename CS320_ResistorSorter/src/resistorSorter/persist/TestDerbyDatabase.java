@@ -730,100 +730,6 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid) {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				try {
-					stmt = conn.prepareStatement("insert into users (username, password, firstname, lastname, adminReq, uuid) values (?, ?, ?, ?, ?, ?)");
-					stmt.setString(1, username);
-					stmt.setString(2, password);
-					stmt.setString(3, firstname);
-					stmt.setString(4, lastname);
-					stmt.setBoolean(5, adminReq);
-					stmt.setString(6, uuid);
-					stmt.executeUpdate();
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-		
-	}
-
-	@Override
-	public boolean checkExistingUsernames(String username) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select count(username)"
-							+ " from users"
-							+ " where users.username = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-					//If result set is 0 listings then username is good
-					if(resultSet.getInt(1) == 0){
-						return false;
-					}
-					return true;
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-	}
-
-	@Override
-	public boolean validateCredentials(String username, String password) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select count(username)"
-							+ " from users"
-							+ " where users.username = ? and users.password = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					stmt1.setString(2, password);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-					//If result set is 1 listings then user exists
-					if(resultSet.getInt(1) == 0){
-						return false;
-					}
-					return true;
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-
-	}
-
-	@Override
 	public List<InventoryTransaction> getAllUserTransactions(String username) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
@@ -1060,40 +966,6 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean checkUUID(String username, String uuid) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select users.uuid"
-							+ " from users"
-							+ " where users.username = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-
-					if(resultSet.getString(1).equals(uuid)){
-						return true;
-					}
-					return false;
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
-	}
-
-	@Override
 	public List<InventoryTransaction> getAllTransactions() {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
@@ -1280,40 +1152,6 @@ public class TestDerbyDatabase implements IDatabase {
 				}
 			}
 		});	
-	}
-
-	@Override
-	public boolean checkAdminStatus(String username) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				//For testing
-				if(username.equals("testing-fbd-1234")){
-					return true;
-				}
-				
-				PreparedStatement stmt1 = null;
-				ResultSet resultSet = null;
-				//System.out.println(username);
-				try {
-					stmt1 = conn.prepareStatement(
-							"select users.adminReq"
-							+ " from users"
-							+ " where users.username = ?" 		
-					);
-					//System.out.println(username);
-					stmt1.setString(1, username);
-					resultSet = stmt1.executeQuery();
-					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
-					return resultSet.getBoolean(1);
-					
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt1);
-				}
-			}
-		});		
 	}
 
 

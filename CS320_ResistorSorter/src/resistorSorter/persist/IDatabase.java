@@ -39,17 +39,13 @@ public interface IDatabase {
 	public void removeInventory(int inventoryID);
 	
 	//User related methods
-	public void createAccount(String username, String password, String firstname, String lastname, boolean adminReq, String uuid);
-	public boolean checkExistingUsernames(String username);
-	public boolean validateCredentials(String username, String password);
-	public void updateAdminFlag(String username, boolean adminReq);
-	public boolean checkUUID(String username, String uuid);
-	public boolean checkAdminStatus(String username);
-	
+	public void updateAdminFlag(String email, boolean admin);
+	public boolean checkUUID(String email, String uuid);
+	public boolean getAdminFlag(String email);
 	//Profile related
-	public List<InventoryTransaction> getAllUserTransactions(String username);
+	public List<InventoryTransaction> getAllUserTransactions(String email);
 	public List<InventoryTransaction> getAllTransactions();
-	public void addTransaction(String userName, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity);
-	public boolean getAdminFlag(String username);
+	public void addTransaction(String email, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity);
+
 	
 }

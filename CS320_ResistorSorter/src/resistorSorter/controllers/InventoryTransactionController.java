@@ -34,13 +34,13 @@ public class InventoryTransactionController {
 		db = DatabaseProvider.getInstance();
 	}
 	
-	public void addTransaction(String userName, int bin_id, int quantity, boolean transactionType){
+	public void addTransaction(String email, int bin_id, int quantity, boolean transactionType){
 		Timestamp transactionTime = new Timestamp(System.currentTimeMillis());
-		db.addTransaction(userName, bin_id, transactionTime, transactionType, quantity);
+		db.addTransaction(email, bin_id, transactionTime, transactionType, quantity);
 	}
 	
-	public List<InventoryTransaction> displayUserInventoryTransactions(String username){
-		return db.getAllUserTransactions(username);
+	public List<InventoryTransaction> displayUserInventoryTransactions(String email){
+		return db.getAllUserTransactions(email);
 	}
 	public List<InventoryTransaction> displayInventoryTransactions(){
 		return db.getAllTransactions();

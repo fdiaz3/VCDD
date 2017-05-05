@@ -35,25 +35,13 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("\nLoginServlet: doPost");
 
 		String errorMessage = null;
-		String name         = null;
-		String pw           = null;
+		String email         = null;
 		boolean validLogin  = false;
 
 		controller = new LoginController("inventory");
 
 		// Decode form parameters and dispatch to controller
-		name = req.getParameter("username");
-		pw   = req.getParameter("password");
-
-		if (name == null || pw == null || name.equals("") || pw.equals("")) {
-			errorMessage = "Please fill out the required fields";
-		} 
-		else {
-			validLogin = controller.validateCredentials(name, pw);
-			if (!validLogin) {
-				errorMessage = "Invalid username/password";
-			}
-		}
+		email = req.getParameter("email");
 
 		// Add parameters as request attributes
 		req.setAttribute("username", req.getParameter("username"));
@@ -66,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		// if login is valid, start a session
 		if (validLogin) {
 			// store user object in session
-			req.getSession().setAttribute("user", name);
+			req.getSession().setAttribute("email", email);
 
 			// redirect to /index page
 			resp.sendRedirect(req.getContextPath() + "/Inventories");

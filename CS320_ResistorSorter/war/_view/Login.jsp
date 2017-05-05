@@ -26,9 +26,11 @@ All work seen in here has been copied, but modified from the Library example -->
 	
 	  <div class="jumbotron">
 	    <h1>Login</h1> 
-	    <p>Welcome to The Voltage Current Divider Divider</p>   		
+	    <p>Welcome to The Voltage Current Divider Divider</p>
+	    <p>Now introducing... Sign in, with your Google account:    
+	    <div class="g-signin2" data-onsuccess="onSignIn"></div>		
 	  </div>
-	  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+	  <a href="#" onclick="signOut();">Sign out</a>
 
 		<form id="loginForm" action="${pageContext.servletContext.contextPath}/Login" method="post">
 			<div class="form-group">
@@ -56,7 +58,7 @@ All work seen in here has been copied, but modified from the Library example -->
 		</form>
 		</div>
 		</div>
-		<a href="#" onclick="signOut();">Sign out</a>
+		
 	</body>
 
 <script type='text/javascript'>

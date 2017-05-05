@@ -34,7 +34,7 @@ public class BinController {
 	}
 	
 	
-		public String addBin(int rack_id, int resistance, int count, String user){
+		public String addBin(int rack_id, int resistance, int count, String email){
 			int capacity = db.getCapacityFromRack(rack_id);
 			int counter = 0;
 			//Checking for valid resistance
@@ -54,7 +54,7 @@ public class BinController {
 			else if(counter == 1){
 				return "The resistance you entered is an invalid value";
 			}
-			else if(!db.checkAdminStatus(user)){
+			else if(!db.getAdminFlag(email)){
 				return "Only admistrators can do that";
 			}
 			else{
@@ -64,8 +64,8 @@ public class BinController {
 			
 		}
 		
-		public String removeBin(int binID, String user){
-			if(!db.checkAdminStatus(user)){
+		public String removeBin(int binID, String email){
+			if(!db.getAdminFlag(email)){
 				return "Only admistrators can do that";
 			}
 			db.removeBin(binID);
