@@ -35,13 +35,13 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("\nLoginServlet: doPost");
 
 		String errorMessage = null;
-		String name         = null;
+		String email;     
 		boolean validLogin  = false;
 
 		controller = new LoginController("inventory");
 
 		// Decode form parameters and dispatch to controller
-		name = req.getParameter("email");
+		email = req.getParameter("email");
 
 		// Add parameters as request attributes
 		req.setAttribute("username", req.getParameter("username"));
@@ -50,16 +50,23 @@ public class LoginServlet extends HttpServlet {
 		// Add result objects as request attributes
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("login",        validLogin);
-
+		if(controller.checkIfInDatabase(email)){
+			//Do nothing, in DB
+		}
+		else{
+			controller.
+		}
 		// if login is valid, start a session
-		if (validLogin) {
+		if(controller.checkYCP(email)) {
 			// store user object in session
-			req.getSession().setAttribute("user", name);
+			req.getSession().setAttribute("user", email);
 
 			// redirect to /index page
 			resp.sendRedirect(req.getContextPath() + "/Inventories");
 
 			return;
+		}else{
+			req.setAttribute("errorMessage", "Must be using a YCP email");
 		}
 
 		//System.out.println("   Invalid login - returning to /login");

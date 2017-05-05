@@ -27,7 +27,6 @@ public class LoginController {
 	public void updateAdminFlag(String email, boolean admin){
 		db.updateAdminFlag(email, admin);
 	}
-	
 	public boolean getAdminFlag(String username){
 		return db.getAdminFlag(username);
 	}
@@ -39,6 +38,15 @@ public class LoginController {
 	}
 	public boolean checkUUID(String email, String uuid){
 		return db.checkUUID(email, uuid);
+	}
+	public boolean checkIfInDatabase(String email){
+		return db.checkIfInDatabase(email);
+	}
+	public boolean checkYCP(String email){
+		if(email.contains("ycp.edu")){
+			return true;
+		}
+		return false;
 	}
 	//DISCLAIMER//
 	//All work seen in here has been copied, but modified from the Library example//

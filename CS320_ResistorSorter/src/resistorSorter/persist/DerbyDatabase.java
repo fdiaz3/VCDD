@@ -1186,5 +1186,49 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
+	@Override
+	public boolean checkOrInsert(String email, String uuid) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(email)"
+							+ " from users"
+							+ " where users.email = ?" 		
+					);
+					stmt1.setString(1, email);
+
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					if(resultSet.getInt(1) == 0){
+						
+						stmt2 = conn.prepareStatement(
+								"insert into users "
+								+ "(email, admin, uuid)"
+								+ " values (?, ?, ?)"	
+						);
+						stmt2.setString(1, email);
+						stmt2.setBoolean(2, false);
+						stmt2.setString(3, uuid);
+						
+					}
+					//Returns true if email is in DB
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
 
 }
