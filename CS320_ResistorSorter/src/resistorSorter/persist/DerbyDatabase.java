@@ -1187,7 +1187,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean checkOrInsert(String email, String uuid) {
+	public boolean checkIfInDatabase(String email) {
 		return executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -1208,16 +1208,7 @@ public class DerbyDatabase implements IDatabase {
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
 					if(resultSet.getInt(1) == 0){
-						
-						stmt2 = conn.prepareStatement(
-								"insert into users "
-								+ "(email, admin, uuid)"
-								+ " values (?, ?, ?)"	
-						);
-						stmt2.setString(1, email);
-						stmt2.setBoolean(2, false);
-						stmt2.setString(3, uuid);
-						
+						return false;						
 					}
 					//Returns true if email is in DB
 					return true;
@@ -1228,6 +1219,56 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});		
+	}
+
+	@Override
+	public boolean insertNewUser(String email, String uuid) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into users (email, admin, uuid) values (?, ?, ?)");
+					stmt.setString(1, email);
+					stmt.setBoolean(2, false);
+					stmt.setString(3, uuid);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public String getUUID(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.uuid"
+							+ " from users"
+							+ " where email = ?"							
+					);
+					stmt1.setString(1, email);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					return resultSet.getString(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
 	}
 
 

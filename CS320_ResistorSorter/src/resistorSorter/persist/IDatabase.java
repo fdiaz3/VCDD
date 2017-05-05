@@ -42,7 +42,9 @@ public interface IDatabase {
 	public void updateAdminFlag(String email, boolean admin);
 	public boolean checkUUID(String email, String uuid);
 	public boolean getAdminFlag(String email);
-	public boolean checkOrInsert(String email, String uuid);
+	public boolean checkIfInDatabase(String email);
+	public boolean insertNewUser(String email, String uuid);
+	public String getUUID(String email);
 	
 	//Profile related
 	public List<InventoryTransaction> getAllUserTransactions(String email);

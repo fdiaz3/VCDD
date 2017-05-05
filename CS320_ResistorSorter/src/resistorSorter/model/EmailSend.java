@@ -8,7 +8,7 @@ import javax.activation.*;
 
 public class EmailSend {
 	
-	public static boolean sendMail(String from, String password, String message, String to[], String username){
+	public static boolean sendMail(String from, String password, String message, String to[], String email){
 		String host = "smtp.gmail.com";
 		Properties props = System.getProperties();
 		
@@ -33,7 +33,7 @@ public class EmailSend {
 				mimeMessage.addRecipient(RecipientType.TO, toAddress[i]);
 			}
 			//add subject
-			mimeMessage.setSubject("ADMIN REQ: "+username);
+			mimeMessage.setSubject("ADMIN REQ: "+email);
 			//Set message
 			mimeMessage.setText(message);
 			Transport transport = session.getTransport("smtp");

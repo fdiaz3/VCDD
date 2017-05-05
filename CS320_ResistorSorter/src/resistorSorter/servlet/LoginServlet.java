@@ -51,25 +51,25 @@ public class LoginServlet extends HttpServlet {
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("login",        validLogin);
 		if(controller.checkIfInDatabase(email)){
-			//Do nothing, in DB
-		}
-		else{
-			controller.
-		}
-		// if login is valid, start a session
-		if(controller.checkYCP(email)) {
-			// store user object in session
+			// if login is valid, start a session
 			req.getSession().setAttribute("user", email);
 
 			// redirect to /index page
 			resp.sendRedirect(req.getContextPath() + "/Inventories");
-
-			return;
-		}else{
-			req.setAttribute("errorMessage", "Must be using a YCP email");
 		}
+		else{
+			if(controller.checkYCP(email)){
+				controller.insertNewUser(email);
+				// if login is valid, start a session
+				req.getSession().setAttribute("user", email);
 
-		//System.out.println("   Invalid login - returning to /login");
+				// redirect to /index page
+				resp.sendRedirect(req.getContextPath() + "/Inventories");
+			}
+			else{
+				req.setAttribute("errorMessage", "Must be using a YCP email");
+			}
+		}
 
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/Login.jsp").forward(req, resp);
