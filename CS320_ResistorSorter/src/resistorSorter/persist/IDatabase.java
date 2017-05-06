@@ -45,6 +45,8 @@ public interface IDatabase {
 	public boolean checkIfInDatabase(String email);
 	public boolean insertNewUser(String email, String uuid);
 	public String getUUID(String email);
+	public boolean checkIfRequested(String email);
+	public void updateRequested(String email, boolean requested);
 	
 	//Profile related
 	public List<InventoryTransaction> getAllUserTransactions(String email);

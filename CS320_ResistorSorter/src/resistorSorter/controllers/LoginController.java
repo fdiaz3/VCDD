@@ -53,8 +53,17 @@ public class LoginController {
 		String uuid = UUID.randomUUID().toString();
 		db.insertNewUser(email, uuid);
 	}
+	public boolean checkRequest(String email){
+		return db.checkIfRequested(email);
+	}
+	public void updateRequest(String email, boolean requested){
+		db.updateRequested(email, requested);
+	}
 	public void updateAdminFlag(String email, boolean admin){
 		db.updateAdminFlag(email, admin);
+		if(!admin){
+			db.updateRequested(email, false);
+		}
 	}
 	public boolean getAdminFlag(String username){
 		return db.getAdminFlag(username);
