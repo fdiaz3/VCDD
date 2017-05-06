@@ -1062,14 +1062,19 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					stmt1 = conn.prepareStatement(
 							"select count(rack_id)"
-							+ " from racks"
-							+ " where racks.tolerance = ? and racks.wattage = ?" 		
+							+ " from inventories, racks"
+							+ " where racks.inventory_id = ? and racks.tolerance = ? and racks.wattage = ?" 		
 					);
-					stmt1.setFloat(1, tolerance);
-					stmt1.setFloat(2, wattage);
+					System.out.println("inventoryid = " + inventory_id);
+					System.out.println("wattage = " + wattage);
+					System.out.println("tolerance = " + tolerance);
+					
+					stmt1.setInt(1, inventory_id);
+					stmt1.setFloat(2, tolerance);
+					stmt1.setFloat(3, wattage);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
+					System.out.println(resultSet.getInt(1));
 					//If result set is 0 listings then rack is good
 					if(resultSet.getInt(1) == 0){
 						return false;
@@ -1096,11 +1101,10 @@ public class DerbyDatabase implements IDatabase {
 					stmt1 = conn.prepareStatement(
 							"select count(bin_id)"
 							+ " from bins, racks"
-							+ " where racks.rack_id = ? and bins.rack_id = ? and bins.resistance = ?" 		
+							+ " where bins.rack_id = ? and bins.resistance = ?" 		
 					);
 					stmt1.setInt(1, rack_id);
-					stmt1.setInt(2, rack_id);
-					stmt1.setInt(3, resistance);
+					stmt1.setInt(2, resistance);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));

@@ -42,7 +42,7 @@
 							
 								<tr>
 									<th>Count: </th>
-									<td><input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/></td>
+									<td><input type="number" min="0" max="${binCap}"name="count" size="12" value="0"/></td>
 								</tr>
 							
 								<tr>
