@@ -1,3 +1,4 @@
+
 package resistorSorter.servlet;
 
 import java.io.IOException;
@@ -66,13 +67,6 @@ public class TestViewInventoryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		error = null;
-		
-		if (req.getParameter("logout") != null) {
-			System.out.println("logout");
-			req.getSession().invalidate();
-			resp.sendRedirect(req.getContextPath() + "/Login");
-			return;
-		}
 		
 		email = (String) req.getSession().getAttribute("user");
 		

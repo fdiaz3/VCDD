@@ -254,7 +254,9 @@ function myFunction() {
 
 	<body>
 	<div class="container">
-	<script src="_view/javaScript/navbar.js"></script>
+	<form action="${pageContext.servletContext.contextPath}/Resistor" method="post">
+		<script src="_view/javaScript/navbar.js"></script>
+	</form>
 			
 		
  			
