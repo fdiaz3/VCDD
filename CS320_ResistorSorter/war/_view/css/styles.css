@@ -2,6 +2,20 @@
 .error{
 	color: red;
 }
+
+tr.header
+{
+    cursor:pointer;
+}
+
+tr.header1
+{
+	cursor:pointer;
+}
+tr.header2
+{
+	cursor:pointer;
+}
 		
 td.label{
 	text-align: right;
@@ -151,3 +165,4 @@ input:checked + .slider:before {
 .tablesorter-blue tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
   background: #bfbfbf;
 }
+
