@@ -42,7 +42,7 @@
 					
 					<tr>
 						<td><input type="Submit" name="displayBin" value="Display Bin!"></td>
-						<td>Count: ${count}</td>
+						<td>Count: ${count} Resistance:    ${resistance}</td>
 					</tr>
 					
 					<tr>

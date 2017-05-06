@@ -21,6 +21,7 @@ public class ResistorServlet extends HttpServlet {
 	private int count;
 	private int userRemoveLimit;
 	private int capacity;
+	private int resistance;
 	private int countChange;
 	private int maxCount;
 	private String user;
@@ -88,10 +89,12 @@ public class ResistorServlet extends HttpServlet {
 		capacity = binController.getCapacity(bin_id);		
 		maxCount = binController.getMaxChangeInCount(bin_id);
 		colorBands = binController.getResistorColors(bin_id);
-
+		resistance = binController.getResistance(bin_id);
+		
 		//sending info back to jsp
 		req.setAttribute("percentFull", (((double)count)/((double)capacity))*100);
 		req.setAttribute("errorMessage", error);
+		req.setAttribute("resistance", resistance);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);
 		req.setAttribute("max_count", maxCount);
