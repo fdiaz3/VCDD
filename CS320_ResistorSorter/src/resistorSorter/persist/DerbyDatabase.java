@@ -1075,16 +1075,12 @@ public class DerbyDatabase implements IDatabase {
 							+ " from inventories, racks"
 							+ " where racks.inventory_id = ? and racks.tolerance = ? and racks.wattage = ?" 		
 					);
-					System.out.println("inventoryid = " + inventory_id);
-					System.out.println("wattage = " + wattage);
-					System.out.println("tolerance = " + tolerance);
 					
 					stmt1.setInt(1, inventory_id);
 					stmt1.setFloat(2, tolerance);
 					stmt1.setFloat(3, wattage);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
-					System.out.println(resultSet.getInt(1));
 					//If result set is 0 listings then rack is good
 					if(resultSet.getInt(1) == 0){
 						return false;
