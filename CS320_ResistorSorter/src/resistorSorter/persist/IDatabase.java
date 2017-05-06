@@ -34,6 +34,7 @@ public interface IDatabase {
 	public int getCapacityFromRack(int rack_id);
 	public int getResistanceFromBin(int bin_id);
 	public float getToleranceFromBin(int bin_id);
+	public int getCountOfInventories();
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);
