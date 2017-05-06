@@ -31,10 +31,6 @@
   	<servlet-class>resistorSorter.servlet.LoginServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>CreateAccount</servlet-name>
-  	<servlet-class>resistorSorter.servlet.CreateAccountServlet</servlet-class>
-  </servlet>
-  <servlet>
   	<servlet-name>Profile</servlet-name>
   	<servlet-class>resistorSorter.servlet.ProfileServlet</servlet-class>
   </servlet>
@@ -70,10 +66,6 @@
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>CreateAccount</servlet-name>
-    <url-pattern>/CreateAccount</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Profile</servlet-name>

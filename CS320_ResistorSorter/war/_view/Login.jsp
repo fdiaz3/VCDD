@@ -27,7 +27,7 @@ All work seen in here has been copied, but modified from the Library example -->
 	  <div class="jumbotron">
 	    <h1>Login</h1> 
 	    <p>Welcome to The Voltage Current Divider Divider</p>
-	    <p>Now introducing... Sign in, with your Google account:    
+	    <p>Now introducing... Sign in, with your Google account:</p>    
 	    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 	    <form id="loginForm" action="${pageContext.servletContext.contextPath}/Login" method="post">
 	    <input class="btn btn-primary" type="Submit" name="login" value="Login">

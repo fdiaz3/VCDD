@@ -35,8 +35,15 @@ All work seen in here has been copied, but modified from the Library example -->
 	    <h1>Welcome, ${username}</h1> 
 	    <p>From here, you can view your activity</p> 
 	    <p>User status: <span class="label label-info"> ${adminFlag} </span></p>
-	    <p><button type="submit" class="btn btn-primary active" name="requestAdmin">Click to request admin</button></p>
-	   	<c:if test="${viewAll}">
+	    <c:if test="${!admin}">
+	   		<c:if test="${request}">
+	   			<p><button type="submit" class="btn btn-primary active" name="requestAdmin">Request to be administrator</button></p>
+	   		</c:if>
+	   		<c:if test="${!request}">
+	   			<p><button type="button" class="btn btn-primary disabled">Request to be administrator</button></p>
+	   		</c:if>
+	    </c:if>
+	   	<c:if test="${admin}">
 				<p>View all user activity: <button type="submit" class="btn btn-primary active" name="viewTransactions">All Transactions</button></p>
 		</c:if>
 	  </div>
