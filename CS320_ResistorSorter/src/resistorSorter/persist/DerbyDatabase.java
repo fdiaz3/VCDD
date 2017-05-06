@@ -1339,5 +1339,31 @@ public class DerbyDatabase implements IDatabase {
 		
 	}
 
+	@Override
+	public int getCountOfInventories() {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(inventory_id)"
+							+ " from inventories" 		
+					);
+
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+							
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
 
 }
