@@ -65,6 +65,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		error = null;
 		
 		if (req.getParameter("logout") != null) {
 			System.out.println("logout");
