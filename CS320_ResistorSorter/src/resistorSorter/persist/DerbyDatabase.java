@@ -127,7 +127,7 @@ public class DerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " email varchar(40), admin boolean, uuid varchar(60)"
+							+ " email varchar(40), admin boolean, uuid varchar(60), request boolean"
 							+ ")"
 						);
 					stmt4.executeUpdate();
@@ -912,6 +912,7 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
 				try {
 					stmt = conn.prepareStatement("UPDATE users" 
 							+ " SET admin = ?"
@@ -920,6 +921,15 @@ public class DerbyDatabase implements IDatabase {
 					stmt.setBoolean(1, admin);
 					stmt.setString(2, email);
 					stmt.executeUpdate();
+					if(!admin){
+						stmt1 = conn.prepareStatement("UPDATE users" 
+								+ " SET request = ?"
+								+ " WHERE email = ?");
+						
+						stmt1.setBoolean(1, true);
+						stmt1.setString(2, email);
+						stmt1.executeUpdate();
+					}
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
@@ -1062,14 +1072,15 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					stmt1 = conn.prepareStatement(
 							"select count(rack_id)"
-							+ " from racks"
-							+ " where racks.tolerance = ? and racks.wattage = ?" 		
+							+ " from inventories, racks"
+							+ " where racks.inventory_id = ? and racks.tolerance = ? and racks.wattage = ?" 		
 					);
-					stmt1.setFloat(1, tolerance);
-					stmt1.setFloat(2, wattage);
+					
+					stmt1.setInt(1, inventory_id);
+					stmt1.setFloat(2, tolerance);
+					stmt1.setFloat(3, wattage);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
 					//If result set is 0 listings then rack is good
 					if(resultSet.getInt(1) == 0){
 						return false;
@@ -1096,11 +1107,10 @@ public class DerbyDatabase implements IDatabase {
 					stmt1 = conn.prepareStatement(
 							"select count(bin_id)"
 							+ " from bins, racks"
-							+ " where racks.rack_id = ? and bins.rack_id = ? and bins.resistance = ?" 		
+							+ " where bins.rack_id = ? and bins.resistance = ?" 		
 					);
 					stmt1.setInt(1, rack_id);
-					stmt1.setInt(2, rack_id);
-					stmt1.setInt(3, resistance);
+					stmt1.setInt(2, resistance);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
@@ -1228,10 +1238,11 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				try {
-					stmt = conn.prepareStatement("insert into users (email, admin, uuid) values (?, ?, ?)");
+					stmt = conn.prepareStatement("insert into users (email, admin, uuid, request) values (?, ?, ?, ?)");
 					stmt.setString(1, email);
 					stmt.setBoolean(2, false);
 					stmt.setString(3, uuid);
+					stmt.setBoolean(4, false);
 					stmt.executeUpdate();
 					return true;
 				} finally {
@@ -1269,6 +1280,63 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});	
+	}
+
+	@Override
+	public boolean checkIfRequested(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.request"
+							+ " from users"
+							+ " where users.email = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, email);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 1 listings then user exists
+					if(resultSet.getBoolean(1)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public void updateRequested(String email, boolean requested) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("UPDATE users" 
+							+ " SET request = ?"
+							+ " WHERE email = ?");
+					
+					stmt.setBoolean(1, requested);
+					stmt.setString(2, email);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
 	}
 
 

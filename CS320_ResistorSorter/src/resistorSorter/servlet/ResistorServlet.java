@@ -90,6 +90,7 @@ public class ResistorServlet extends HttpServlet {
 		colorBands = binController.getResistorColors(bin_id);
 
 		//sending info back to jsp
+		req.setAttribute("percentFull", (((double)count)/((double)capacity))*100);
 		req.setAttribute("errorMessage", error);
 		req.setAttribute("bin_id", bin_id);
 		req.setAttribute("count", count);

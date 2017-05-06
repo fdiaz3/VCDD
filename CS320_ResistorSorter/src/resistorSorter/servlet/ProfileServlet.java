@@ -39,6 +39,7 @@ public class ProfileServlet extends HttpServlet {
 		req.setAttribute("username", username);
 		displayUserTransactions(req);
 		displayUserStatus(req);
+		spamFilter(req);
 		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
 		
 	}
@@ -60,8 +61,9 @@ public class ProfileServlet extends HttpServlet {
 			return;
 		}
 		
-		if (req.getParameter("requestAdmin") != null) {
+		if (req.getParameter("requestAdmin") != null && (!loginController.checkRequest(email))) {
 			loginController.userRequestAdmin(email);
+			loginController.updateRequest(email, true);
 		}
 		
 		//Send to transactions
@@ -75,6 +77,7 @@ public class ProfileServlet extends HttpServlet {
 		req.setAttribute("username", username);
 		displayUserTransactions(req);
 		displayUserStatus(req);
+		spamFilter(req);
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/Profile.jsp").forward(req, resp);
 	}
@@ -93,11 +96,21 @@ public class ProfileServlet extends HttpServlet {
 		//Also to allow admin to view all transactions or not
 		if(loginController.getAdminFlag((String)req.getSession().getAttribute("user"))){
 			req.setAttribute("adminFlag", "Administrator");
-			req.setAttribute("viewAll", true);
+			req.setAttribute("admin", true);
 		}
 		else{
 			req.setAttribute("adminFlag", "User");
-			req.setAttribute("viewAll", false);
+			req.setAttribute("admin", false);
+		}
+	}
+	private void spamFilter(HttpServletRequest req){
+		if(!loginController.checkRequest((String)req.getSession().getAttribute("user"))){
+			//System.out.println("The user has not submitted a request yet");
+			req.setAttribute("request", true);
+		}
+		else{
+			//System.out.println("The user has already submitted a request");
+			req.setAttribute("request", false);
 		}
 	}
 	

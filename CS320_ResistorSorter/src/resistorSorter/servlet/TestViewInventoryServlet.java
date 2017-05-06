@@ -71,7 +71,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
-		
+		else if(req.getParameter("populateTables") != null){
+			populateTables((String) req.getSession().getAttribute("user"));
+		}
+		displayInventories(req);
+		displayRacks(req);
+		displayBins(req);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
@@ -95,6 +100,32 @@ public class TestViewInventoryServlet extends HttpServlet {
 		//-1 used to display all bins regardless of rackID
 		List<Bin> bins = binController.displayBins(-1);
 		req.setAttribute("bins", bins);
+	}
+	
+	private void populateTables(String email){
+		inventoryController.addInventory(1000, 150,"KEC123",email);
+		inventoryController.addInventory(1000, 150,"KEC124",email);
+		inventoryController.addInventory(1000, 150,"KEC125",email);
+		
+		rackController.addRack(5, (float) 0.5, 1,email);
+		rackController.addRack(10, (float)0.25, 1,email);
+		rackController.addRack(5, (float) 0.5, 2,email);
+		rackController.addRack(10, (float)0.25, 2,email);
+		rackController.addRack(5, (float) 0.5, 3,email);
+		rackController.addRack(10, (float)0.25, 3,email);
+		
+		binController.addBin(1, 500, 22,email);
+		binController.addBin(1, 220, 333,email);
+		binController.addBin(2, 1000, 65,email);
+		binController.addBin(2, 7200, 56,email);
+		binController.addBin(3, 1500, 22,email);
+		binController.addBin(3, 100, 86,email);
+		binController.addBin(4, 600, 100,email);
+		binController.addBin(4, 2000, 56,email);
+		binController.addBin(5, 500, 95,email);
+		binController.addBin(5, 1000, 333,email);
+		binController.addBin(6, 500, 100,email);
+		binController.addBin(6, 7200, 96,email);
 	}
 
 	

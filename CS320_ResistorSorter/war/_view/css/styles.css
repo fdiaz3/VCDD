@@ -22,7 +22,7 @@ td.label{
 }
 
 body{
-	background: #93b7c3;
+    background: linear-gradient(to bottom, #93b7c3 0%, #666699 123%) no-repeat center center fixed;
 }
 
 table {
