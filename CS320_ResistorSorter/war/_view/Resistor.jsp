@@ -25,7 +25,7 @@
 			<div>
 				<div class="progress">
 					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${percentFull}%">
-						
+						<b><font color="red">Bin Capacity: ${percentFull}%</font></b>
 					</div>
 				</div>
 				<table class="col-md-6">
