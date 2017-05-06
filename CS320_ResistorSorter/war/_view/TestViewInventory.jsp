@@ -234,13 +234,7 @@ $(this).nextUntil('.header').each(function(){
 
 </script>
 <script type='text/javascript'>//<![CDATA[
-$(function(){
-$('.header1').click(function(){
 
-$(this).nextUntil('tr.header1').slideToggle(150);
-
-});
-});//]]> 
 
 function myFunction() {
     var popup = document.getElementById("myPopup");
@@ -269,6 +263,7 @@ function myFunction() {
 			    <c:forEach items="${racks}" var="item1" varStatus="status1">
 			    	<c:if test="${item.inventory_id == item1.inventory_id}">
 				    <li><div class= "priceHead dropdown">
+				    
 				    <div class="dropdown">
 					  <button class="dropbtn">Rack: ${item1.rack_id}</button>
 					  <div class="dropdown-content">
