@@ -61,7 +61,9 @@ public class InventoryController {
 			db.removeInventory(inventoryID);
 			return null;
 		}
-		
+		public int getCountOfInventories(){
+			return db.getCountOfInventories();
+		}
 		//For Edit rack pressed
 		public List<Inventory> displayInventories(){
 			return db.getAllInventories();			

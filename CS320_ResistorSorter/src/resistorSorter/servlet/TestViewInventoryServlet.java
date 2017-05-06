@@ -15,6 +15,7 @@ import resistorSorter.persist.DatabaseProvider;
 import resistorSorter.persist.IDatabase;
 import resistorSorter.controllers.BinController;
 import resistorSorter.controllers.InventoryController;
+import resistorSorter.controllers.LoginController;
 import resistorSorter.controllers.RackController;
 import resistorSorter.model.Bin;
 import resistorSorter.model.Inventory;
@@ -26,9 +27,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 	private InventoryController inventoryController;
 	private RackController rackController;
 	private BinController binController;
+	private LoginController loginController;
 	
 	private int inventory_id;
 	private int rack_id;
+	private String email;
+	private String error;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -54,29 +58,58 @@ public class TestViewInventoryServlet extends HttpServlet {
 		binController = new BinController("inventory");
 		displayBins(req);
 		
+		loginController = new LoginController("inventory");
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		error = null;
 		
-		if (req.getParameter("resetInventory") != null) {
-			DerbyDatabase.deleteDataBase();
-			DerbyDatabase.loadDataBase();
-		}
-		else if (req.getParameter("logout") != null) {
+		if (req.getParameter("logout") != null) {
 			System.out.println("logout");
 			req.getSession().invalidate();
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
+		
+		email = (String) req.getSession().getAttribute("user");
+		
+		if (req.getParameter("resetInventory") != null) {
+			System.out.println(email);
+			if(!loginController.getAdminFlag(email)){
+				error = "Only admistrators can do that";
+			}
+			else{
+				DerbyDatabase.deleteDataBase();
+				DerbyDatabase.loadDataBase();
+			}
+		}
+		else if (req.getParameter("logout") != null ) {
+			
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/Login");
+			return;
+		}
 		else if(req.getParameter("populateTables") != null){
-			populateTables((String) req.getSession().getAttribute("user"));
+			//System.out.println(email);
+			//System.out.println(loginController.getAdminFlag(email));
+			if(!loginController.getAdminFlag(email)){
+				error = "Only admistrators can do that";
+			}
+			else if(inventoryController.getCountOfInventories() > 0){
+				error = "Cannot populate already existing inventory";
+			}
+			else{
+				populateTables((String) req.getSession().getAttribute("user"));
+			}
 		}
 		displayInventories(req);
 		displayRacks(req);
 		displayBins(req);
+		
+		req.setAttribute("errorMessage", error);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	

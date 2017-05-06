@@ -129,6 +129,9 @@ public class BinController {
 		public int getCapacityFromRack(int rack_id){
 			return db.getCapacityFromRack(rack_id);
 		}
+		public int getResistance(int bin_id){
+			return db.getResistanceFromBin(bin_id);
+		}
 		public int getMaxChangeInCount(int bin_id){
 			if(db.getUserRemoveLimit(bin_id) > db.getCapacity(bin_id)-db.getCount(bin_id)){
 				return db.getUserRemoveLimit(bin_id);
