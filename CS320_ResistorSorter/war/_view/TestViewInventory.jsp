@@ -24,10 +24,13 @@
 		</c:if>
 		<div class="row">
 		
-	<form action="${pageContext.servletContext.contextPath}/Profile" method="post">
+	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 		<script src="_view/javaScript/navbar.js"></script>
 		
-		<div> <input type="Submit" name="resetInventory" value="Reset Inventory"></div>
+		<div> 
+			<input type="Submit" name="resetInventory" value="Reset Inventory">
+			<input type="Submit" name="populateTables" value="Populate Tables">
+		</div>
 		
 		<div>
 				<table class="col-md-4">

@@ -71,10 +71,12 @@ public class TestViewInventoryServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/Login");
 			return;
 		}
-		else if(req.getAttribute("populateTables") != null){
+		else if(req.getParameter("populateTables") != null){
 			populateTables((String) req.getSession().getAttribute("user"));
 		}
-		
+		displayInventories(req);
+		displayRacks(req);
+		displayBins(req);
 		req.getRequestDispatcher("/_view/TestViewInventory.jsp").forward(req, resp);
 	}
 	
