@@ -40,7 +40,7 @@ public class Bin {
 	}
 	
 	private String[] getResistorColors(String stringResistance, float tol){
-		int resistance = Integer.getInteger(stringResistance);
+		int resistance = Integer.parseInt(stringResistance);
 		//Real values
 		char num1;
 		char num2;

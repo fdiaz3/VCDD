@@ -64,21 +64,6 @@ public class TestViewInventoryServlet extends HttpServlet {
 		//get email from session
 		email = (String) req.getSession().getAttribute("user");
 		
-		//get create inventory parameters
-		int binCapacity = getInteger(req, "binCapacity");
-		int userRemoveLimit = getInteger(req, "userRemoveLimit");
-		String inventoryName = (String) req.getParameter("inventoryName");
-		
-		//get create rack parameters
-		int inventory_id = getInteger(req, "inventory_id");
-		Float tolerance = getFloat(req, "tolerance");
-		Float power = getFloat(req, "power");
-		
-		//get create bin parameters
-		int rack_id = getInteger(req, "rack_id");
-		int resistance = getInteger(req, "resistance");
-		int count = getInteger(req, "count");
-		
 		//if reset inventory is pressed
 		if (req.getParameter("resetInventory") != null) {
 			System.out.println(email);
@@ -114,6 +99,10 @@ public class TestViewInventoryServlet extends HttpServlet {
 		
 		//if initializeInventory is pressed
 		else if (req.getParameter("addInventory") != null) {
+			//get create inventory parameters
+			int binCapacity = getInteger(req, "binCapacity");
+			int userRemoveLimit = getInteger(req, "userRemoveLimit");
+			String inventoryName = (String) req.getParameter("inventoryName");
 			error = inventoryController.addInventory(binCapacity, userRemoveLimit, inventoryName, email);
 		}
 		
@@ -125,6 +114,10 @@ public class TestViewInventoryServlet extends HttpServlet {
 		
 		//add a Rack
 		else if (req.getParameter("addRack") != null) {
+			//get create rack parameters
+			int inventory_id = getInteger(req, "inventory_id");
+			Float tolerance = getFloat(req, "tolerance");
+			Float power = getFloat(req, "power");
 			error = rackController.addRack(tolerance, power, inventory_id, email);
 		}
 		
@@ -136,6 +129,10 @@ public class TestViewInventoryServlet extends HttpServlet {
 		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
+			//get create bin parameters
+			int rack_id = getInteger(req, "rack_id");
+			int resistance = getInteger(req, "resistance");
+			int count = getInteger(req, "count");
 			error = binController.addBin(rack_id, resistance, count, email);			
 		}
 		
