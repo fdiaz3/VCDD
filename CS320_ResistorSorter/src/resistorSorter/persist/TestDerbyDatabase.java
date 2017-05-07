@@ -87,7 +87,7 @@ public class TestDerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt1 = null, stmt2 = null, stmt3 = null, stmt4 = null, stmt5 = null;
+				PreparedStatement stmt1 = null, stmt2 = null, stmt3 = null, stmt4 = null, stmt5 = null, stmt6 = null;
 
 				try {
 					stmt1 = conn.prepareStatement(
@@ -128,18 +128,17 @@ public class TestDerbyDatabase implements IDatabase {
 							"CREATE TABLE users("
 							+ " user_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
-							+ " username varchar(20), password varchar(20), firstname varchar(20), lastname varchar(20), adminReq boolean, uuid varchar(60)"
+							+ " email varchar(40), admin boolean, uuid varchar(60), request boolean"
 							+ ")"
 						);
 					stmt4.executeUpdate();
 					
-					//
 					stmt5 = conn.prepareStatement(
 							"CREATE TABLE transactions("
 							+ " transaction_id integer primary key"
 							+ " generated always as identity (start with 1, increment by 1),"
 							+ " transactionTime timestamp,"
-							+ " username varchar(20),"
+							+ " email varchar(20),"
 							+ " resistance integer,"
 							+ " wattage float,"
 							+ " tolerance float,"
@@ -150,11 +149,15 @@ public class TestDerbyDatabase implements IDatabase {
 						);
 					stmt5.executeUpdate();
 					
+					stmt6 = conn.prepareStatement(
+							"insert into users (email, admin, request, uuid) values ('testing-fbd-1234', 'true', 'false', '') "
+						);
+					stmt6.executeUpdate();
 					
 				System.out.println("testInventory Created");
 				} catch(SQLException e){
 					
-					System.out.println("testInventory Loaded or creation failed");
+					System.out.println("creation failed");
 					
 				}finally{
 					DBUtil.closeQuietly(stmt1);
@@ -162,6 +165,7 @@ public class TestDerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt3);
 					DBUtil.closeQuietly(stmt4);
 					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(stmt6);
 				}
 				return true;
 			}
@@ -729,8 +733,9 @@ public class TestDerbyDatabase implements IDatabase {
 		});	
 	}
 
+
 	@Override
-	public List<InventoryTransaction> getAllUserTransactions(String username) {
+	public List<InventoryTransaction> getAllUserTransactions(String email) {
 		return executeTransaction(new Transaction<List<InventoryTransaction>>() {
 			@Override
 			public List<InventoryTransaction> execute(Connection conn) throws SQLException {
@@ -741,9 +746,9 @@ public class TestDerbyDatabase implements IDatabase {
 					
 					stmt = conn.prepareStatement(
 							"select * from transactions"
-							+ " where transactions.username = ?"
+							+ " where transactions.email = ?"
 					);
-					stmt.setString(1, username);
+					stmt.setString(1, email);
 					
 					
 					List<InventoryTransaction> result = new ArrayList<InventoryTransaction>();
@@ -769,7 +774,7 @@ public class TestDerbyDatabase implements IDatabase {
 						
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
@@ -790,7 +795,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public void addTransaction(String username, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity) {
+	public void addTransaction(String email, int bin_id, Timestamp transactionTime, boolean transactionType, int quantity) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -847,11 +852,11 @@ public class TestDerbyDatabase implements IDatabase {
 					
 					stmt5 = conn.prepareStatement(
 							"insert into transactions "
-							+ "(transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining)"
+							+ "(transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining)"
 							+ " values (?, ?, ?, ?, ?, ?, ?, ?)");
 					
 					stmt5.setTimestamp(1, transactionTime);
-					stmt5.setString(2, username);
+					stmt5.setString(2, email);
 					stmt5.setInt(3, resistance);
 					stmt5.setFloat(4, wattage);
 					stmt5.setFloat(5, tolerance);
@@ -909,19 +914,29 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void updateAdminFlag(String username, boolean adminReq) {
+	public void updateAdminFlag(String email, boolean admin) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
 				try {
 					stmt = conn.prepareStatement("UPDATE users" 
-							+ " SET adminReq = ?"
-							+ " WHERE username = ?");
+							+ " SET admin = ?"
+							+ " WHERE email = ?");
 					
-					stmt.setBoolean(1, adminReq);
-					stmt.setString(2, username);
+					stmt.setBoolean(1, admin);
+					stmt.setString(2, email);
 					stmt.executeUpdate();
+					if(!admin){
+						stmt1 = conn.prepareStatement("UPDATE users" 
+								+ " SET request = ?"
+								+ " WHERE email = ?");
+						
+						stmt1.setBoolean(1, true);
+						stmt1.setString(2, email);
+						stmt1.executeUpdate();
+					}
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
@@ -932,7 +947,7 @@ public class TestDerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean getAdminFlag(String username) {
+	public boolean getAdminFlag(String email) {
 		return executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -942,17 +957,51 @@ public class TestDerbyDatabase implements IDatabase {
 				//System.out.println(username);
 				try {
 					stmt1 = conn.prepareStatement(
-							"select users.adminReq"
+							"select users.admin"
 							+ " from users"
-							+ " where users.username = ?" 		
+							+ " where users.email = ?" 		
 					);
 					//System.out.println(username);
-					stmt1.setString(1, username);
+					stmt1.setString(1, email);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
 					//If result set is 1 listings then user exists
 					if(resultSet.getBoolean(1)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public boolean checkUUID(String email, String uuid) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.uuid"
+							+ " from users"
+							+ " where users.email = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, email);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+
+					if(resultSet.getString(1).equals(uuid)){
 						return true;
 					}
 					return false;
@@ -991,7 +1040,7 @@ public class TestDerbyDatabase implements IDatabase {
 						
 						int transaction_id = resultSet.getInt(1);
 						Timestamp transactionTime = resultSet.getTimestamp(2);
-						String username = resultSet.getString(3);
+						String email = resultSet.getString(3);
 						int resistance = resultSet.getInt(4);
 						float wattage = resultSet.getFloat(5);
 						float tolerance = resultSet.getFloat(6);
@@ -1000,7 +1049,7 @@ public class TestDerbyDatabase implements IDatabase {
 						int remaining = resultSet.getInt(9);
 						
 						
-						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, username, resistance, wattage, tolerance, quantity, transactionType, remaining);
+						InventoryTransaction inventoryTransaction= new InventoryTransaction(transaction_id, transactionTime, email, resistance, wattage, tolerance, quantity, transactionType, remaining);
 						
 						result.add(inventoryTransaction);
 					}
@@ -1030,14 +1079,15 @@ public class TestDerbyDatabase implements IDatabase {
 				try {
 					stmt1 = conn.prepareStatement(
 							"select count(rack_id)"
-							+ " from racks"
-							+ " where racks.tolerance = ? and racks.wattage = ?" 		
+							+ " from inventories, racks"
+							+ " where racks.inventory_id = ? and racks.tolerance = ? and racks.wattage = ?" 		
 					);
-					stmt1.setFloat(1, tolerance);
-					stmt1.setFloat(2, wattage);
+					
+					stmt1.setInt(1, inventory_id);
+					stmt1.setFloat(2, tolerance);
+					stmt1.setFloat(3, wattage);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
-					//System.out.println(resultSet.getInt(1));
 					//If result set is 0 listings then rack is good
 					if(resultSet.getInt(1) == 0){
 						return false;
@@ -1064,11 +1114,10 @@ public class TestDerbyDatabase implements IDatabase {
 					stmt1 = conn.prepareStatement(
 							"select count(bin_id)"
 							+ " from bins, racks"
-							+ " where racks.rack_id = ? and bins.rack_id = ? and bins.resistance = ?" 		
+							+ " where bins.rack_id = ? and bins.resistance = ?" 		
 					);
 					stmt1.setInt(1, rack_id);
-					stmt1.setInt(2, rack_id);
-					stmt1.setInt(3, resistance);
+					stmt1.setInt(2, resistance);
 					resultSet = stmt1.executeQuery();
 					resultSet.next();
 					//System.out.println(resultSet.getInt(1));
@@ -1152,6 +1201,175 @@ public class TestDerbyDatabase implements IDatabase {
 				}
 			}
 		});	
+	}
+
+	@Override
+	public boolean checkIfInDatabase(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(email)"
+							+ " from users"
+							+ " where users.email = ?" 		
+					);
+					stmt1.setString(1, email);
+
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					if(resultSet.getInt(1) == 0){
+						return false;						
+					}
+					//Returns true if email is in DB
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public boolean insertNewUser(String email, String uuid) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("insert into users (email, admin, uuid, request) values (?, ?, ?, ?)");
+					stmt.setString(1, email);
+					stmt.setBoolean(2, false);
+					stmt.setString(3, uuid);
+					stmt.setBoolean(4, false);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public String getUUID(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.uuid"
+							+ " from users"
+							+ " where email = ?"							
+					);
+					stmt1.setString(1, email);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					return resultSet.getString(1);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});	
+	}
+
+	@Override
+	public boolean checkIfRequested(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				//System.out.println(username);
+				try {
+					stmt1 = conn.prepareStatement(
+							"select users.request"
+							+ " from users"
+							+ " where users.email = ?" 		
+					);
+					//System.out.println(username);
+					stmt1.setString(1, email);
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					//If result set is 1 listings then user exists
+					if(resultSet.getBoolean(1)){
+						return true;
+					}
+					return false;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
+
+	@Override
+	public void updateRequested(String email, boolean requested) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement("UPDATE users" 
+							+ " SET request = ?"
+							+ " WHERE email = ?");
+					
+					stmt.setBoolean(1, requested);
+					stmt.setString(2, email);
+					stmt.executeUpdate();
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+		
+	}
+
+	@Override
+	public int getCountOfInventories() {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(inventory_id)"
+							+ " from inventories" 		
+					);
+
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					return resultSet.getInt(1);
+							
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
 	}
 
 
