@@ -15,13 +15,15 @@
 	<body>
 		<div class="container">
 			<div class="row">
-		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
-		</c:if>
 		
 	<form action="${pageContext.servletContext.contextPath}/Resistor" method="post">
 		<script src="_view/javaScript/navbar.js"></script>
-		
+    	<c:if test="${! empty errorMessage}">
+			<div class="alert alert-danger alert-dismissable fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Error: </strong>${errorMessage}
+			</div>
+		</c:if>
 			<div>
 				<div class="progress">
 					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${percentFull}%">

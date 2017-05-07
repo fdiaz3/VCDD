@@ -15,13 +15,15 @@
 	<body>
 		<div class="container">
 			<div class="row">
-		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
-		</c:if>
-		
-		
+	
 	<form action="${pageContext.servletContext.contextPath}/Racks" method="post">
 		<script src="_view/javaScript/navbar.js"></script>
+    	<c:if test="${! empty errorMessage}">
+			<div class="alert alert-danger alert-dismissable fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Error: </strong>${errorMessage}
+			</div>
+		</c:if>
 			<div>
 				<table class="col-md-6">
 				

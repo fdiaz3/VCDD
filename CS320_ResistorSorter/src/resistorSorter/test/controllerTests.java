@@ -51,6 +51,16 @@ public class controllerTests {
 		assertTrue(inventoryController.displayInventories().get(0).getUserRemoveLimit() == 100);
 	}
 	
+	@Test
+	public void testAddRack(){
+		assertTrue(rackController.displayRacks(1).get(0).getTolerance() == 5);
+		assertTrue(rackController.displayRacks(1).get(1).getTolerance() == 7);
+	}
+	@Test
+	public void testAddBin(){
+		assertTrue(binController.displayBins(1).get(0).getCount() == 22);
+		assertTrue(binController.displayBins(2).get(0).getCount() == 100);
+	}
 	@Test 
 	public void testRemoveInventory(){
 		int size1 = inventoryController.displayInventories().size();
@@ -59,7 +69,19 @@ public class controllerTests {
 		assertTrue(size2 == size1-1);
 		
 	}
-	
+	@Test 
+	public void testGetCountOfInventories(){
+		assertEquals(inventoryController.getCountOfInventories(), 1);
+		assertNotEquals(inventoryController.getCountOfInventories(), 0);
+		assertNotEquals(inventoryController.getCountOfInventories(), 2);
+	}
+	@Test 
+	public void testRemoveRack(){
+		int size1 = rackController.displayRacks(1).size();
+		rackController.removeRack(1, "testing-fbd-1234");
+		int size2 = rackController.displayRacks(1).size();
+		assertEquals(size2, size1-1);
+	}
 	@Test 
 	public void testRemoveInventoryWithRacks(){
 		int size1 = inventoryController.displayInventories().size();
@@ -116,7 +138,29 @@ public class controllerTests {
 			assertTrue(binController.getResistorColors(3)[i].equals(r3[i]));
 		}
 	}
-	
+	@Test
+	public void testRemoveBin(){
+		int size1 = binController.displayBins(1).size();
+		binController.removeBin(1, "testing-fbd-1234");
+		int size2 = binController.displayBins(1).size();
+		assertEquals(size2, size1-1);
+	}
+	@Test 
+	public void testGetResistance(){
+		assertEquals(binController.getResistance(1),500);
+		assertEquals(binController.getResistance(2),220);
+		assertEquals(binController.getResistance(3),1000);
+		assertEquals(binController.getResistance(4),7200);
+	}
+	@Test 
+	public void testRemoveResistor(){
+		binController.removeResistor(1, 20);
+		binController.removeResistor(2, 333);
+		binController.removeResistor(3, 50);
+		assertEquals(binController.getCount(1), 2);
+		assertEquals(binController.getCount(2), 333);
+		assertEquals(binController.getCount(3), 50);
+	}
 	 @After
 	 public void after() throws Exception {
 		 TestDerbyDatabase.deleteDataBase();

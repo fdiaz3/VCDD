@@ -35,6 +35,7 @@ public interface IDatabase {
 	public int getResistanceFromBin(int bin_id);
 	public float getToleranceFromBin(int bin_id);
 	public int getCountOfInventories();
+	public boolean checkInventoryName(String inventoryName);
 	
 	//All of the removing methods
 	public void removeInventory(int inventoryID);

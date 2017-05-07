@@ -1371,5 +1371,39 @@ public class TestDerbyDatabase implements IDatabase {
 		});		
 	}
 
+	@Override
+	public boolean checkInventoryName(String inventoryName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				try {
+					stmt1 = conn.prepareStatement(
+							"select count(inventory_id)"
+							+ " from inventories"
+							+ " where inventories.inventoryName = ?" 		
+					);
+					stmt1.setString(1, inventoryName);
+
+					resultSet = stmt1.executeQuery();
+					resultSet.next();
+					//System.out.println(resultSet.getInt(1));
+					if(resultSet.getInt(1) == 0){
+						return false;						
+					}
+					//Returns true if inventory already exists, BAD
+					return true;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});		
+	}
 
 }

@@ -20,9 +20,6 @@ All work seen in here has been copied, but modified from the Library example -->
 	<body>
 		<div class="container">
 		<div class="row">
-			<c:if test="${! empty errorMessage}">
-				<div class="error">${errorMessage}</div>
-			</c:if>
 	
 	  <div class="jumbotron">
 	    <h1>Login</h1> 
@@ -33,7 +30,12 @@ All work seen in here has been copied, but modified from the Library example -->
 	    <input type="hidden" name="email" id="sendId"/>
 	    </form>
 	  </div>
-	  
+    	<c:if test="${! empty errorMessage}">
+			<div class="alert alert-danger alert-dismissable fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Error: </strong>${errorMessage}
+			</div>
+		</c:if>
 	  
 	  <!-- 
 	  <a href="#" onclick="signOut();">Sign out</a>

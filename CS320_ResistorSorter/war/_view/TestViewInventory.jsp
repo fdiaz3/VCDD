@@ -250,14 +250,21 @@ function myFunction() {
 	</head>
 	<body>
 	<div class="container">
-	<c:if test="${! empty errorMessage}">
-		<div class="error">${errorMessage}</div>
-	</c:if>
 	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 		<script src="_view/javaScript/navbar.js"></script>
+    	<c:if test="${! empty errorMessage}">
+			<div class="alert alert-danger alert-dismissable fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Error: </strong>${errorMessage}
+			</div>
+		</c:if>
 		<div> 
 			<input type="Submit" name="resetInventory" value="Reset Inventory">
 			<input type="Submit" name="populateTables" value="Populate Tables">
+			InventoryName: <input type="text" name ="inventoryName" size="12">
+			Bin Capacity: <input type="text" name ="binCapacity" size="12">
+			Remove Limit: <input type="text" name ="userRemoveLimit" size="12">
+			<input class="btn btn-primary" type="Submit" name="addInventory" value="Add Inventory">
 		</div>	
 		<div class= "row" id= "myContainer">
 			<c:forEach items="${inventories}" var="inventories" varStatus="inventoriesStatus"> 								
