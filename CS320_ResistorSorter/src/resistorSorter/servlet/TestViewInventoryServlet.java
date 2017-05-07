@@ -128,7 +128,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 		}
 		
 		//add a bin
-		if (req.getParameter("addBin") != null) {
+		else if (req.getParameter("addBin") != null) {
 			//get create bin parameters
 			int rack_id = getInteger(req, "rack_id");
 			int resistance = getInteger(req, "resistance");
@@ -137,7 +137,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 		}
 		
 		//delete a bin
-		if (req.getParameter("deleteBin") != null) {
+		else if (req.getParameter("deleteBin") != null) {
 			int deleteBinID = getInteger(req, "deleteBin");
 			error = binController.removeBin(deleteBinID, email);
 		}

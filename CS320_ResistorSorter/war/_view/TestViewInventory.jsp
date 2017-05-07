@@ -223,48 +223,31 @@
 }
 
 
-  </style> 
-    
+</style> 
 
 
 
+<script type='text/javascript'>
 
-<script type='text/javascript'>//<![CDATA[
 $(function(){
-$('.header').click(function(){
-
-
-$(this).nextUntil('.header').each(function(){
-	
-	
+	$('.header').click(function(){
+		$(this).nextUntil('.header').each(function(){	
 		$(this).toggle(150);
-	
-	
+		});
+	});
 });
-
-
-
-});
-
-});//]]> 
-
-</script>
-<script type='text/javascript'>//<![CDATA[
-
 
 function myFunction() {
 	var id = String(arguments[0]);
-	
     var popup = document.getElementById("myPopup"+id);
     popup.classList.toggle("show");
 }
 
 </script>
-			
+
 
 
 	</head>
-
 	<body>
 	<div class="container">
 	<c:if test="${! empty errorMessage}">
@@ -276,70 +259,69 @@ function myFunction() {
 			<input type="Submit" name="resetInventory" value="Reset Inventory">
 			<input type="Submit" name="populateTables" value="Populate Tables">
 		</div>	
-	</form>
-		
 		<div class= "row" id= "myContainer">
-			
-			<c:forEach items="${inventories}" var="item" varStatus="status"> 								
- 				<div class="columns col">
-			  <ul class="price">
-			    <li class="header">${item.inventoryName}</li>
-			    <li class="grey"> Bin Capacity: ${item.binCapacity} 
-			    				<br>Remove Limit: ${item.userRemoveLimit}</li>
-			    <c:forEach items="${racks}" var="item1" varStatus="status1">
-			    	<c:if test="${item.inventory_id == item1.inventory_id}">
-				    <li><div class= "priceHead dropdown">
-				    
-				    <div class="dropdown">
-					  <button class="dropbtn">Rack: ${item1.rack_id}</button>
-					  <div class="dropdown-content">
-					  <c:forEach items="${bins}" var="item2" varStatus="status2">		
- 						<c:if test="${item2.rack_id == item1.rack_id}">
-						    <div class="popup" onclick="myFunction(${status2.count})">${item2.resistance} &#x2126;<br> Count: ${item2.count}<br><div class="progress">
-					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(item2.count / item.binCapacity)*100}%">
-						<b><font color="red">${(item2.count / item.binCapacity)*100}%</font></b>
+			<c:forEach items="${inventories}" var="inventories" varStatus="inventoriesStatus"> 								
+			<div class="columns col">
+			<ul class="price">
+			<li class="header">${inventories.inventoryName}</li>
+			<li class="grey">
+				Bin Capacity: ${inventories.binCapacity}<br>
+				Remove Limit: ${inventories.userRemoveLimit}
+			</li>
+				<c:forEach items="${racks}" var="racks" varStatus="racksStatus">
+					<c:if test="${inventories.inventory_id == racks.inventory_id}">
+						<li>
+							<div class= "priceHead dropdown">
+								<div class="dropdown">
+									<button class="dropbtn">Rack: ${racks.rack_id}</button>
+									<div class="dropdown-content">
+									<c:forEach items="${bins}" var="bins" varStatus="binsStatus">		
+										<c:if test="${bins.rack_id == racks.rack_id}">
+											<div class="popup" onclick="myFunction(${binsStatus.count})">${bins.resistance} &#x2126;<br> Count: ${bins.count}<br>
+												<div class="progress">
+													<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(bins.count / inventories.binCapacity)*100}%">
+														<b><font color="red">${(bins.count / inventories.binCapacity)*100}%</font></b>
+													</div>
+												</div>
+												<input type= "hidden" name= "popup_id" value= "${binsStatus.count}">
+												<div class="popuptext" id="myPopup${binsStatus.count}">
+													<div>
+														<input type= "hidden" name= "rack_id" value= "${bins.rack_id}">
+														<span>Resistance: </span>
+														<input type="number" min="1" name="resistance" size="12" value="1"/>
+														<span>Count: </span>
+														<input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/>
+														<input type="Submit" name="addBin" value="Add Bin!">
+													</div>
+												</div>
+											</div>
+										</c:if>
+									</c:forEach>
+									</div>
+								</div>
+							</div><span class="rackDesc"><br>Tolerance: ${racks.tolerance}<br>Power Rating: ${racks.wattage}</span>
+						</li>
+					</c:if>
+				</c:forEach>
+				<li class="grey">
+				<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
+				
+				<div class="popup" onclick="myFunction(${inventoriesStatus.count})">Add Rack
+					<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
+						<div class="popuptext" id="myPopup${inventoriesStatus.count}">
+						<div>
+								<span>Resistance: </span>
+								<span>Count: </span>
+						</div>
 					</div>
 				</div>
-				<input type= "hidden" name= "popup_id" value= "${status2.count}">
-								  <div class="popuptext" id="myPopup${status2.count}">
-							  	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
-									<div>
-										<input type= "hidden" name= "rack_id" value= "${item2.rack_id}">
-										<span>Resistance: </span>
-										<input type="number" min="1" name="resistance" size="12" value="1"/>
-										
-										<span>Count: </span>
-										<input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/>
-										
-										<input type="Submit" name="addBin" value="Add Bin!">
-										
-										</div>
-										</form>
-							  </div>
-							</div>
-							  
-					 	</c:if>
-					  </c:forEach>
-					  </div>
-					  
-					</div>
-				    </div> <span class= "rackDesc"><br>Tolerance: ${item1.tolerance} <br>Power Rating: ${item1.wattage}</span></li>
-
-			    </c:if>
-			    </c:forEach>
-			    <li class="grey"><a href="#" class="button">View Transactions</a></li>
-			  </ul>
+				</li>
+		</ul>
+		</div>								
+		</c:forEach>
 		</div>
- 												
- 		</c:forEach>
-			
-
-
-
-		</div>
-		</div>
-
+	</form>
+	</div>
 	</body>
-	
 </html>
 
