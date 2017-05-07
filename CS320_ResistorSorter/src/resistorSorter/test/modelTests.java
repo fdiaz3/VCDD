@@ -34,10 +34,10 @@ public class modelTests {
 		modelRack3 = new Rack(3, 2, 5, (float) 0.25);
 		modelRack4 = new Rack(4, 2, 10, (float) 0.5);
 		//Create a bin object to test
-		modelBin1 = new Bin(1, 1, 50, "100-ohm");
-		modelBin2 = new Bin(2, 1, 25, "60-ohm");
-		modelBin3 = new Bin(3, 2, 60, "25-ohm");
-		modelBin4 = new Bin(4, 4, 100, "10-ohm");
+		modelBin1 = new Bin(1, 1, 50, "100",(float) 5);
+		modelBin2 = new Bin(2, 1, 25, "60", (float)10);
+		modelBin3 = new Bin(3, 2, 60, "25", (float)5);
+		modelBin4 = new Bin(4, 4, 100, "10", (float)10);
 		//Create a user object to test
 		modelUser = new User("username", 14);
 	}
@@ -120,8 +120,8 @@ public class modelTests {
 	
 	@Test
 	public void testGetResistance(){
-		assertEquals(modelBin1.getResistance(), "100-ohm");
-		assertEquals(modelBin2.getResistance(), "60-ohm");
+		assertEquals(modelBin1.getResistance(), "100");
+		assertEquals(modelBin2.getResistance(), "60");
 	}
 	
 	@Test
@@ -130,26 +130,6 @@ public class modelTests {
 		assertFalse(modelBin2.getSelected());
 		assertFalse(modelBin3.getSelected());
 		assertFalse(modelBin4.getSelected());
-	}
-	
-	@Test 
-	public void testSetCount(){
-		modelBin1.setCount(56);
-		assertFalse(modelBin1.getCount() == 50);
-		assertTrue(modelBin1.getCount() == 56);
-	}
-	
-	@Test
-	public void testSetResistance(){
-		modelBin1.setResistance("67-ohm");
-		assertNotEquals(modelBin1.getResistance(),"100-ohm");
-		assertEquals(modelBin1.getResistance(), "67-ohm");
-	}
-	
-	@Test
-	public void testSetSelected(){
-		modelBin1.setSelected(true);
-		assertTrue(modelBin1.getSelected());
 	}
 	
 	@Test

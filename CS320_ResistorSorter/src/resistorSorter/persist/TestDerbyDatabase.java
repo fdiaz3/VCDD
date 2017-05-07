@@ -183,7 +183,7 @@ public class TestDerbyDatabase implements IDatabase {
 		db.dropTables();
 	}
 	
-	
+
 	public void dropTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -220,7 +220,7 @@ public class TestDerbyDatabase implements IDatabase {
 					);
 					stmt5.executeUpdate();
 					
-					System.out.println("testdatabase deleted");
+					System.out.println("database deleted");
 					
 					return true;
 				} finally {
@@ -233,7 +233,7 @@ public class TestDerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
+	
 	@Override
 	public void insertInventory(int binCapacity, int userRemoveLimit, String inventoryName) {
 		executeTransaction(new Transaction<Boolean>() {
@@ -442,8 +442,7 @@ public class TestDerbyDatabase implements IDatabase {
 						int rackID = resultSet.getInt(2);
 						int count = resultSet.getInt(3);
 						String resistance = resultSet.getString(4);
-						
-						Bin bin = new Bin(binID, rackID, count, resistance);
+						Bin bin = new Bin(binID, rackID, count, resistance, getToleranceFromBin(binID));
 						
 						result.add(bin);
 					}

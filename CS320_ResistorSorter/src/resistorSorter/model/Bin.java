@@ -11,6 +11,8 @@ public class Bin {
 	int bin_id;
 	
 	//Constructor//
+	//Taking in a tolerance because we need it to determine the 4th color band
+	//on the resistor
 	public Bin(int bin_id, int rack_id, int count, String resistance, float tolerance){
 		this.count = count;
 		this.resistance = resistance;
