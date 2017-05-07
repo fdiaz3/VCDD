@@ -53,23 +53,26 @@ public class BinsServlet extends HttpServlet {
 		resistance = getInteger(req, "resistance");
 		count = getInteger(req, "count");
 		user = (String) req.getSession().getAttribute("user");
+		
 		binCapacity = binController.getCapacityFromRack(rack_id);
+		
 		if(rack_id == 0){
 			error = "Invalid rack ID";
 		}
 		else{
 			error = null;
 		}
+		
 		//add a bin
 		if (req.getParameter("addBin") != null) {
 			error = binController.addBin(rack_id, resistance, count, user);			
 		}
-		
 		//delete a bin
 		if (req.getParameter("deleteBin") != null) {
 			int deleteBinID = getInteger(req, "deleteBin");
 			error = binController.removeBin(deleteBinID, user);
 		}
+		
 		if (req.getParameter("logout") != null) {
 			System.out.println("logout");
 			req.getSession().invalidate();

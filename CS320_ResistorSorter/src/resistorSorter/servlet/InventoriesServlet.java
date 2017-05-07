@@ -50,11 +50,11 @@ public class InventoriesServlet extends HttpServlet {
 		int userRemoveLimit = getInteger(req, "userRemoveLimit");
 		String inventoryName = (String) req.getParameter("inventoryName");
 		user = (String) req.getSession().getAttribute("user");
+		
 		//if initializeInventory is pressed
 		if (req.getParameter("initializeInventory") != null) {
 			error = inventoryController.addInventory(binCapacity, userRemoveLimit, inventoryName, user);
 		}
-		
 		//delete an inventory
 		else if (req.getParameter("deleteInventory") != null) {
 			int deleteInventoryID = getInteger(req, "deleteInventory");

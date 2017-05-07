@@ -70,7 +70,6 @@ public class RacksServlet extends HttpServlet {
 		if (req.getParameter("addRack") != null) {
 			error = rackController.addRack(tolerance, power, inventory_id, user);
 		}
-
 		//delete a rack
 		else if (req.getParameter("deleteRack") != null) {
 			int deleteRackID = getInteger(req, "deleteRack");
@@ -103,9 +102,7 @@ public class RacksServlet extends HttpServlet {
 	}
 	
 	private float getFloat(HttpServletRequest req, String name) {
-		
 		if(req.getParameter(name) != ""){
-			
 			try{
 				return Float.parseFloat(req.getParameter(name));
 			}catch(NumberFormatException e){
