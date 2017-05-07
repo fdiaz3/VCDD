@@ -32,9 +32,11 @@
 	}
 	
 	.columns {
+		
 	    float: left;
 	    width: 33.3%;
 	    padding: 8px;
+	    
 	}
 	
 	.price {
@@ -44,6 +46,7 @@
 	    padding: 0;
 	    -webkit-transition: 0.3s;
 	    transition: 0.3s;
+	    
 	}
 	
 	.price:hover {
@@ -64,6 +67,7 @@
 	    border-bottom: 1px solid #eee;
 	    padding: 20px;
 	    text-align: center;
+	    
 	}
 	
 	.price .grey {
@@ -127,6 +131,7 @@
 	    min-width: 160px;
 	    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	    z-index: 1;
+	    
 	}
 	
 	.dropdown-content a {
@@ -152,6 +157,7 @@
 	
 	.popup {
 	color: #111;
+	border-bottom: 1px solid #93b7c3;
 	width: 100%;
     position: relative;
     display: inline-block;
@@ -176,6 +182,7 @@
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
+    
 }
 
 /* Popup arrow */
@@ -190,11 +197,18 @@
     border-color: #555 transparent transparent transparent;
 }
 
+.navbar-btn{
+	margin-right: 20px;
+}
+
 /* Toggle this class - hide and show the popup */
 .popup .show {
     visibility: visible;
     -webkit-animation: fadeIn .5s;
     animation: fadeIn .5s;
+}
+.popup:hover{
+	background-color: #CFCFCF;
 }
 
 /* Add animation (fade in the popup) */
@@ -207,6 +221,8 @@
     from {opacity: 0;}
     to {opacity:1 ;}
 }
+
+
   </style> 
     
 
@@ -252,10 +268,10 @@ function myFunction() {
 			
 		
  			
-		<div class= "row" id= "myContainer">
+		<div class= "row col-container" id= "myContainer">
 			
 			<c:forEach items="${inventories}" var="item" varStatus="status"> 								
- 				<div class="columns">
+ 				<div class="columns col">
 			  <ul class="price">
 			    <li class="header">${item.inventoryName}</li>
 			    <li class="grey"> Bin Capacity: ${item.binCapacity} 
@@ -269,7 +285,11 @@ function myFunction() {
 					  <div class="dropdown-content">
 					  <c:forEach items="${bins}" var="item2" varStatus="status2">		
  						<c:if test="${item2.rack_id == item1.rack_id}">
-						    <div class="popup" onclick="myFunction()">${item2.resistance} &#x2126; Bin <br> Count: ${item2.count}
+						    <div class="popup" onclick="myFunction()">${item2.resistance} &#x2126;<br> Count: ${item2.count}<br><div class="progress">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(item2.count / item.binCapacity)*100}%">
+						<b><font color="red">${(item2.count / item.binCapacity)*100}%</font></b>
+					</div>
+				</div>
 							  <div class="popuptext" id="myPopup">
 							  	<form action="${pageContext.servletContext.contextPath}/Bins" method="post">
 									<div>
