@@ -264,11 +264,18 @@ function myFunction() {
 
 	<body>
 	<div class="container">
-	<script src="_view/javaScript/navbar.js"></script>
-			
+	<c:if test="${! empty errorMessage}">
+		<div class="error">${errorMessage}</div>
+	</c:if>
+	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+		<script src="_view/javaScript/navbar.js"></script>
+		<div> 
+			<input type="Submit" name="resetInventory" value="Reset Inventory">
+			<input type="Submit" name="populateTables" value="Populate Tables">
+		</div>	
+	</form>
 		
- 			
-		<div class= "row col-container" id= "myContainer">
+		<div class= "row" id= "myContainer">
 			
 			<c:forEach items="${inventories}" var="item" varStatus="status"> 								
  				<div class="columns col">

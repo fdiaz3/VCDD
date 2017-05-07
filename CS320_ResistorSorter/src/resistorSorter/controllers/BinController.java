@@ -277,9 +277,9 @@ public class BinController {
 				tolerance = "none";
 			}
 			String[] result = {color1, color2, multiplier, tolerance};
-			/*for(int i=0;i<result.length;i++){
+			for(int i=0;i<result.length;i++){
 				//System.out.println(result[i]);
-			}*/
+			}
 			return result;
 		}
 }
