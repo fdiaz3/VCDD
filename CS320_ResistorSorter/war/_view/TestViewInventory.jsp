@@ -304,7 +304,7 @@ function myFunction() {
  						<c:if test="${item2.rack_id == item1.rack_id}">
 						    <div class="popup" onclick="myFunction(${status2.count})">${item2.resistance} &#x2126;<br> Count: ${item2.count}<br><div class="progress">
 					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(item2.count / item.binCapacity)*100}%">
-						<b><font color="red">${(item2.count / item.binCapacity)*100}%</font></b>
+						<b><font color="#39e600">${(item2.count / item.binCapacity)*100}%</font></b>
 					</div>
 				</div>
 				<input type= "hidden" name= "popup_id" value= "${status2.count}">
