@@ -173,7 +173,7 @@
     visibility: hidden;
     width: 280px;
     background-color: #555;
-    color: #fff;
+    color: #111;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
@@ -253,11 +253,14 @@ $(this).nextUntil('.header').each(function(){
 
 
 function myFunction() {
-    var popup = document.getElementById("myPopup");
+	var id = String(arguments[0]);
+	
+    var popup = document.getElementById("myPopup"+id);
     popup.classList.toggle("show");
 }
 
 </script>
+			
 
 
 	</head>
@@ -292,17 +295,16 @@ function myFunction() {
 					  <div class="dropdown-content">
 					  <c:forEach items="${bins}" var="item2" varStatus="status2">		
  						<c:if test="${item2.rack_id == item1.rack_id}">
-						    <div class="popup" onclick="myFunction()">${item2.resistance} &#x2126;<br> Count: ${item2.count}<br><div class="progress">
+						    <div class="popup" onclick="myFunction(${status2.count})">${item2.resistance} &#x2126;<br> Count: ${item2.count}<br><div class="progress">
 					<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(item2.count / item.binCapacity)*100}%">
 						<b><font color="red">${(item2.count / item.binCapacity)*100}%</font></b>
 					</div>
 				</div>
-							  <div class="popuptext" id="myPopup">
-							  	<form action="${pageContext.servletContext.contextPath}/Bins" method="post">
+				<input type= "hidden" name= "popup_id" value= "${status2.count}">
+								  <div class="popuptext" id="myPopup${status2.count}">
+							  	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 									<div>
-					
-										
-											
+										<input type= "hidden" name= "rack_id" value= "${item2.rack_id}">
 										<span>Resistance: </span>
 										<input type="number" min="1" name="resistance" size="12" value="1"/>
 										
