@@ -262,6 +262,10 @@ function myFunction() {
 		<div> 
 			<input type="Submit" name="resetInventory" value="Reset Inventory">
 			<input type="Submit" name="populateTables" value="Populate Tables">
+			InventoryName: <input type="text" name ="inventoryName" size="12">
+			Bin Capacity: <input type="text" name ="binCapacity" size="12">
+			Remove Limit: <input type="text" name ="userRemoveLimit" size="12">
+			<input class="btn btn-primary" type="Submit" name="addInventory" value="Add Inventory">
 		</div>	
 	</form>
 		

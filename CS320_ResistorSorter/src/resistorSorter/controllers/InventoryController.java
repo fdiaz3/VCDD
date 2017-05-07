@@ -49,6 +49,9 @@ public class InventoryController {
 			else if(!db.getAdminFlag(email)){
 				return "Only administrators have permission to do that";
 			}
+			else if(db.checkInventoryName(inventoryName)){
+				return "Can not have more than one inventory per room";
+			}
 			db.insertInventory(binCapacity, userRemoveLimit, inventoryName);
 			return null;
 		}
