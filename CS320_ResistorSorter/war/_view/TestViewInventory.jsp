@@ -259,7 +259,6 @@ function drawResistor(){
 	var color3 = String(arguments[2]);
 	var color4 = String(arguments[3]);
 	var elementID = String(arguments[4]);
-	console.log(elementID);
 	var canvas = document.getElementById(elementID);
     var ctx = canvas.getContext("2d");
 	
