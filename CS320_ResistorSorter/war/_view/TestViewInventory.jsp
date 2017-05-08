@@ -237,11 +237,20 @@ $(function(){
 	});
 });
 
-function myFunction() {
+function toggleBin() {
 	var id = String(arguments[0]);
-    var popup = document.getElementById("myPopup"+id);
+    var popup = document.getElementById("binPopup"+id);
     popup.classList.toggle("show");
+    console.log("hello world!");
 }
+
+function toggleRack() {
+	var id = String(arguments[0]);
+    var popup = document.getElementById("rackPopup"+id);
+    popup.classList.toggle("show");
+    console.log("hello world!");
+}
+
 
 </script>
 
@@ -250,22 +259,24 @@ function myFunction() {
 	</head>
 	<body>
 	<div class="container">
-	<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
-		<script src="_view/javaScript/navbar.js"></script>
-    	<c:if test="${! empty errorMessage}">
-			<div class="alert alert-danger alert-dismissable fade in">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Error: </strong>${errorMessage}
+		<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+			<script src="_view/javaScript/navbar.js"></script>
+		
+	    	<c:if test="${! empty errorMessage}">
+				<div class="alert alert-danger alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Error: </strong>${errorMessage}
+				</div>
+			</c:if>
+			<div> 
+				<input type="Submit" name="resetInventory" value="Reset Inventory">
+				<input type="Submit" name="populateTables" value="Populate Tables">
+				InventoryName: <input type="text" name ="inventoryName" size="12">
+				Bin Capacity: <input type="text" name ="binCapacity" size="12">
+				Remove Limit: <input type="text" name ="userRemoveLimit" size="12">
+				<input class="btn btn-primary" type="Submit" name="addInventory" value="Add Inventory">
 			</div>
-		</c:if>
-		<div> 
-			<input type="Submit" name="resetInventory" value="Reset Inventory">
-			<input type="Submit" name="populateTables" value="Populate Tables">
-			InventoryName: <input type="text" name ="inventoryName" size="12">
-			Bin Capacity: <input type="text" name ="binCapacity" size="12">
-			Remove Limit: <input type="text" name ="userRemoveLimit" size="12">
-			<input class="btn btn-primary" type="Submit" name="addInventory" value="Add Inventory">
-		</div>	
+		</form>
 		<div class= "row" id= "myContainer">
 			<c:forEach items="${inventories}" var="inventories" varStatus="inventoriesStatus"> 								
 			<div class="columns col">
@@ -280,27 +291,41 @@ function myFunction() {
 						<li>
 							<div class= "priceHead dropdown">
 								<div class="dropdown">
-									<button class="dropbtn">Rack: ${racks.rack_id}</button>
+								<div class="popup" onclick="toggleBin(${racksStatus.count})">
+									<div class="dropbtn">Rack: ${racks.rack_id}</div>
+									<input type= "hidden" name= "popup_id" value="${binsStatus.count}">
+									
+										<div class="popuptext" id="binPopup${racksStatus.count}">
+											<div>
+											<!-- need a form for every rack so that input fields are duplicated -->
+												<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+													<input type= "hidden" name= "rack_id" value= "${racks.rack_id}">
+													<span>Resistance: </span>
+													<input type="number" min="1" name="resistance" size="12" value="1"/>
+													<span>Count: </span>
+													<input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/>
+													<input type="Submit" name="addBin" value="Add Bin!">
+												</form>
+											</div>
+										</div>
+										
+								</div>
 									<div class="dropdown-content">
 									<c:forEach items="${bins}" var="bins" varStatus="binsStatus">		
 										<c:if test="${bins.rack_id == racks.rack_id}">
-											<div class="popup" onclick="myFunction(${binsStatus.count})">${bins.resistance} &#x2126;<br> Count: ${bins.count}<br>
+											<div class="popup">
+												${bins.resistance} &#x2126;<br>
+												Count: ${bins.count}<br>
+												<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+													<button type="submit" name="deleteBin" value="${bins.bin_id}">Delete</button>
+												</form>
 												<div class="progress">
 													<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(bins.count / inventories.binCapacity)*100}%">
-														<b><font color="red">${(bins.count / inventories.binCapacity)*100}%</font></b>
+														<b><font color="#39e600">${(bins.count / inventories.binCapacity)*100}%</font></b>
 													</div>
 												</div>
-												<input type= "hidden" name= "popup_id" value= "${binsStatus.count}">
-												<div class="popuptext" id="myPopup${binsStatus.count}">
-													<div>
-														<input type= "hidden" name= "rack_id" value= "${bins.rack_id}">
-														<span>Resistance: </span>
-														<input type="number" min="1" name="resistance" size="12" value="1"/>
-														<span>Count: </span>
-														<input type="number" min="1" max="${binCap}"name="count" size="12" value="1"/>
-														<input type="Submit" name="addBin" value="Add Bin!">
-													</div>
-												</div>
+												
+												
 											</div>
 										</c:if>
 									</c:forEach>
@@ -311,23 +336,29 @@ function myFunction() {
 					</c:if>
 				</c:forEach>
 				<li class="grey">
-				<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
-				
-				<div class="popup" onclick="myFunction(${inventoriesStatus.count})">Add Rack
-					<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
-						<div class="popuptext" id="myPopup${inventoriesStatus.count}">
-						<div>
-								<span>Resistance: </span>
-								<span>Count: </span>
+					<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
+					<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> Add Rack
+						<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
+							<div class="popuptext" id="rackPopup${inventoriesStatus.count}">
+							<div>
+							<!-- need a form for every inventory so that input fields are duplicated -->
+								<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+										<input type= "hidden" name= "inventory_id" value= "${inventories.inventory_id}">
+										<span>Tolerance: </span><br>
+										<input type="number" min="1" max="25" name="tolerance" size="12"/><br>
+										<span>Power: </span>
+										<input type="number" min="0.05" step="0.01" name="power" size="12"/>
+										<input type="Submit" name="addRack" value="Add Rack!">
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
 				</li>
 		</ul>
 		</div>								
 		</c:forEach>
 		</div>
-	</form>
+	
 	</div>
 	</body>
 </html>

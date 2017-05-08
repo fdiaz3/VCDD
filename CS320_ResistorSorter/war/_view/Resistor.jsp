@@ -68,7 +68,6 @@
 			<script type="text/javascript">
 				RESISTOR.init("${colorBands[0]}", "${colorBands[1]}", "${colorBands[2]}", "${colorBands[3]}");
 				RESISTOR.drawResistor();
-				
 			</script>
 		</form>
 		</div>

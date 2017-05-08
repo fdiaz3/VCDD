@@ -133,7 +133,10 @@ public class TestViewInventoryServlet extends HttpServlet {
 			int rack_id = getInteger(req, "rack_id");
 			int resistance = getInteger(req, "resistance");
 			int count = getInteger(req, "count");
-			error = binController.addBin(rack_id, resistance, count, email);			
+			error = binController.addBin(rack_id, resistance, count, email);	
+			System.out.println("rack_id= " + rack_id);
+			System.out.println("resistance= " + resistance);
+			System.out.println("count= " + count);
 		}
 		
 		//delete a bin
