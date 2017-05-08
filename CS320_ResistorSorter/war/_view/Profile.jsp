@@ -46,6 +46,8 @@ All work seen in here has been copied, but modified from the Library example -->
 	    </c:if>
 	   	<c:if test="${admin}">
 				<p>View all user activity: <button type="submit" class="btn btn-primary active" name="viewTransactions">All Transactions</button></p>
+				<input type="Submit" name="resetInventory" value="Reset Inventory">
+				<input type="Submit" name="populateTables" value="Populate Tables">
 		</c:if>
 	  </div>
 			<div>

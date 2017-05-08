@@ -319,8 +319,6 @@ function drawResistor(){
 				</div>
 			</c:if>
 			<div> 
-				<input type="Submit" name="resetInventory" value="Reset Inventory">
-				<input type="Submit" name="populateTables" value="Populate Tables">
 				InventoryName: <input type="text" name ="inventoryName" size="12">
 				Bin Capacity: <input type="text" name ="binCapacity" size="12">
 				Remove Limit: <input type="text" name ="userRemoveLimit" size="12">
@@ -370,8 +368,6 @@ function drawResistor(){
 												This text is displayed if your browser does not support HTML5 Canvas.
 												</canvas>
 												<script type="text/javascript">
-													//RESISTOR.init("${bins.colorBands[0]}", "${bins.colorBands[1]}", "${bins.colorBands[2]}", "${bins.colorBands[3]}", "resistor${binsStatus.count}");
-													//RESISTOR.drawResistor();
 													drawResistor("${bins.colorBands[0]}", "${bins.colorBands[1]}", "${bins.colorBands[2]}", "${bins.colorBands[3]}", "resistor${binsStatus.count}")
 												</script>
 											
@@ -402,12 +398,10 @@ function drawResistor(){
 				<!-- need a form for every inventory so that input fields are duplicated -->
 				<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 					<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
-					<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> <button class="button" id= "rackB" >Add Rack</button>
+					<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> <div class="button" id= "rackB" >Add Rack</div>
 						<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
 							<div class="popuptext" id="rackPopup${inventoriesStatus.count}">
 							<div>
-							<!-- need a form for every inventory so that input fields are duplicated -->
-								
 										<input type= "hidden" name= "inventory_id" value= "${inventories.inventory_id}">
 										<span>Tolerance: </span><br>
 										<input type="number" min="1" max="25" name="tolerance" size="12"/><br>
