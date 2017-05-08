@@ -2,4 +2,5 @@
 /CS320_ResistorSorter/*.log
 /CS320_ResistorSorter/bin
 /CS320_ResistorSorter/.settings
+/CS320_ResistorSorter/.classpath
 ./gitignore
