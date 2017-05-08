@@ -5,18 +5,24 @@ var RESISTOR = RESISTOR || (function(){
     var color2;
     var color3;
     var color4;
-
+    var elementID
     return {
-        init : function(arg1, arg2, arg3, arg4) {
+        init : function(arg1, arg2, arg3, arg4, args5) {
         	color1 = arg1;
         	color2 = arg2;
         	color3 = arg3;
         	color4 = arg4;
+        	elementID = args5;
             
         },
         drawResistor : function() {
         	// Set up!
-            var a_canvas = document.getElementById("aResistor");
+        	console.log(elementID);
+        	console.log(color1);
+        	console.log(color2);
+        	console.log(color3);
+        	console.log(color4);
+            var canvas = document.getElementById(elementID);
             var ctx = a_canvas.getContext("2d");
             
             //function called to make sure image is loaded before drawing anything else
