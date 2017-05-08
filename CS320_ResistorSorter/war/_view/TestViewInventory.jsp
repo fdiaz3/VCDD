@@ -127,7 +127,7 @@
 	.dropdown-content {
 	    display: none;
 	    position: absolute;
-	    background-color: #f9f9f9;
+	    background-color: #C7C7C7;
 	    min-width: 160px;
 	    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	    z-index: 1;
@@ -197,9 +197,6 @@
     border-color: #555 transparent transparent transparent;
 }
 
-.navbar-btn{
-	margin-right: 20px;
-}
 
 /* Toggle this class - hide and show the popup */
 .popup .show {
@@ -208,7 +205,7 @@
     animation: fadeIn .5s;
 }
 .popup:hover{
-	background-color: #CFCFCF;
+	background-color: #ddd;
 }
 
 /* Add animation (fade in the popup) */
@@ -222,6 +219,9 @@
     to {opacity:1 ;}
 }
 
+#rackB{
+	margin: 10px;
+}
 
 </style> 
 
@@ -247,7 +247,7 @@ function toggleRack() {
 	var id = String(arguments[0]);
     var popup = document.getElementById("rackPopup"+id);
     popup.classList.toggle("show");
-    
+
 }
 
 function drawResistor(){
@@ -300,6 +300,7 @@ function drawResistor(){
 
 
 
+
 </script>
 
 
@@ -341,7 +342,7 @@ function drawResistor(){
 							<div class= "priceHead dropdown">
 								<div class="dropdown">
 								<div class="popup" onclick="toggleBin(${racksStatus.count})">
-									<div class="dropbtn">Rack: ${racks.rack_id}</div>
+									<div class="dropbtn">Rack</div>
 									<input type= "hidden" name= "popup_id" value="${binsStatus.count}">
 									
 										<div class="popuptext" id="binPopup${racksStatus.count}">
@@ -379,7 +380,11 @@ function drawResistor(){
 												</form>
 												<div class="progress">
 													<div class="progress-bar progress-bar-striped active" role="progressbar" style="width:${(bins.count / inventories.binCapacity)*100}%">
-														<b><font color="#39e600">${(bins.count / inventories.binCapacity)*100}%</font></b>
+														<b><font color="#111111">
+															<script>
+																document.write((${(bins.count / inventories.binCapacity)*100}.toFixed(2)));
+															</script>%
+															</font></b>
 													</div>
 												</div>
 												
@@ -397,20 +402,23 @@ function drawResistor(){
 				<!-- need a form for every inventory so that input fields are duplicated -->
 				<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 					<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
-						<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> Add Rack
-							<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
-								<div class="popuptext" id="rackPopup${inventoriesStatus.count}">
-								<div>
-											<input type= "hidden" name= "inventory_id" value= "${inventories.inventory_id}">
-											<span>Tolerance: </span><br>
-											<input type="number" min="1" max="25" name="tolerance" size="12"/><br>
-											<span>Power: </span>
-											<input type="number" min="0.05" step="0.01" name="power" size="12"/>
-											<input type="Submit" name="addRack" value="Add Rack!">
+					<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> <button class="button" id= "rackB" >Add Rack</button>
+						<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
+							<div class="popuptext" id="rackPopup${inventoriesStatus.count}">
+							<div>
+							<!-- need a form for every inventory so that input fields are duplicated -->
+								
+										<input type= "hidden" name= "inventory_id" value= "${inventories.inventory_id}">
+										<span>Tolerance: </span><br>
+										<input type="number" min="1" max="25" name="tolerance" size="12"/><br>
+										<span>Power: </span>
+										<input type="number" min="0.05" step="0.01" name="power" size="12"/>
+										<input type="Submit" name="addRack" value="Add Rack!">
+								
 									
-								</div>
 							</div>
 						</div>
+					</div>
 					</form>
 				</li>
 			</ul>
