@@ -84,7 +84,7 @@ public class TestViewInventoryServlet extends HttpServlet {
 			return;
 		}
 		
-		//if popoulate tables is pressed
+		//if populate tables is pressed
 		else if(req.getParameter("populateTables") != null){
 			if(!loginController.getAdminFlag(email)){
 				error = "Only admistrators can do that";

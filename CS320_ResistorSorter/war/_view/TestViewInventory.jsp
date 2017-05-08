@@ -247,7 +247,58 @@ function toggleRack() {
 	var id = String(arguments[0]);
     var popup = document.getElementById("rackPopup"+id);
     popup.classList.toggle("show");
+
 }
+
+function drawResistor(){
+	var resistorImg = new Image();
+    resistorImg.src = "_view/images/resistor.png";
+	
+	var color1 = String(arguments[0]);
+	var color2 = String(arguments[1]);
+	var color3 = String(arguments[2]);
+	var color4 = String(arguments[3]);
+	var elementID = String(arguments[4]);
+	console.log(elementID);
+	var canvas = document.getElementById(elementID);
+    var ctx = canvas.getContext("2d");
+	
+	ctx.drawImage(resistorImg, 0, 0);
+    
+    ctx.fillStyle = color1;
+    ctx.beginPath();
+    ctx.fillRect(120, 7, 25, 66);
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.fillStyle = color2;
+    ctx.beginPath();
+    ctx.fillRect(170, 7, 25, 66);
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.fillStyle = color3;
+    ctx.beginPath();
+    ctx.fillRect(220, 7, 25, 66);
+    ctx.closePath();
+    ctx.fill();
+    
+    if(color4.localeCompare("none")){
+    	ctx.fillStyle = color4;
+    	ctx.beginPath();
+        ctx.fillRect(270, 7, 25, 66);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    ctx.fillStyle = "black";
+    ctx.font = "30px Garamond";
+    ctx.fillText(color1 + " " + color2 + " " + color3 + " " + color4,60,110);
+	
+	//delete canvas;
+	//delete ctx;
+}
+
 
 
 
@@ -260,6 +311,7 @@ function toggleRack() {
 	<div class="container">
 		<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 			<script src="_view/javaScript/navbar.js"></script>
+			<script type="text/javascript" src="_view/javaScript/resistor.js"></script>
 		
 	    	<c:if test="${! empty errorMessage}">
 				<div class="alert alert-danger alert-dismissable fade in">
@@ -315,6 +367,15 @@ function toggleRack() {
 											<div class="popup">
 												${bins.resistance} &#x2126;<br>
 												Count: ${bins.count}<br>
+												<canvas id="resistor${binsStatus.count}" width="400" height="200">
+												This text is displayed if your browser does not support HTML5 Canvas.
+												</canvas>
+												<script type="text/javascript">
+													//RESISTOR.init("${bins.colorBands[0]}", "${bins.colorBands[1]}", "${bins.colorBands[2]}", "${bins.colorBands[3]}", "resistor${binsStatus.count}");
+													//RESISTOR.drawResistor();
+													drawResistor("${bins.colorBands[0]}", "${bins.colorBands[1]}", "${bins.colorBands[2]}", "${bins.colorBands[3]}", "resistor${binsStatus.count}")
+												</script>
+											
 												<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 													<button type="submit" name="deleteBin" value="${bins.bin_id}">Delete</button>
 												</form>
@@ -339,30 +400,35 @@ function toggleRack() {
 					</c:if>
 				</c:forEach>
 				<li class="grey">
+				<!-- need a form for every inventory so that input fields are duplicated -->
+				<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
 					<button class="button" type="submit" name="deleteInventory" value="${inventories.inventory_id}">Delete</button>
 					<div class="popup" onclick="toggleRack(${inventoriesStatus.count})"> <button class="button" id= "rackB" >Add Rack</button>
 						<input type= "hidden" name= "popup_id" value= "${inventoriesStatus.count}">
 							<div class="popuptext" id="rackPopup${inventoriesStatus.count}">
 							<div>
 							<!-- need a form for every inventory so that input fields are duplicated -->
-								<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+								
 										<input type= "hidden" name= "inventory_id" value= "${inventories.inventory_id}">
 										<span>Tolerance: </span><br>
 										<input type="number" min="1" max="25" name="tolerance" size="12"/><br>
 										<span>Power: </span>
 										<input type="number" min="0.05" step="0.01" name="power" size="12"/>
 										<input type="Submit" name="addRack" value="Add Rack!">
-								</form>
+								
+									
 							</div>
 						</div>
 					</div>
+					</form>
 				</li>
-		</ul>
+			</ul>
 		</div>								
 		</c:forEach>
 		</div>
 	
 	</div>
 	</body>
+
 </html>
 
