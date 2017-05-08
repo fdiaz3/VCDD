@@ -3,6 +3,10 @@
 	color: red;
 }
 
+.navbar-btn{
+	margin-right: 20px;
+}
+
 tr.header
 {
     cursor:pointer;
@@ -165,4 +169,6 @@ input:checked + .slider:before {
 .tablesorter-blue tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
   background: #bfbfbf;
 }
+
+
 
