@@ -262,37 +262,37 @@ function drawResistor(){
 	var canvas = document.getElementById(elementID);
     var ctx = canvas.getContext("2d");
 	
-	ctx.drawImage(resistorImg, 0, 0);
+	ctx.drawImage(resistorImg, 0, 0, 200, 60);
     
     ctx.fillStyle = color1;
     ctx.beginPath();
-    ctx.fillRect(120, 7, 25, 66);
+    ctx.fillRect(60, 5, 12, 50);
     ctx.closePath();
     ctx.fill();
     
     ctx.fillStyle = color2;
     ctx.beginPath();
-    ctx.fillRect(170, 7, 25, 66);
+    ctx.fillRect(83, 5, 12, 50);
     ctx.closePath();
     ctx.fill();
     
     ctx.fillStyle = color3;
     ctx.beginPath();
-    ctx.fillRect(220, 7, 25, 66);
+    ctx.fillRect(106, 5, 12, 50);
     ctx.closePath();
     ctx.fill();
     
     if(color4.localeCompare("none")){
     	ctx.fillStyle = color4;
     	ctx.beginPath();
-        ctx.fillRect(270, 7, 25, 66);
+        ctx.fillRect(129, 5, 12, 50);
         ctx.closePath();
         ctx.fill();
     }
 
     ctx.fillStyle = "black";
-    ctx.font = "30px Garamond";
-    ctx.fillText(color1 + " " + color2 + " " + color3 + " " + color4,60,110);
+    ctx.font = "15px Garamond";
+    ctx.fillText(color1 + " " + color2 + " " + color3 + " " + color4,40,85);
 	
 	//delete canvas;
 	//delete ctx;
@@ -364,7 +364,7 @@ function drawResistor(){
 											<div class="popup">
 												${bins.resistance} &#x2126;<br>
 												Count: ${bins.count}<br>
-												<canvas id="resistor${binsStatus.count}" width="400" height="200">
+												<canvas id="resistor${binsStatus.count}" width="200" height="100">
 												This text is displayed if your browser does not support HTML5 Canvas.
 												</canvas>
 												<script type="text/javascript">
@@ -391,6 +391,9 @@ function drawResistor(){
 									</div>
 								</div>
 							</div><span class="rackDesc"><br>Tolerance: ${racks.tolerance}<br>Power Rating: ${racks.wattage}</span>
+							<form action="${pageContext.servletContext.contextPath}/TestViewInventory" method="post">
+													<button type="submit" name="deleteRack" value="${racks.rack_id}">Delete</button>
+												</form>
 						</li>
 					</c:if>
 				</c:forEach>
